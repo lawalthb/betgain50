@@ -1,0 +1,14 @@
+/.env
+/.env.*
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+/vendor/*
+!.gitkeep
+/.idea
+/.vscode
+*.sublime-project
+*.sublime-workspace
+/.phpstorm.meta.php
+/.phpstorm.meta.php.bak
