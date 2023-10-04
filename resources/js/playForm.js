@@ -24,7 +24,7 @@ function startBet() {
             alert('please add crash point');
         } else {
             const betAmountNumb = Number(betAmount.value);
-            const userWalletBalance = localStorage.getItem('user_wallet_bal');
+            const userWalletBalance =   $("#gt").val();
             const userWalletBalanceNumb = Number(userWalletBalance);
 
             if (betAmountNumb > userWalletBalanceNumb) {
@@ -100,28 +100,24 @@ function countDown() {
  function loadContent(randomValueForInitial) {
  function get_settings() {
     $.get("/api/settings?name=min_game", function (data, status) {
-       //  console.log(data)
         var min_crash = data[0].value;
-       // alert(min_crash)
        localStorage.setItem('min_crash',min_crash);
     });
      }
 
      function get_settings2() {
     $.get("/api/settings?name=max_game", function (data, status) {
-       //  console.log(data)
         var max_crash = data[0].value;
-       // alert(min_crash)
        localStorage.setItem('max_crash',max_crash);
     });
 }
      get_settings();
      get_settings2();
-     const min_crash2 = localStorage.getItem('min_crash');
-      const max_crash2 = localStorage.getItem('max_crash');
-//alert(min_crash2 +" -"+max_crash2)
-    const min =1;
-     const max =10;
+     const min_crash2 = Number(localStorage.getItem('min_crash'));
+      const max_crash2 = Number(localStorage.getItem('max_crash'));
+
+    const min =min_crash2;
+     const max =max_crash2;
     var count = randomValueForInitial;
     let seconds = 0;
 
@@ -260,8 +256,8 @@ async function load_new_balance() {
             // alert(myJSON2)
             var balance = data.balance;
             //alert(balance);
-            localStorage.setItem('user_wallet_bal', balance);
-
+        
+            $("#gt").val(balance);
             function formatNumber(num) {
                 return num.toString().replace(/(\d)(?=(\d{ 3 })+(?!\d))/g, '$1,');
             }
@@ -273,7 +269,8 @@ async function load_new_balance() {
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             $('#user_wallet_bal').text('0.00');
-            localStorage.setItem('user_wallet_bal', 0);
+              $("#gt").val(0);
+
         })
         .always(function () {
             // alert('getJSON request ended!');

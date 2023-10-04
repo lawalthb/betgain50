@@ -87,6 +87,7 @@
                     localStorage.removeItem('username');
                     localStorage.removeItem('user_phone');
                     localStorage.removeItem('user_email');
+                    $("#gt").val(0);
                     localStorage.removeItem('user_wallet_bal');
                     document.cookie = "loginToken=" + token + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     document.cookie = "username=" + username + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

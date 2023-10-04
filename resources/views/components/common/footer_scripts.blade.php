@@ -189,7 +189,8 @@
                 // alert(myJSON2)
                 var balance = data.balance;
                 //alert(balance);
-                localStorage.setItem("user_wallet_bal", balance);
+
+                $("#gt").val(balance);
 
                 function formatNumber(num) {
                     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
@@ -203,7 +204,8 @@
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
                 $('#user_wallet_bal').text('0.00');
-                localStorage.setItem("user_wallet_bal", 0);
+                $("#gt").val(0);
+
             })
             .always(function() {
                 // alert('getJSON request ended!');

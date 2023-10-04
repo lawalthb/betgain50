@@ -48,8 +48,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('transfers/initiate', [TransferController::class, 'initiate_transfer'])->name('initiate_transfer');;
     Route::post('transfers/recipient', [TransferController::class, 'create_recipient'])->name('create_recipient');
-
-    Route::get('/settings', [SettingController::class, 'index']);
 });
 
 //Auth
@@ -59,6 +57,7 @@ Route::post('auth/verify-signup', [AuthController::class, 'signup_verification']
 Route::post('auth/resend-token', [AuthController::class, 'resend_token']);
 Route::post('save_busted_value', [HistoryController::class, 'save_busted_value']);
 
+Route::get('/settings', [SettingController::class, 'index']);
 //Forgot Password
 Route::post('/auth/forget-password', [AuthController::class, 'forget_password'])->name('forgot_password');
 Route::post('/auth/reset-password', [AuthController::class, 'reset_password']);

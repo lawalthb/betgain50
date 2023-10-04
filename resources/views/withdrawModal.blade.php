@@ -155,7 +155,7 @@
     $("#withdrawBtn").click(function(event) {
 
         $("#withdrawModal").css("display", "block");
-        var user_wallet_bal = localStorage.getItem('user_wallet_bal');
+        var user_wallet_bal = $("#gt").val();
         $("#available_wallet_balance").text(user_wallet_bal);
 
     })

@@ -33,6 +33,6 @@
                 <script>
                     const getUserWallet = document.getElementById('user-wallet');
                     getUserWallet.textContent = userWalletBalanceNumb;
-                    const userWalletBalance = localStorage.getItem('user_wallet_bal');
+                    const userWalletBalance = $("#gt").val();
                     const userWalletBalanceNumb = Number(userWalletBalance);
                 </script>
