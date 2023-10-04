@@ -108,14 +108,14 @@
 
                     document.cookie = "user_email=" + responseData.user.email + "; cookies_date";
                     document.cookie = "user_phone =" + responseData.user.phone_number + "; cookies_date";
-
+                    load_user_previous()
                     load_user_balance();
                     $("#play").show();
                     $("#login").hide();
                     $("#login_modal").hide();
                     $("#userImage").show();
                     $("#show_user_name2").text(responseData.user.username);
-                    $(".show_user_name").text(responseData.user.username);
+                    $(".show_user_name3").text(responseData.user.username);
                     $(".user_email").text(responseData.user.email);
                     $("#upadate_email").val(responseData.user.email);
                     $("#upadate_username").val(responseData.user.username);

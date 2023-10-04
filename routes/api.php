@@ -63,7 +63,7 @@ Route::post('/auth/forget-password', [AuthController::class, 'forget_password'])
 Route::post('/auth/reset-password', [AuthController::class, 'reset_password']);
 
 
-
+Route::get('/previous_game/{user_id}', [HistoryController::class, 'previous_game'])->name('previous_game');
 
 Route::get('/transactions/verify/{reference}', [TransactionsController::class, 'verify_tranx']);
 //get all game history on page load

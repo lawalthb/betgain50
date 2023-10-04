@@ -147,6 +147,14 @@ class HistoryController extends Controller
         return BetEntry::with('user')->get();
     }
 
+    public function previous_game(Request $request)
+    {
+      
+        return BetEntry::where('user_id', $request->user_id)->get()->last();
+    }
+
+
+
     public function fetchAdverts()
     {
         //Return All Messages and user information

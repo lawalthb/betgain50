@@ -61,6 +61,7 @@ function startBet() {
                             localStorage.setItem('user_bet_id4next_round', user_bet_id);
                             localStorage.setItem('user_bet_value', betCrash.value);
                             load_new_balance();
+                             load_user_previous()
                             play.innerText = 'Bet Placed for next round';
                             play.setAttribute('disabled', '');
 
@@ -163,7 +164,7 @@ function countDown() {
             localStorage.removeItem('user_bet_value');
             localStorage.removeItem('busted_value');
         }
-        if (seconds <= 1000) {
+        if (seconds <= 1) {
             initialDataValue[seconds - 2] = counter;
             ///alert(initialDataValue)
             window.revenueChart.updateSeries([
@@ -256,7 +257,7 @@ async function load_new_balance() {
             // alert(myJSON2)
             var balance = data.balance;
             //alert(balance);
-        
+
             $("#gt").val(balance);
             function formatNumber(num) {
                 return num.toString().replace(/(\d)(?=(\d{ 3 })+(?!\d))/g, '$1,');
@@ -338,3 +339,38 @@ const decrypt = (salt, encoded) => {
 };
 
 
+
+ async function load_user_previous() {
+
+        let userID4 = localStorage.getItem('user_id');
+        var user_previous = "/api/previous_game/" + userID4;
+        $.ajaxSetup({
+
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+            },
+
+        });
+        $.getJSON(user_previous, {}).done(function(data) {
+
+                const myJSON2 = JSON.stringify(data);
+
+                var previous_point = data.bet_crash;
+                var previous_amount = data.bet_amount;
+                //alert(previous);
+
+                $("#previous_bet_point").text(previous_point);
+                $("#previous_bet_amount").text(previous_amount);
+
+            }).done(function() {
+                // alert('getJSON request succeeded!');
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                //    $('#user_wallet_bal').text('0.00');
+                //     $("#gt").val(0);
+
+            })
+            .always(function() {
+                // alert('getJSON request ended!');
+            });
+    };

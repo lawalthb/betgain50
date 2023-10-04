@@ -25,6 +25,7 @@
             $('#depositBtn').prop('disabled', false);
             $('#withdrawBtn').prop('disabled', false);
             load_user_balance();
+            load_user_previous()
             var pageURL = window.location.href;
             var serverURL = `{{url('/admin')}}`;
             if (pageURL != serverURL && user_role == 'admin') {
@@ -205,6 +206,45 @@
             .fail(function(jqXHR, textStatus, errorThrown) {
                 $('#user_wallet_bal').text('0.00');
                 $("#gt").val(0);
+
+            })
+            .always(function() {
+                // alert('getJSON request ended!');
+            });
+    };
+</script>
+
+<script>
+    // to show current user balance from DB
+    async function load_user_previous() {
+
+        let userID4 = localStorage.getItem('user_id');
+        var user_previous = "/api/previous_game/" + userID4;
+        $.ajaxSetup({
+
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+            },
+
+        });
+        $.getJSON(user_previous, {}).done(function(data) {
+
+                const myJSON2 = JSON.stringify(data);
+                //   alert(myJSON2);
+                var previous_point = data.bet_crash;
+
+                var previous_amount = data.bet_amount;
+
+
+                $("#previous_bet_point").text(previous_point);
+                $("#previous_bet_amount").text(previous_amount);
+
+            }).done(function() {
+                // alert('getJSON request succeeded!');
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                //    $('#user_wallet_bal').text('0.00');
+                //     $("#gt").val(0);
 
             })
             .always(function() {
