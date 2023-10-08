@@ -4,7 +4,7 @@
     "src": "public/assets/images/loader.png"
   },
   "resources/js/playForm.js": {
-    "file": "assets/playForm.07a140e9.js",
+    "file": "assets/playForm.aff04935.js",
     "src": "resources/js/playForm.js",
     "isEntry": true
   },
@@ -13,9 +13,19 @@
     "src": "resources/css/highlight.min.css",
     "isEntry": true
   },
+  "resources/css/nice-select.css": {
+    "file": "assets/nice-select.b1ccd362.css",
+    "src": "resources/css/nice-select.css",
+    "isEntry": true
+  },
   "resources/css/tippy.css": {
     "file": "assets/tippy.79ba074f.css",
     "src": "resources/css/tippy.css",
+    "isEntry": true
+  },
+  "resources/css/fancybox.css": {
+    "file": "assets/fancybox.62e850d0.css",
+    "src": "resources/css/fancybox.css",
     "isEntry": true
   },
   "resources/css/markdown-editor.css": {
@@ -23,9 +33,9 @@
     "src": "resources/css/markdown-editor.css",
     "isEntry": true
   },
-  "resources/css/nice-select.css": {
-    "file": "assets/nice-select.b1ccd362.css",
-    "src": "resources/css/nice-select.css",
+  "resources/css/easymde.min.css": {
+    "file": "assets/easymde.min.86d3f618.css",
+    "src": "resources/css/easymde.min.css",
     "isEntry": true
   },
   "resources/css/nice-select2.css": {
@@ -38,21 +48,6 @@
     "src": "resources/css/flatpickr.min.css",
     "isEntry": true
   },
-  "resources/css/easymde.min.css": {
-    "file": "assets/easymde.min.86d3f618.css",
-    "src": "resources/css/easymde.min.css",
-    "isEntry": true
-  },
-  "resources/css/fancybox.css": {
-    "file": "assets/fancybox.62e850d0.css",
-    "src": "resources/css/fancybox.css",
-    "isEntry": true
-  },
-  "resources/css/quill.snow.css": {
-    "file": "assets/quill.snow.ee0035a9.css",
-    "src": "resources/css/quill.snow.css",
-    "isEntry": true
-  },
   "resources/css/nouislider.min.css": {
     "file": "assets/nouislider.min.3f9baf7c.css",
     "src": "resources/css/nouislider.min.css",
@@ -63,9 +58,14 @@
     "src": "resources/css/file-upload-with-preview.min.css",
     "isEntry": true
   },
-  "resources/css/swiper-bundle.min.css": {
-    "file": "assets/swiper-bundle.min.d822e5c5.css",
-    "src": "resources/css/swiper-bundle.min.css",
+  "resources/css/font-awesome.min.css": {
+    "file": "assets/font-awesome.min.78437013.css",
+    "src": "resources/css/font-awesome.min.css",
+    "isEntry": true
+  },
+  "resources/css/quill.snow.css": {
+    "file": "assets/quill.snow.ee0035a9.css",
+    "src": "resources/css/quill.snow.css",
     "isEntry": true
   },
   "resources/css/fullcalendar.min.css": {
@@ -73,9 +73,9 @@
     "src": "resources/css/fullcalendar.min.css",
     "isEntry": true
   },
-  "resources/css/font-awesome.min.css": {
-    "file": "assets/font-awesome.min.78437013.css",
-    "src": "resources/css/font-awesome.min.css",
+  "resources/css/swiper-bundle.min.css": {
+    "file": "assets/swiper-bundle.min.d822e5c5.css",
+    "src": "resources/css/swiper-bundle.min.css",
     "isEntry": true
   },
   "resources/css/app.css": {

@@ -19,7 +19,7 @@
                             <div class="mb-0.5">Amount <span>₦</span><br /></div>
 
 
-                            <input type="number" class="form-input ltr:pl-10 rtl:pr-10" value="100" onkeyup="show_amount2withdraw(this.value)" id="withdrawing_amount" placeholder="Amount" name="withdrawing_amount" required />
+                            <input type="number" class="form-input ltr:pl-10 rtl:pr-10" min="100" value="100" onkeyup="show_amount2withdraw(this.value)" id="withdrawing_amount" placeholder="Amount" name="withdrawing_amount" required />
                             <input type="hidden" class="" id="key" placeholder="key" name="key" value="{{env('PAYSTACK_KEY_PUBLIC')}}" />
                             <input type="hidden" class="" id="reference" placeholder="reference" name="reference" />
                             <input type="hidden" class="" id="email" placeholder="email" name="email" />
@@ -28,7 +28,7 @@
 
                         </div>
 
-                        <input type="submit" class="btn btn-primary  ml-20 " id="withdrawNow" style="cursor: pointer" value="Withdraw" onclick="select_bank_modal()">
+                        <input type="submit" class="btn btn-primary  ml-20 " id="withdrawNow" style="cursor: pointer" value="Withdraw" onclick="#">
                     </div>
                     <br />
                     <table>
@@ -132,7 +132,7 @@
                         {{csrf_field()}}
                         <div class="relative mb-4 ">
 
-                            <input type="text" placeholder="Enter Key" id="password" style="display:none" name="password" class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="text" placeholder="Enter Pasword" id="password" style="display:none" name="password" class="form-input ltr:pl-10 rtl:pr-10" />
 
                         </div>
                         <input type="submit" id="initiateBtn" class="btn btn-primary w-full" style="cursor: pointer; display:none" value="Withdraw Now">
@@ -166,6 +166,22 @@
         $("#withdrawModal").css("display", "none")
 
     })
+
+
+    //display withdraw modal
+    $("#withdrawNow").click(function(event) {
+        var amount_pro = $("#withdrawing_amount").val();
+        var amount_bal = $("#gt").val();
+        if (amount_pro > amount_bal) {
+            alert("Amount is more than balance ");
+        } else {
+            select_bank_modal();
+        }
+
+
+    })
+
+
 
     function show_amount2withdraw(amt) {
         $("#amount2withdraw").text(amt);
@@ -437,47 +453,68 @@
 
 <script>
     $("#verify").submit(function(event) {
-                event.preventDefault();
-                var reference = $("#reference").val()
+        event.preventDefault();
+        var reference2 = $("#reference").val()
+        var password2 = $("#password").val()
+        var user_id8 = localStorage.getItem('user_id');
 
-                var request = $.ajax({
-                        url: '/api/transfers/verify/2',
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        beforeSend: function(jqXHR) {
-                            jqXHR.overrideMimeType("application/json");
+        function fetchData(callback) {
+            const xhr = new XMLHttpRequest();
+            const url = '/api/transfers/verify/' + reference2 + '/' + password2 + '/' + user_id8;
 
-                        }); request.success(function(data, status, jqXhr) {
-                        alert(1);
-                    }); request.error(function(jqXhr, textStatus, errorMessage) {
-                        alert(0);
-                    });
-                });
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) { // Request is complete
+                    if (xhr.status === 200) { // HTTP status code 200 indicates success
+                        const response = JSON.parse(xhr.responseText);
+                        callback(null, response); // Pass the data to the callback function
+                    } else {
+                        callback(new Error('Request failed')); // Handle errors
+                    }
+                }
+            };
+
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+
+        // Call the function and pass a callback function to handle the data
+        fetchData(function(error, data) {
+            if (error) {
+                console.error('Error:', error);
+            } else {
+                console.log(data); // Use the fetched data as needed
+            }
+        });
+
+    });
 </script>
 
 <script>
-    const withdrawingAmount = document.getElementById('withdrawing_amount');
-    const availableWalletBalance = localStorage.getItem('user_wallet_bal');
-    const withdrawNow = document.getElementById('withdrawNow');
+    //var withdrawNow = $("#gt").val();
+    // console.log(load_new_balance2());
+    // const withdrawingAmount = document.getElementById('withdrawing_amount');
+    // const availableWalletBalance = apiData;
+    // alert(availableWalletBalance);
+    // const withdrawNow = document.getElementById('withdrawNow');
 
-    withdrawNow.disabled = true;
+    // withdrawNow.disabled = true;
+    // withdrawingAmount.addEventListener('input', () => {
 
-    withdrawingAmount.addEventListener('input', () => {
-        const inputValue = Number(withdrawingAmount.value);
-        const balance = Number(availableWalletBalance);
+    //     const inputValue = Number(withdrawingAmount.value);
+    //     const balance = Number(availableWalletBalance);
 
-        if (isNaN(inputValue) || !inputValue) {
-            withdrawNow.disabled = true;
-            withdrawNow.style.cursor = 'not-allowed';
-            return;
-        }
+    //     if (isNaN(inputValue) || !inputValue) {
+    //         withdrawNow.disabled = true;
+    //         withdrawNow.style.cursor = 'not-allowed';
+    //         return;
+    //     }
 
-        if (inputValue > balance) {
-            withdrawNow.disabled = true;
-            withdrawNow.style.cursor = 'not-allowed';
-        } else {
-            withdrawNow.disabled = false;
-            withdrawNow.style.cursor = 'pointer';
-        }
-    })
+    //     if (inputValue > balance) {
+    //         withdrawNow.disabled = true;
+    //         withdrawNow.style.cursor = 'not-allowed';
+    //     } else {
+    //         withdrawNow.disabled = false;
+    //         withdrawNow.style.cursor = 'pointer';
+    //     }
+    // })
 </script>

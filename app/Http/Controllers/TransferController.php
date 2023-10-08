@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Doctrine\DBAL\Types\JsonType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 
 class TransferController extends Controller
 {
@@ -193,49 +194,61 @@ class TransferController extends Controller
     }
   }
 
-  public function verify_transfer($reference)
+  public function verify_transfer($reference, $password, $user_id)
   {
     //verify user password first;
-dd(2);
-    $url = env("PAYSTACK_TRANSFER_VERIFY", "https://api.paystack.co/transfer/verify/");
-    $url = $url . $reference;
-    $token = env('PAYSTACK_KEY');
+    $user_password =  DB::table('users')
+      ->where('id', '=', $user_id)->value('password');
 
-    $response = Http::withToken($token)->withHeaders(['content-type' => 'application/json'])
-      ->get($url);
+    if (Hash::check($password, $user_password)) {
+      //when password is correct
+      $url = env("PAYSTACK_TRANSFER_VERIFY", "https://api.paystack.co/transfer/verify/");
+      $url = $url . $reference;
+      $token = env('PAYSTACK_KEY');
 
-    if ($response->ok()) {
-      $response = $response->json();
+      $response = Http::withToken($token)->withHeaders(['content-type' => 'application/json'])
+        ->get($url);
 
-      DB::table('transfers')
-        ->where('reference', $reference)
-        ->update([
-          'amount' => $response['data']['amount'] / 100,
-          'status' => $response['data']['status'],
-        ]);
+      if ($response->ok()) {
+        $response = $response->json();
 
-      $gateway_response = [
-        "id" => $response['data']['id'],
-        "recipient" => $response['data']['recipient'],
-        "status" => $response['data']['status'],
-        "reference" => $response['data']['reference'],
-        "transfer_code" => $response['data']['transfer_code'],
-        "amount" => $response['data']['amount'] / 100,
-        "currency" => $response['data']['currency'],
-      ];
+        DB::table('transfers')
+          ->where('reference', $reference)
+          ->update([
+            'amount' => $response['data']['amount'] / 100,
+            'status' => $response['data']['status'],
+          ]);
 
-      return response()->json([
-        'status' => true,
-        'message' => 'Transfer Retrieved',
-        'data' => $gateway_response
-      ], 200);
+        $gateway_response = [
+          "id" => $response['data']['id'],
+          "recipient" => $response['data']['recipient'],
+          "status" => $response['data']['status'],
+          "reference" => $response['data']['reference'],
+          "transfer_code" => $response['data']['transfer_code'],
+          "amount" => $response['data']['amount'] / 100,
+          "currency" => $response['data']['currency'],
+        ];
+
+        return response()->json([
+          'status' => true,
+          'message' => 'Transfer Retrieved',
+          'data' => $gateway_response
+        ], 200);
+      } else {
+        return response()->json([
+          'status' => false,
+          'message' => 'An error occured',
+          'data' => $response->json()
+        ], 500);
+      }
     } else {
       return response()->json([
         'status' => false,
-        'message' => 'An error occured',
-        'data' => $response->json()
+        'message' => 'Password not correct',
+
       ], 500);
     }
+    dd(2);
   }
   public function bank_list_within()
   {

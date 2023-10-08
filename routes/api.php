@@ -21,11 +21,12 @@ use App\Models\Setting;
 |
 */
 
+Route::get('/transactions/mybalance/{user_id}', [TransactionsController::class, 'user_balance']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/adverts', [HistoryController::class, 'fetchAdverts']);
-Route::get('/transfers/verify/{reference}', [TransferController::class, 'verify_transfer'])->name('verify_transfer');
+Route::get('/transfers/verify/{reference}/{password}/{user_id}', [TransferController::class, 'verify_transfer'])->name('verify_transfer');
 //Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
