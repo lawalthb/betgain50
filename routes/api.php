@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Transations
     Route::post('/setbet', [HistoryController::class, 'setbet'])->name('setbet');
     Route::post('/check_if_win', [HistoryController::class, 'check_if_win'])->name('check_if_win');
+    Route::post('/cashout_win', [HistoryController::class, 'cashout_win'])->name('cashout_win');
 
     Route::get('/transactions/user/{id}', [TransactionsController::class, 'user_tranx']);
     Route::get('/transactions/list', [TransactionsController::class, 'tranx_list']);

@@ -49,6 +49,7 @@
     <div class="text-center px-2 mt-3 flex justify-around">
 
         <button type="button" class="btn btn-primary" id="play">Play</button>
+        <button type="button" class="btn btn-primary hidden	" id="cashOutBtn">Cash Out @<span id="cashout_amount">0.00</span></button>
         </form>
 
         @include('login')
@@ -68,6 +69,7 @@
             <div class="flex items-center justify-between">
                 <p class="text-[#515365] font-semibold">Previous Crash Point</p>
                 <p class="text-base"><span class="font-semibold " id="previous_bet_point">x.xx</span></p>
+                <input type="hidden" id="round" value="">
             </div>
         </div>
         <div class=" px-2 flex justify-around">

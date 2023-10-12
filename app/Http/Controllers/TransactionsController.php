@@ -180,4 +180,32 @@ class TransactionsController extends Controller
             ], 404);
         }
     }
+
+
+
+    public function transfer_approval($ref)
+    {
+        $ref_details =  DB::table('transfers')
+            ->where('reference', '=', $ref)->first();
+        $ref_details->id;
+
+        if ($ref_details) {
+            $transaction =   Transaction::create([
+                'user_id' => $ref_details->user_id,
+                'email' => $ref_details->email,
+                'phone' => $ref_details->phone,
+                'amount' => '-' . $ref_details->user_amount,
+                'reference' => 'wdr' . $ref_details->user_id,
+                'authorization_url' => 'null',
+                'callback_url' => 'null',
+                'gateway_response' => 'Successful',
+                'money_type' => 'real',
+                'status' => 'success'
+            ]);
+
+            return redirect('/');
+        } else {
+            echo "error";
+        }
+    }
 }

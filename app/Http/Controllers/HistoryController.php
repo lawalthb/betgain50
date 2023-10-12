@@ -149,7 +149,7 @@ class HistoryController extends Controller
 
     public function previous_game(Request $request)
     {
-      
+
         return BetEntry::where('user_id', $request->user_id)->get()->last();
     }
 
@@ -171,5 +171,58 @@ class HistoryController extends Controller
             'busted_value' => $request->busted_value,
             'user_id' => $request->user_id
         ]);
+    }
+
+
+
+
+    public function cashout_win(Request $request)
+    {
+        $text = "";
+        $name = "";
+        $user_id = $request->user_id;
+        $user_bet_id = $request->user_bet_id;
+        $user_bet_amount = $request->user_bet_amount;
+        $request->validate([
+            'user_id' => 'required|numeric',
+            'user_bet_id' => 'required|numeric',
+        ]);
+        if ($request->user_bet_id) {
+            $query = DB::table('bet_entries')->where('id', $user_bet_id)
+                ->where('user_id', $user_id)
+                ->where('game_status', "Ongame")
+                ->first();
+            $querybv = DB::table('busted_value_tb')
+                ->where('user_id', $user_id)
+                ->latest()
+                ->first();
+            $busted_value =  $querybv->busted_value;
+            $bet_crash =  $query->bet_crash;
+            //   dd($busted_value);
+
+            //add new record to transactions table to add money
+            DB::table('transactions')->insert([
+                'reference' => 'cashout' . $user_bet_id,
+                'email' => "bet@herosbet.com",
+                'amount' => $user_bet_amount,
+                'status' => 'success',
+                'user_id' => $request->user_id,
+
+            ]);
+            // update his bet entery if win or loose
+            DB::table('bet_entries')
+                ->where('id', $user_bet_id)
+                ->update(['game_status' => 'Win']);
+            return response()->json(['status' => true, 'message' => 'Nice one!!!']);
+        } else {
+            return response()->json(['status' => false, 'message' => 'no bet']);
+        }
+
+
+
+
+        // event(new herosboard($text,$name,$username, $amount,$point, $token, $game_status,$amount_multiplier));
+
+
     }
 }

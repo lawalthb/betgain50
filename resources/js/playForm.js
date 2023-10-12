@@ -1,6 +1,10 @@
 const play = document.getElementById('play');
+const cashOutBtn = document.getElementById('cashOutBtn');
 const betAmount = document.getElementById('bet_amount');
 const betCrash = document.getElementById('bet_crash');
+const cashout_amount = document.getElementById('cashout_amount');
+const previous_bet_point = document.getElementById('previous_bet_point');
+const myround = document.getElementById('round');
 const busted = document.getElementById('busted');
 const clearChart = document.querySelector('.take-out-graph');
 const newRoundsCount = document.getElementById('count-down');
@@ -61,8 +65,8 @@ function startBet() {
                             localStorage.setItem('user_bet_id4next_round', user_bet_id);
                             localStorage.setItem('user_bet_value', betCrash.value);
                             load_new_balance();
-                             load_user_previous()
-                            play.innerText = 'Bet Placed for next round';
+                            load_user_previous();
+                            play.innerText = 'Wait for next round';
                             play.setAttribute('disabled', '');
 
                         }
@@ -117,7 +121,7 @@ function countDown() {
      const min_crash2 = Number(localStorage.getItem('min_crash'));
       const max_crash2 = Number(localStorage.getItem('max_crash'));
 
-    const min =min_crash2;
+    const min =min_crash2+1;
      const max =max_crash2;
     var count = randomValueForInitial;
     let seconds = 0;
@@ -127,10 +131,15 @@ function countDown() {
     let user_bet_id4next_round = localStorage.getItem('user_bet_id4next_round');
     if (user_bet_id4next_round == null) {
         play.innerText = 'Play';
+        myround.value = 0;
     } else {
         //get change user game id for db
         localStorage.setItem('user_bet_id', user_bet_id4next_round);
-        play.innerText = 'Cash Out @';
+        play.style.display = 'none';
+        cashOutBtn.style.display = 'block';
+        myround.value = 1;
+
+
         localStorage.removeItem('user_bet_id4next_round');
     }
 
@@ -147,33 +156,34 @@ function countDown() {
         count += 0.01;
         let counter = Number(count.toFixed(2));
         //check_if_win when it counting;
+        cashout_amount.innerHTML = counter;
+        var user_current_bet_value = previous_bet_point.innerHTML;
+        //multiply cash our @
+        cashout_amount.innerHTML = (counter * betAmount.value).toFixed(2);
+
         var getBustedValue = localStorage.getItem('busted_value');
         if (!typeof getBustedValue === null) {
             var bustednumber = getBustedValue;
         }
-
-        var user_bet = localStorage.getItem('user_bet_value');
-
-        if (counter == user_bet) {
-            //congrat();
-            win_alert();
-            localStorage.removeItem('user_bet_value');
-            localStorage.removeItem('busted_value');
-
-        } else {
-            localStorage.removeItem('user_bet_value');
-            localStorage.removeItem('busted_value');
+        if (myround.value == 1) {
+            if (counter == user_current_bet_value) {
+                //congrat();
+                win_alert();
+                cashOutBtn.style.display = "none";
+                localStorage.removeItem('user_bet_value');
+                localStorage.removeItem('busted_value');
+            }
         }
-        if (seconds <= 1) {
-            initialDataValue[seconds - 2] = counter;
-            ///alert(initialDataValue)
-            window.revenueChart.updateSeries([
-                {
-                    data: initialDataValue
+        // if (seconds <= 1) {
+        //     initialDataValue[seconds - 2] = counter;
+        //     ///alert(initialDataValue)
+        //     window.revenueChart.updateSeries([
+        //         {
+        //             data: initialDataValue
 
-                },
-            ]);
-        }
+        //         },
+        //     ]);
+        // }
 
         if (counter >= bustedValue) {
             // Note: Changed to greater than or equal to make sure condition will met
@@ -199,7 +209,7 @@ function countDown() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    let randomValueForInitial = randomBustedValue(0.1, 1.85);
+    let randomValueForInitial = 1;
     loadContent(randomValueForInitial);
     startBet();
 });
@@ -209,37 +219,46 @@ function randomBustedValue(min, max) {
     return value;
 }
 // to determine if user play and win
+//if bet is on
 function check_if_win() {
-    //user last user bet store id retrived and his username
+
+            //user last user bet store id retrived and his username
     var user_bet_id = localStorage.getItem('user_bet_id');
-    var userb_id = localStorage.getItem('user_id');
-    $.ajax({
-        url: '/api/check_if_win',
-        type: 'POST',
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('user_token'),
-        },
-        data: {
-            user_bet_id: user_bet_id,
-            user_id: userb_id,
-        },
-        success: function (data) {
-            if (data.status == true) {
-                //alert(data.message);
-                win_alert();
-                //if user wins money will be add to his/her account
-                var user_bet_id = data.lastID;
-                //clear user bet id
-                localStorage.removeItem('user_bet_id');
-            } else {
-                lose_alert();
-                //if user wins money will be add to his/her account
-                var user_bet_id = data.lastID;
-                //clear user bet id
-                localStorage.removeItem('user_bet_id');
-            }
-        },
-    });
+
+    if (user_bet_id != null) {
+        var userb_id = localStorage.getItem('user_id');
+        $.ajax({
+            url: '/api/check_if_win',
+            type: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('user_token'),
+            },
+            data: {
+                user_bet_id: user_bet_id,
+                user_id: userb_id,
+            },
+            success: function (data) {
+                if (data.status == true) {
+                    //alert(data.message);
+                 //   win_alert();
+                    //if user wins money will be add to his/her account
+                    var user_bet_id = data.lastID;
+                    //clear user bet id
+                    localStorage.removeItem('user_bet_id');
+                    cashOutBtn.style.display = "none";
+                    play.style.display = 'block';
+                } else {
+                    lose_alert();
+                    //if user wins money will be add to his/her account
+                    var user_bet_id = data.lastID;
+                    //clear user bet id
+                    localStorage.removeItem('user_bet_id');
+                    cashOutBtn.style.display = "none";
+                    play.style.display = 'block';
+                }
+            },
+        });
+    }
 }
 
 // to show current user balance from DB
@@ -374,3 +393,51 @@ const decrypt = (salt, encoded) => {
                 // alert('getJSON request ended!');
             });
     };
+cashOutBtn.addEventListener('click', function (event) {
+    let current_point = point.innerText;
+     current_point = current_point.replace(/x/g, '');
+current_point = Number.parseFloat(current_point);
+    const cashout_amount = current_point * (Number.parseFloat(betAmount.value).toFixed(2));
+var cashout_amount2 =cashout_amount.toFixed(2)
+
+    var user_bet_id = localStorage.getItem('user_bet_id');
+
+    if (user_bet_id != null) {
+        var userb_id = localStorage.getItem('user_id');
+        $.ajax({
+            url: '/api/cashout_win',
+            type: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('user_token'),
+            },
+            data: {
+                user_bet_id: user_bet_id,
+                user_id: userb_id,
+                user_bet_amount: cashout_amount2,
+            },
+            success: function (data) {
+                if (data.status == true) {
+                     load_new_balance();
+                    //alert(data.message);
+                 //   win_alert();
+                    //if user wins money will be add to his/her account
+                    var user_bet_id = data.lastID;
+                    //clear user bet id
+                    localStorage.removeItem('user_bet_id');
+                    cashOutBtn.style.display = "none";
+                    play.style.display = 'none';
+                } else {
+                    lose_alert();
+                    //if user wins money will be add to his/her account
+                    var user_bet_id = data.lastID;
+                    //clear user bet id
+                    myround.value == 0;
+                    localStorage.removeItem('user_bet_id');
+                    cashOutBtn.style.display = "none";
+                    play.style.display = 'block';
+                }
+            },
+        });
+    }
+
+})

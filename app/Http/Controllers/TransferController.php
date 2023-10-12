@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\JsonType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Transaction;
 
 class TransferController extends Controller
 {
@@ -102,6 +103,7 @@ class TransferController extends Controller
           "bank_code" => $bankCode,
           "name" => $recipientName,
           "amount" => $request->amount,
+          "user_amount" => $request->user_amount,
           "user_id" => Auth::user()->id,
         ]);
 
@@ -229,6 +231,8 @@ class TransferController extends Controller
           "currency" => $response['data']['currency'],
         ];
 
+
+
         return response()->json([
           'status' => true,
           'message' => 'Transfer Retrieved',
@@ -248,7 +252,6 @@ class TransferController extends Controller
 
       ], 500);
     }
-    dd(2);
   }
   public function bank_list_within()
   {

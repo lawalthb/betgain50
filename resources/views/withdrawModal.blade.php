@@ -99,10 +99,12 @@
 
 
                         <div class="relative mb-4">
-                            <input type="hidden" placeholder="Amount" id="amount_value" style="display:none" name="amount" readonly class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="text" placeholder="Amount" id="amount_value" style="display:none" name="amount" readonly class="form-input ltr:pl-10 rtl:pr-10" />
+
+                            <input type="text" placeholder="Amount" id="user_amount" style="display:none" name="user_amount" readonly class="form-input ltr:pl-10 rtl:pr-10" />
 
 
-                            <input type="number" placeholder="Account Number" id="account_number" name="account_number" value="" required class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="number" placeholder="Account Number" id="account_number" name="account_number" value="3040492754" required class="form-input ltr:pl-10 rtl:pr-10" />
                         </div>
                         <div class="relative mb-4 ">
 
@@ -110,6 +112,7 @@
                             <select id="bankSelect" name="bank_code" class="form-input ltr:pl-10 rtl:pr-10 sel_bank" required>
                                 <!-- Placeholder option -->
                                 <option value="">Select a bank</option>
+                                <option selected value="011">First Bank</option>
                             </select>
                         </div>
                         <!-- <button type="button" class="btn btn-primary w-full">Login</button> -->
@@ -120,6 +123,7 @@
                         <div class="relative mb-4 ">
                             <!-- <span id="amountSpan" style="display:none" >Amount: </span> -->
                             <input type="number" placeholder="Amount" id="amount_value" style="display:none" name="amount" readonly class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="number" placeholder="Amount" id="user_amount" style="display:none" name="user_amount" readonly class="form-input ltr:pl-10 rtl:pr-10" />
                             <input type="text" placeholder="account_name" id="account_name" style="display:none" name="account_name" readonly class="form-input ltr:pl-10 rtl:pr-10" />
                             <input type="hidden" placeholder="reference2" id="reference2" name="reference" readonly class="form-input ltr:pl-10 rtl:pr-10" />
                             <input type="hidden" placeholder="recipient_code" id="recipient_code" name="recipient_code" readonly class="form-input ltr:pl-10 rtl:pr-10" />
@@ -172,7 +176,7 @@
     $("#withdrawNow").click(function(event) {
         var amount_pro = $("#withdrawing_amount").val();
         var amount_bal = $("#gt").val();
-        if (amount_pro > amount_bal) {
+        if (Number.parseInt(amount_pro) > Number.parseInt(amount_bal)) {
             alert("Amount is more than balance ");
         } else {
             select_bank_modal();
@@ -215,7 +219,10 @@
 
         $("#select_bank_modal").css("display", "block");
         var amount_value = $("#disbursed_amount").text();
+        var withdrawing_amount = $("#withdrawing_amount").val();
+
         $("#amount_value").val(amount_value + '.00');
+        $("#user_amount").val(withdrawing_amount + '.00');
         loadbanks();
 
     }
@@ -309,12 +316,14 @@
 <script>
     $("#initiate_form").submit(function(event) {
         event.preventDefault();
+        //alert(312)
         $("#password").css("display", "block");
         $("#initiateBtn").css("display", "block");
         $("#TransferBtn").css("display", "none");
         var formData = $(this).serialize();
         console.log(formData);
         var amount = $("#amount_value").val();
+
         var recipient_code = $("#recipient_code").val()
         var reference = $("#reference2").val()
 
@@ -332,11 +341,11 @@
                 "reference": reference
             },
             success: function(data) {
-                alert(data);
+                //     alert(data);
                 if (data.status == true) {
                     alert(data.message);
 
-                    $("#password").css("display", "none");
+
 
                     $("#initiateBtn").css("display", "block");
                     //    $("#amount_value").css("display", "block");
@@ -355,60 +364,14 @@
     })
 </script>
 
-<!-- <script>
-    $("#creat_recipient_form").submit(function(event) {
-        event.preventDefault();
-        $("#password").css("display", "block");
-        $("#initiateBtn").css("display", "block");
-        $("#TransferBtn").css("display", "none");
-        var formData = $(this).serialize();
-        console.log(formData);
-        var account_number = $("#account_number").val();
-        var bank_code = $("#bankSelect").val()
-        var name = $("#account_name").val()
 
-        $.ajax({
-
-            url: "{{ route('create_recipient') }}",
-            type: "POST",
-            dataType: "json",
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('user_token')
-            },
-            data: {
-                "account_number": account_number,
-                "bank_code": bank_code,
-                "name": name
-            },
-            success: function(data) {
-                alert(data);
-                if (data.status == true) {
-                    alert(data.message);
-
-                    $("#password").css("display", "none");
-
-                    $("#initiateBtn").css("display", "block");
-                    //    $("#amount_value").css("display", "block");
-                    //    $("#TransferBtn").css("display", "block");
-
-
-
-                } else {
-                    alert(data.message);
-
-                }
-                //  console.log(data);
-            }
-        });
-
-    })
-</script> -->
 
 
 
 <script>
     $("#initiate_form").submit(function(event) {
         event.preventDefault();
+        // alert(366)
         var formData = $(this).serialize();
         console.log(formData);
         var amount = $("#amount_value").val()
@@ -431,12 +394,12 @@
             },
             success: function(data) {
                 if (data.status == true) {
-                    alert(data.gateway_response.);
-                    //    $("#verifyBtn").css("display", "none");
+                    // alert(data.gateway_response);
+                    $("#verifyBtn").css("display", "none");
 
-                    //    $("#amountSpan").css("display", "block");
-                    //    $("#amount_value").css("display", "block");
-                    //    $("#TransferBtn").css("display", "block");
+                    $("#amountSpan").css("display", "block");
+                    $("#amount_value").css("display", "block");
+                    $("#TransferBtn").css("display", "block");
 
 
 
@@ -452,69 +415,58 @@
 </script>
 
 <script>
-    $("#verify").submit(function(event) {
+    document.getElementById("verify").addEventListener("submit", async function(event) {
         event.preventDefault();
-        var reference2 = $("#reference").val()
+        var reference2 = $("#reference2").val()
         var password2 = $("#password").val()
         var user_id8 = localStorage.getItem('user_id');
 
-        function fetchData(callback) {
-            const xhr = new XMLHttpRequest();
-            const url = '/api/transfers/verify/' + reference2 + '/' + password2 + '/' + user_id8;
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4) { // Request is complete
-                    if (xhr.status === 200) { // HTTP status code 200 indicates success
-                        const response = JSON.parse(xhr.responseText);
-                        callback(null, response); // Pass the data to the callback function
-                    } else {
-                        callback(new Error('Request failed')); // Handle errors
+        const formData = new FormData(event.target);
+        const approval = "/transfer_approval/" + reference2;
+        try {
+            const response = await fetch('/api/transfers/verify/' + reference2 + '/' + password2 + '/' + user_id8, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
                     }
-                }
-            };
+                }).then(response => {
+                    if (!response.ok) {
+                        //  console.log(response.message)
+                        console.log(1);
+                        console.log(response)
+                        throw new Error('Error');
+                    }
+                    return response.text();
 
-            xhr.open('GET', url, true);
-            xhr.send();
-        }
+                    console.log(response)
+                })
+                .then(data => {
+                    // Handle the API response here
+                    console.log(3);
+                    alert("Transfer Successful");
 
-        // Call the function and pass a callback function to handle the data
-        fetchData(function(error, data) {
-            if (error) {
-                console.error('Error:', error);
-            } else {
-                console.log(data); // Use the fetched data as needed
+                    location.replace(approval)
+                    //  alert(data); // Display the response in an alert
+                });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log(4);
+                console.log(responseData.message);
+                alert(responseData.message);
+                alert('reload1');
+
+
+            } else if (response.status === 500) {
+                const errors = await response.json();
+                alert(responseData.message);
+                alert('reload2');
+                console.log("Validation errors:", errors.message);
             }
-        });
-
+        } catch (error) {
+            //alert('No money to transfer');
+            //location.reload();
+            // console.error('Error:', error);
+        }
     });
-</script>
-
-<script>
-    //var withdrawNow = $("#gt").val();
-    // console.log(load_new_balance2());
-    // const withdrawingAmount = document.getElementById('withdrawing_amount');
-    // const availableWalletBalance = apiData;
-    // alert(availableWalletBalance);
-    // const withdrawNow = document.getElementById('withdrawNow');
-
-    // withdrawNow.disabled = true;
-    // withdrawingAmount.addEventListener('input', () => {
-
-    //     const inputValue = Number(withdrawingAmount.value);
-    //     const balance = Number(availableWalletBalance);
-
-    //     if (isNaN(inputValue) || !inputValue) {
-    //         withdrawNow.disabled = true;
-    //         withdrawNow.style.cursor = 'not-allowed';
-    //         return;
-    //     }
-
-    //     if (inputValue > balance) {
-    //         withdrawNow.disabled = true;
-    //         withdrawNow.style.cursor = 'not-allowed';
-    //     } else {
-    //         withdrawNow.disabled = false;
-    //         withdrawNow.style.cursor = 'pointer';
-    //     }
-    // })
 </script>

@@ -159,7 +159,7 @@
         });
         toast.fire({
             icon: 'success',
-            title: 'Deposit in successfully',
+            title: 'Deposit inProgress',
             padding: '2em',
             customClass: 'sweet-alerts',
         });

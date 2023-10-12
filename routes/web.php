@@ -8,10 +8,13 @@ use App\Http\Controllers\TransactionsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\PaystackWebhookController;
 
 Route::view('/', 'index');
 Route::view('/sender', 'sender');
 
+Route::post('/paystack/webhook', [PaystackWebhookController::class, 'handleWebhook']);
+Route::get('/transfer_approval/{ref}', [TransactionsController::class, 'transfer_approval']);
 
 Route::post('/sender', [ChatController::class, 'index']);
 Route::post('/setbet', [HistoryController::class, 'setbet'])->name('setbet')->middleware('auth:sanctum');
