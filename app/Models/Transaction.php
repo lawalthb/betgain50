@@ -11,8 +11,8 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'reference',  
-        'email', 
+        'reference',
+        'email',
         'phone',
         'amount',
         'callback_url',
@@ -22,7 +22,7 @@ class Transaction extends Model
             'authorization_code',
             'status',
             'user_id',
-            
+    'money_type'
     ];
 
     public function user(){

@@ -71,6 +71,7 @@ class AuthController extends Controller
             'phone_number' => $request->phone_number,
         ]);
         $lastInsertId = $user->id;
+        $bonus = 'bonus';
         if ($user) {
             Transaction::create([
                 'user_id' => $lastInsertId,
@@ -80,7 +81,7 @@ class AuthController extends Controller
                 'reference' => 'bonus' . $lastInsertId,
                 'authorization_url' => "",
                 'callback_url' => "",
-                'money_type' => "bonus",
+                'money_type' => $bonus,
                 'gateway_response' => "Successful",
                 'status' => "success"
 

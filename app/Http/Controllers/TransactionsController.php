@@ -163,6 +163,32 @@ class TransactionsController extends Controller
         $balance =  DB::table('transactions')
             ->where('user_id', '=', $id)
             ->where('status', '=', 'success')
+            ->where('money_type', '=', 'real')
+            ->sum('amount');
+
+        if ($balance) {
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User Transactions Retrieved',
+                'balance' => $balance,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'User Transaction Not found',
+                'balance' => $balance,
+            ], 500);
+        }
+    }
+
+
+    public function user_bonus($id)
+    {
+        $balance =  DB::table('transactions')
+            ->where('user_id', '=', $id)
+            ->where('status', '=', 'success')
+            ->where('money_type', '=', 'bonus')
             ->sum('amount');
 
         if ($balance) {

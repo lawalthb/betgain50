@@ -110,6 +110,7 @@
                     document.cookie = "user_phone =" + responseData.user.phone_number + "; cookies_date";
                     load_user_previous()
                     load_user_balance();
+                    load_user_bonus();
                     $("#play").show();
                     $("#login").hide();
                     $("#login_modal").hide();

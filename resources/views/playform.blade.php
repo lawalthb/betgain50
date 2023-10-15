@@ -16,10 +16,10 @@
             </h5>
 
         </div>
-        <div class="text-green justify-between items-center hidden xl:flex">
+        <div class="text-green justify-between items-center flex mb-3 xl:mb-0">
             <p class="text-xl">Bonus Balance</p>
             <h5 class="ltr:ml-auto rtl:mr-auto text-2xl">
-                <span class="text-green-light">₦</span><span id="user_bonus_bal">xxx</span>
+                <span class="text-green-light  text-xl">₦</span><span id="user_wallet_bonus">xxx</span>
             </h5>
 
         </div>

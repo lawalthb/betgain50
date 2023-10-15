@@ -1,6 +1,7 @@
 <x-layout.default>
     <script defer src="/assets/js/apexcharts.js"></script>
     <input type="hidden" id="gt" class="float right" />
+    <input type="hidden" id="gt2" class="float right" />
     @include('pusher_scripts')
 
     <div x-data="sales">

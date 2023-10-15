@@ -4,6 +4,7 @@ const betAmount = document.getElementById('bet_amount');
 const betCrash = document.getElementById('bet_crash');
 const cashout_amount = document.getElementById('cashout_amount');
 const previous_bet_point = document.getElementById('previous_bet_point');
+const previous_bet_amount = document.getElementById('previous_bet_amount');
 const myround = document.getElementById('round');
 const busted = document.getElementById('busted');
 const clearChart = document.querySelector('.take-out-graph');
@@ -14,6 +15,10 @@ const messageMain = document.createElement('h2');
 let point = document.getElementById('point');
 let bustedValue;
 const token = localStorage.getItem('user_token');
+const image = document.getElementById('moving-image');
+
+let topPosition = 400;
+let leftPosition = 0;
 
 // const betAmountNumb = Number(betAmount.value);
 // const userWalletBalance = localStorage.getItem('user_wallet_bal');
@@ -21,6 +26,8 @@ const token = localStorage.getItem('user_token');
 // console.log('wb = ', typeof userWalletBalanceNumb);
 
 function startBet() {
+     image.style.left = '300px';
+    image.style.top = '0px';
     play.addEventListener('click', async () => {
         if (!betAmount.value) {
             alert('Please add amount');
@@ -28,10 +35,10 @@ function startBet() {
             alert('please add crash point');
         } else {
             const betAmountNumb = Number(betAmount.value);
-            const userWalletBalance =   $("#gt").val();
+            const userWalletBalance =    $("#gt").val();
             const userWalletBalanceNumb = Number(userWalletBalance);
 
-            if (betAmountNumb > userWalletBalanceNumb) {
+            if ((betAmountNumb+50) > userWalletBalanceNumb) {
                 alert('no enough money');
             } else {
                 play.setAttribute('disabled', '');
@@ -65,6 +72,7 @@ function startBet() {
                             localStorage.setItem('user_bet_id4next_round', user_bet_id);
                             localStorage.setItem('user_bet_value', betCrash.value);
                             load_new_balance();
+                            load_new_bonus()
                             load_user_previous();
                             play.innerText = 'Wait for next round';
                             play.setAttribute('disabled', '');
@@ -78,6 +86,7 @@ function startBet() {
 }
 
 function countDown() {
+
     let countDownValue = 6;
 
     const interval = setInterval(() => {
@@ -148,7 +157,9 @@ function countDown() {
     const busted_value =  bustedValue;
     localStorage.setItem('busted_value',busted_value);
     $.post("api/save_busted_value", { busted_value: bustedValue, user_id: localStorage.getItem('user_id') });
-    let initialDataValue = [];
+     let initialDataValue = [];
+     const x = 0;
+     const y = 0;
 
     const interval = setInterval(() => {
         seconds += 1;
@@ -156,10 +167,18 @@ function countDown() {
         count += 0.01;
         let counter = Number(count.toFixed(2));
         //check_if_win when it counting;
+
+    leftPosition += 1.5;
+    topPosition -= 1;
+ // Apply the updated positions to the image
+    image.style.left = `${leftPosition}px`;
+    image.style.top = `${topPosition}px`;
+       // rocket.style.backgroundPosition = +(counter+20) + '% ' + (counter+60) + '%';;
+
         cashout_amount.innerHTML = counter;
         var user_current_bet_value = previous_bet_point.innerHTML;
         //multiply cash our @
-        cashout_amount.innerHTML = (counter * betAmount.value).toFixed(2);
+        cashout_amount.innerHTML = (counter * previous_bet_amount.innerHTML).toFixed(2);
 
         var getBustedValue = localStorage.getItem('busted_value');
         if (!typeof getBustedValue === null) {
@@ -187,6 +206,8 @@ function countDown() {
 
         if (counter >= bustedValue) {
             // Note: Changed to greater than or equal to make sure condition will met
+
+
             check_if_win();
             clearInterval(interval);
             point.innerHTML = '';
@@ -194,6 +215,7 @@ function countDown() {
             busted.append(bustedResponseWrap);
             messageStart.innerText = 'Busted';
             load_new_balance();
+            load_new_bonus();
             messageMain.innerText = `@ ${count.toFixed(2)}x`;
             messageStart.classList.add('busted-text');
             messageMain.classList.add('busted-text');
@@ -203,9 +225,13 @@ function countDown() {
             bustedResponseWrap.append(messageMain);
             // play.setAttribute('disabled', '');
             // play.innerText = 'Betting...';
+
             setTimeout(countDown, 3000);
+
         }
     }, 100);
+  topPosition = 400;
+leftPosition = 0;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -290,6 +316,41 @@ async function load_new_balance() {
         .fail(function (jqXHR, textStatus, errorThrown) {
             $('#user_wallet_bal').text('0.00');
               $("#gt").val(0);
+
+        })
+        .always(function () {
+            // alert('getJSON request ended!');
+        });
+}
+
+async function load_new_bonus() {
+    let userID2 = localStorage.getItem('user_id');
+    var user_bonus = '/api/transactions/user_bonus/' + userID2;
+    $.ajaxSetup({
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('user_token'),
+        },
+    });
+    $.getJSON(user_bonus, {})
+        .done(function (data) {
+            const myJSON2 = JSON.stringify(data);
+            // alert(myJSON2)
+            var balance = data.balance;
+            //alert(balance);
+
+            $("#gt2").val(balance);
+            function formatNumber(num) {
+                return num.toString().replace(/(\d)(?=(\d{ 3 })+(?!\d))/g, '$1,');
+            }
+
+            $('#user_wallet_bonus').text(formatNumber(balance));
+        })
+        .done(function () {
+            // alert('getJSON request succeeded!');
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            $('#user_wallet_bonus').text('0.00');
+              $("#gt2").val(0);
 
         })
         .always(function () {
@@ -397,7 +458,7 @@ cashOutBtn.addEventListener('click', function (event) {
     let current_point = point.innerText;
      current_point = current_point.replace(/x/g, '');
 current_point = Number.parseFloat(current_point);
-    const cashout_amount = current_point * (Number.parseFloat(betAmount.value).toFixed(2));
+    const cashout_amount = current_point * (Number.parseFloat(previous_bet_amount.innerHTML).toFixed(2));
 var cashout_amount2 =cashout_amount.toFixed(2)
 
     var user_bet_id = localStorage.getItem('user_bet_id');
@@ -417,7 +478,8 @@ var cashout_amount2 =cashout_amount.toFixed(2)
             },
             success: function (data) {
                 if (data.status == true) {
-                     load_new_balance();
+                    load_new_balance();
+                    load_new_bonus();
                     //alert(data.message);
                  //   win_alert();
                     //if user wins money will be add to his/her account

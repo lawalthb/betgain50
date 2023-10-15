@@ -1,4 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 <style>
     .parent {
         position: relative;
@@ -19,6 +19,15 @@
     .chart-wrap {
         height: 325px;
     }
+
+    #moving-image {
+        position: absolute;
+        top: 350px;
+        left: 0;
+        width: 100px;
+        height: 150px;
+    }
+
 
     @media only screen and (max-width: 767px) {
         .child {
@@ -70,10 +79,10 @@
 
     <div class="relative parent take-out-graph" style="display: block; opacity: 0.8; height: 200px;">
 
-        <div x-ref="revenueChart" class=" bg-white dark:bg-black rounded-lg h-0 chart-wrap ">
+        <div class=" bg-white dark:bg-black rounded-lg h-0 chart-wrap ">
 
-            <div class="min-h-[200px] h-[101px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] ">
-                <span class=" animate-spin border-2 border-black dark:border-white !border-l-transparent rounded-full w-5 h-5 inline-flex"></span>
+            <div id="rocket" style="background-position-x: 2%; background-position-y: 100%;">
+                <img id="moving-image" src="{{'assets/rocket2.png'}}" alt="Moving Image">
             </div>
         </div>
     </div>
