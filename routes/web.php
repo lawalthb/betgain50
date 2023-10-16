@@ -31,10 +31,9 @@ Route::get('/admin/login', function () {
 })->name('adminLogin');
 
 
-
-
 Route::group(['middleware' => 'adminauth'], function () {
-    Route::get('/admin', [AdminAuthController::class, 'adminDashboard'])->name('adminDashboard');
+    Route::get('/admin', [adminController::class, 'adminDashboard'])->name('adminDashboard');
+
 
     Route::DELETE('/admin/users', [adminController::class, 'delete_user'])->name('deleteUser');
     Route::DELETE('/admin/transactions', [adminController::class, 'delete_transactions'])->name('deleteTransaction');

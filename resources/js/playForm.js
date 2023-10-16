@@ -43,7 +43,6 @@ function startBet() {
             } else {
                 play.setAttribute('disabled', '');
                 play.innerText = 'Bet Placed';
-
                 let userId = localStorage.getItem('user_id');
                 let userName = localStorage.getItem('username');
                 let token = $('input[name=_token]').val();
@@ -140,6 +139,7 @@ function countDown() {
     let user_bet_id4next_round = localStorage.getItem('user_bet_id4next_round');
     if (user_bet_id4next_round == null) {
         play.innerText = 'Play';
+          //play.style.display = 'block';
         myround.value = 0;
     } else {
         //get change user game id for db
@@ -173,7 +173,6 @@ function countDown() {
  // Apply the updated positions to the image
     image.style.left = `${leftPosition}px`;
     image.style.top = `${topPosition}px`;
-       // rocket.style.backgroundPosition = +(counter+20) + '% ' + (counter+60) + '%';;
 
         cashout_amount.innerHTML = counter;
         var user_current_bet_value = previous_bet_point.innerHTML;
@@ -192,6 +191,8 @@ function countDown() {
                 localStorage.removeItem('user_bet_value');
                 localStorage.removeItem('busted_value');
             }
+        } else {
+           //  play.style.display = 'none';
         }
         // if (seconds <= 1) {
         //     initialDataValue[seconds - 2] = counter;

@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -376,5 +377,89 @@ class adminController extends Controller
             return redirect()->route('manageChats')
                 ->with('success', 'Chat is now Showing successfully');
         }
+    }
+
+    // dashboard
+    //get all visits
+
+
+    public function adminDashboard(Request $request)
+    {
+        $totalVisits = number_format(Visitor::count(), 0);
+        $totalGames = number_format(BetEntry::count(), 0);
+        $totalAmount = number_format(BetEntry::sum('bet_amount'), 2);
+        $totalWalletAmount = number_format(Transaction::sum('amount'), 2);
+        $totalAmountBetLose = number_format(BetEntry::where('game_status', 'Loose')->sum('bet_amount'), 2);
+
+        function chart_value($startDate, $endDate, $betType)
+        {
+            return BetEntry::whereBetween('created_at', [$startDate, $endDate])->where('game_status', $betType)->sum('bet_amount');
+        }
+
+        $jan_winbet =       chart_value('2023-01-01', '2023-01-31', 'Win');
+        $feb_winbet =       chart_value('2023-02-01', '2023-02-28', 'Win');
+        $mar_winbet =       chart_value('2023-03-01', '2023-03-31', 'Win');
+        $apr_winbet =       chart_value('2023-04-01', '2023-04-30', 'Win');
+        $may_winbet =       chart_value('2023-05-01', '2023-05-31', 'Win');
+        $jun_winbet =       chart_value('2023-06-01', '2023-06-30', 'Win');
+        $jul_winbet =       chart_value('2023-07-01', '2023-07-31', 'Win');
+        $aug_winbet =       chart_value('2023-08-01', '2023-08-31', 'Win');
+
+        $sep_winbet =       chart_value('2023-09-01', '2023-09-31', 'Win');
+        $oct_winbet =       chart_value('2023-10-01', '2023-10-31', 'Win');
+        $nov_winbet =       chart_value('2023-11-01', '2023-11-30', 'Win');
+        $dec_winbet =       chart_value('2023-12-01', '2023-12-31', 'Win');
+
+        $jan_losebet =       chart_value('2023-01-01', '2023-01-31', 'Loose');
+        $feb_losebet =       chart_value('2023-02-01', '2023-02-28', 'Loose');
+        $mar_losebet =       chart_value('2023-03-01', '2023-03-31', 'Loose');
+        $apr_losebet =       chart_value('2023-04-01', '2023-04-30', 'Loose');
+        $may_losebet =       chart_value('2023-05-01', '2023-05-31', 'Loose');
+        $jun_losebet =       chart_value('2023-06-01', '2023-06-30', 'Loose');
+        $jul_losebet =       chart_value('2023-07-01', '2023-07-31', 'Loose');
+        $aug_losebet =       chart_value('2023-08-01', '2023-08-31', 'Loose');
+
+        $sep_losebet =       chart_value('2023-09-01', '2023-09-31', 'Loose');
+        $oct_losebet =       chart_value('2023-10-01', '2023-10-31', 'Loose');
+        $nov_losebet =       chart_value('2023-11-01', '2023-11-30', 'Loose');
+        $dec_losebet =       chart_value('2023-12-01', '2023-12-31', 'Loose');
+
+
+
+        //dd($jan_bet);
+        return  view('admin', compact(
+            'totalVisits',
+            'totalGames',
+            'totalAmount',
+            'totalWalletAmount',
+            'totalAmountBetLose',
+            'jan_winbet',
+            'feb_winbet',
+            'mar_winbet',
+            'apr_winbet',
+            'may_winbet',
+            'jun_winbet',
+            'jul_winbet',
+            'aug_winbet',
+            'sep_winbet',
+            'oct_winbet',
+            'nov_winbet',
+            'dec_winbet',
+
+            'jan_losebet',
+            'feb_losebet',
+            'mar_losebet',
+            'apr_losebet',
+            'may_losebet',
+            'jun_losebet',
+            'jul_losebet',
+            'aug_losebet',
+            'sep_losebet',
+            'oct_losebet',
+            'nov_losebet',
+            'dec_losebet',
+        ));
+        // view('admin');
+
     }
 }

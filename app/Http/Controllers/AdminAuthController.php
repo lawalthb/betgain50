@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Notification;
 
 class AdminAuthController extends Controller
 {
-    
+
 
     public function postLogin(Request $request)
     {
@@ -28,16 +28,15 @@ class AdminAuthController extends Controller
             'password' => 'required',
         ]);
 
-        if(auth()->guard('admin')->attempt(['email' => $request->input('email'),  'password' => $request->input('password')])){
+        if (auth()->guard('admin')->attempt(['email' => $request->input('email'),  'password' => $request->input('password')])) {
             $user = auth()->guard('admin')->user();
-           //dd( $user);
-            if($user->admin_type == "admin"){
-              
-                return redirect()->route('adminDashboard')->with('success','You are Logged in sucessfully.');
+            //dd( $user);
+            if ($user->admin_type == "admin") {
+
+                return redirect()->route('adminDashboard')->with('success', 'You are Logged in sucessfully.');
             }
-        }else {
-            return back()->with('error','Whoops! invalid email and password.');
-           
+        } else {
+            return back()->with('error', 'Whoops! invalid email and password.');
         }
     }
 
@@ -47,12 +46,5 @@ class AdminAuthController extends Controller
         Session::flush();
         Session::put('success', 'You are logout sucessfully');
         return redirect(route('adminLogin'));
-    }
-
-    public function adminDashboard(Request $request)
-    {
-       return  view('admin');
-        // view('admin');
-       
     }
 }

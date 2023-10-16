@@ -6,9 +6,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\TransferController;
-use App\Models\Setting;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ Route::get('/transactions/mybalance/{user_id}', [TransactionsController::class, 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('visitor', [VisitorController::class, 'store'])->name('visitor');
+
 Route::get('/adverts', [HistoryController::class, 'fetchAdverts']);
 Route::get('/transfers/verify/{reference}/{password}/{user_id}', [TransferController::class, 'verify_transfer'])->name('verify_transfer');
 //Protected Routes

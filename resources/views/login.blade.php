@@ -134,11 +134,6 @@
                         window.open("/admin", "_self");
                     }
 
-
-
-
-
-
                 } else if (response.status === 422) {
                     const errors = await response.json();
 
