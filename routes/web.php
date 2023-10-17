@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PaystackWebhookController;
+use App\Http\Controllers\VisitorController;
 
 Route::view('/', 'index');
 Route::view('/sender', 'sender');
@@ -23,6 +24,7 @@ Route::get('/callback', [TransactionsController::class, 'callback']);
 Route::post('/edit_profile', [AuthController::class, 'edit_profile'])->name('edit_profile');
 
 //admin routes
+
 
 
 Route::post('/admin/login', [AdminAuthController::class, 'postLogin'])->name('adminLoginPost');
@@ -63,6 +65,8 @@ Route::group(['middleware' => 'adminauth'], function () {
     //Route::get('/admin/verify_transaction', [adminController::class, 'transaction_users'])->name('TransactionUser');
 
     Route::post('/admin/users', [adminController::class, 'search_user'])->name('search_user');
+
+    Route::get('/admin/visitors', [VisitorController::class, 'index'])->name('visitors_log');
 
 
 

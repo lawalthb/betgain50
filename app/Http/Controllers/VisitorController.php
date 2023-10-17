@@ -13,7 +13,12 @@ class VisitorController extends Controller
      */
     public function index()
     {
-        //
+        //admin to view list of visitors
+        $visitors = Visitor::latest()->paginate(20);
+
+
+        return view('manage_visitors', compact('visitors'))
+            ->with('i', (request()->input('page', 1) - 1) * 20);
     }
 
     /**

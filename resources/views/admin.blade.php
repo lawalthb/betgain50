@@ -99,8 +99,8 @@
                                 </svg>
                             </a>
                             <ul x-cloak x-show="open" x-transition x-transition.duration.300ms class="text-black ltr:right-0 rtl:left-0 dark:text-white-dark">
-                                <li><a href="javascript:;" @click="toggle">View Report</a></li>
-                                <li><a href="javascript:;" @click="toggle">Edit Report</a></li>
+                                <li><a href="{{route('visitors_log')}}" @click="toggle">View Report</a></li>
+                                <!-- <li><a href="javascript:;" @click="toggle">Edit Report</a></li> -->
                             </ul>
                         </div>
                     </div>

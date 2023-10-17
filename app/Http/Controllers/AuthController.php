@@ -37,7 +37,7 @@ class AuthController extends Controller
 
 
         $user = User::where('email', $request->email)
-            ->orWhere('username', $request->email)->first();
+            ->orWhere('username', $request->email)->where('user_role', 'user')->first();
 
         $token = $user->createToken('Token of ' . $user->email)->plainTextToken;
 
