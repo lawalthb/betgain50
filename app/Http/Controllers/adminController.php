@@ -387,6 +387,11 @@ class adminController extends Controller
     {
         $totalVisits = number_format(Visitor::count(), 0);
         $totalGames = number_format(BetEntry::count(), 0);
+        $totalGamesWin = BetEntry::where('game_status', 'Win')->count();
+        $totalGamesLose = BetEntry::where('game_status', 'Loose')->count();
+
+        $totalGamesOngame = BetEntry::where('game_status', 'Ongame')->count();
+
         $totalAmount = number_format(BetEntry::sum('bet_amount'), 2);
         $totalWalletAmount = number_format(Transaction::sum('amount'), 2);
         $totalAmountBetLose = number_format(BetEntry::where('game_status', 'Loose')->sum('bet_amount'), 2);
@@ -395,6 +400,15 @@ class adminController extends Controller
         {
             return BetEntry::whereBetween('created_at', [$startDate, $endDate])->where('game_status', $betType)->sum('bet_amount');
         }
+
+
+
+
+
+
+        $last10Games = BetEntry::orderBy('created_at', 'desc')->take(10)->get();
+
+        $last10Messages = Message::orderBy('created_at', 'desc')->take(10)->get();
 
         $jan_winbet =       chart_value('2023-01-01', '2023-01-31', 'Win');
         $feb_winbet =       chart_value('2023-02-01', '2023-02-28', 'Win');
@@ -458,6 +472,11 @@ class adminController extends Controller
             'oct_losebet',
             'nov_losebet',
             'dec_losebet',
+            'totalGamesWin',
+            'totalGamesLose',
+            'totalGamesOngame',
+            'last10Games',
+            'last10Messages'
         ));
         // view('admin');
 
