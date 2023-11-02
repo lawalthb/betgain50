@@ -96,7 +96,7 @@ function startBet() {
                             localStorage.setItem('user_bet_id4next_round', user_bet_id);
                             localStorage.setItem('user_bet_value', betCrash.value);
                             load_new_balance();
-                            load_new_bonus()
+                           // load_new_bonus()
                             load_user_previous();
                             play.innerText = 'Wait for next round';
                             play.setAttribute('disabled', '');
@@ -230,7 +230,7 @@ function loadContent(randomValueForInitial) {
             busted.append(bustedResponseWrap);
             messageStart.innerText = 'Busted';
             load_new_balance();
-            load_new_bonus();
+           // load_new_bonus();
             messageMain.innerText = `@ ${count.toFixed(2)}x`;
             messageStart.classList.add('busted-text');
             messageMain.classList.add('busted-text');
@@ -495,7 +495,7 @@ cashOutBtn.addEventListener('click', function (event) {
             success: function (data) {
                 if (data.status == true) {
                     load_new_balance();
-                    load_new_bonus();
+                  //  load_new_bonus();
                     //alert(data.message);
                     //   win_alert();
                     //if user wins money will be add to his/her account

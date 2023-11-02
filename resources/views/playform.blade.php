@@ -16,7 +16,7 @@
             </h5>
 
         </div>
-        <div class="text-green justify-between items-center flex mb-3 xl:mb-0">
+        <div class="text-green justify-between items-center flex mb-3 xl:mb-0" style="display: none;">
             <p class="text-xl">Bonus Balance</p>
             <h5 class="ltr:ml-auto rtl:mr-auto text-2xl">
                 <span class="text-green-light  text-xl">₦</span><span id="user_wallet_bonus">xxx</span>

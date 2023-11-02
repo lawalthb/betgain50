@@ -136,9 +136,7 @@ class HistoryController extends Controller
 
 
 
-        //  event(new herosboard($text,$name,$username, $amount,$point, $token, $game_status,$amount_multiplier));
-
-
+        event(new herosboard($text, $name, $username, $amount, $point, $token, $game_status, $amount_multiplier));
     }
 
     public function fetchMessages()
