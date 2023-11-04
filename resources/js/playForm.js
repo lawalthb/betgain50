@@ -42,6 +42,13 @@ function get_settings2() {
     });
 }
 
+function get_settings4round() {
+    $.get("/api/settings?name=next_round_count", function (data, status) {
+        var next_round_count = data[0].value;
+        localStorage.setItem('next_round_count', next_round_count);
+    });
+}
+    get_settings4round();
 let topPosition = 400;
 let leftPosition = 0;
 
@@ -110,7 +117,7 @@ function startBet() {
 }
 
 function countDown() {
-    let countDownValue = 6;
+    let countDownValue = localStorage.getItem('next_round_count') ;
     const interval = setInterval(() => {
         countDownValue--;
         messageStart.innerText = 'Next Round In';

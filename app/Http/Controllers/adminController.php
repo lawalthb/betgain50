@@ -11,6 +11,8 @@ use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class adminController extends Controller
 {
@@ -129,6 +131,21 @@ class adminController extends Controller
         return view('manage_chats', compact('chats'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
+
+    public function manage_admins()
+    {
+        $admin_list = DB::table('admins')->where('admin_role', '!=', 'superadmin')->get();
+
+        return view('manage_admins', compact('admin_list'));
+    }
+
+    public function manage_admin_add()
+    {
+
+        return view('manage_admins_add');
+    }
+
+
     public function admin_tweak_game()
     {
         $settings = Setting::latest()->paginate(20);
@@ -140,9 +157,40 @@ class adminController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function manage_admin_store(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required',
+            'admin_role' => 'required',
+            'username' => 'required',
+            'admin_role' => 'required',
+            'password' => 'required',
+        ]);
+        $password = Hash::make($request->password);
+        try {
+            DB::table('admins')->insert([
+                'email' => $request->email,
+                'admin_role' => $request->admin_role,
+                'username' => $request->username,
+                'admin_role' => $request->admin_role,
+                'password' => $password,
+                'phone_number' => $request->phone_number,
+            ]);
+        } catch (Exception $e) {
+
+            $message = $e->getMessage();
+            var_dump('Exception Message: ' . $message);
+
+            $code = $e->getCode();
+            var_dump('Exception Code: ' . $code);
+
+            $string = $e->__toString();
+            var_dump('Exception String: ' . $string);
+
+            exit;
+        }
+        return redirect()->route('manage_admins')
+            ->with('success', 'admin added successfully');
     }
 
     /**
@@ -273,17 +321,69 @@ class adminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit_profile(string $id)
     {
-        //
+
+        $admin_details  = DB::table('admins')->where('id', '=', $id)->get();
+
+        try {
+            return view('manage_admin_profile')->with(["admin_details" => $admin_details]);
+        } catch (Exception $e) {
+
+            $message = $e->getMessage();
+            var_dump('Exception Message: ' . $message);
+
+            $code = $e->getCode();
+            var_dump('Exception Code: ' . $code);
+
+            $string = $e->__toString();
+            var_dump('Exception String: ' . $string);
+
+            exit;
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update_admin_profile(Request $request)
     {
-        //
+        //dd($request);
+
+        $username = $request->username;
+        $phone_number = $request->phone_number;
+        $password = $request->password;
+        $password_new = $request->password_new;
+        $password_hidden = $request->password_hidden;
+        $id = $request->id;
+
+        $request->validate([
+            'username' => 'required',
+            'phone_number' => 'required',
+        ]);
+
+        if ($password == null) {
+
+            DB::update('update admins set username = ?,phone_number=? where id = ?', [$username, $phone_number, $id]);
+
+
+            return redirect()->back()->with('success', 'Record updated successfuly');
+        } elseif ($password != null &&  $password_new != null) {
+
+
+            if (!Hash::check($password, $password_hidden)) {
+                return redirect()->back()->with('error', 'Incorrect old password');
+            } else {
+
+                $password_new = Hash::make($password_new);
+                DB::update('update admins set username = ?,phone_number=?, password=? where id = ?', [$username, $phone_number, $password_new, $id]);
+                return redirect()->back()->with('success', 'Record updated and password updated successfuly');
+            }
+
+
+            return redirect()->back()->with('error', 'Enter new password');
+        }
+        return redirect()->back()->with('error', 'Enter new password');
     }
 
     /**

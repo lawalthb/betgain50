@@ -71,4 +71,14 @@ Route::group(['middleware' => 'adminauth'], function () {
 
 
     Route::get('/admin/logout', [AdminAuthController::class, 'adminLogout'])->name('adminLogout');
+
+    Route::get('/admin/admin_edit_profile/{id}', [adminController::class, 'edit_profile'])->name('admin_edit_profile');
+
+    Route::post('/admin/update_admin_profile', [adminController::class, 'update_admin_profile'])->name('update_admin_profile');
+
+    Route::get('/admin/admins', [adminController::class, 'manage_admins'])->name('manage_admins');
+
+    Route::get('/admin/add_admin', [adminController::class, 'manage_admin_add'])->name('manage_admin_add');
+    
+    Route::post('/admin/add_admin', [adminController::class, 'manage_admin_store'])->name('manage_admin_store');
 });
