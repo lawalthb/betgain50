@@ -82,6 +82,8 @@ Route::group(['middleware' => 'adminauth'], function () {
 
     Route::post('/admin/manage_admin_update', [adminController::class, 'manage_admin_update'])->name('manage_admin_update');
 
+    Route::post('/admin/adminPassowrdReset', [adminController::class, 'adminPassowrdReset'])->name('adminPassowrdReset');
+
 
 
     Route::get('/admin/admins', [adminController::class, 'manage_admins'])->name('manage_admins');
