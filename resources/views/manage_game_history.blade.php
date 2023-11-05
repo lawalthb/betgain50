@@ -39,7 +39,7 @@
             <th>Hash</th>
             <th>Status</th>
             <th>Time</th>
-  
+
             <th class="text-center">Action</th>
           </tr>
         </thead>
@@ -83,13 +83,14 @@
                 <div>{{ $game->created_at }}</div>
               </div>
             </td>
-  
-  
+
+
             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+              @if((auth('admin')->user()->admin_role == "superadmin") || (auth('admin')->user()->admin_role == "manager") )
               <form action="{{ route('deleteGame') }}?game_id={{$game->id}}" id="DeleteForm" method="POST">
                 @csrf
                 @method('DELETE')
-  
+
                 <a href=""><button type="button" x-tooltip="Reverify">
                     [Edit]
                   </button></a>
@@ -97,12 +98,12 @@
                   [Delete]
                 </button>
               </form>
-  
+              @endif
             </td>
           </tr>
           @endforeach
-  
-  
+
+
         </tbody>
       </table>
       <br />

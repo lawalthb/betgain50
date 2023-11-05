@@ -11,7 +11,8 @@
       <form class="">
         <div class="sm:flex justify-between items-center">
           <h1 class="text-lg mb-1 sm:mb-0">Manage Adverts</h1>
-          <a href="{{route('manageAdvertsAdd')}}"> <button type="button" class="btn btn-success w-4/4 ">Add New Advert</button></a>
+          @if((auth('admin')->user()->admin_role == "superadmin") || (auth('admin')->user()->admin_role == "manager") ) <a href="{{route('manageAdvertsAdd')}}"> <button type="button" class="btn btn-success w-4/4 ">Add New Advert</button></a>
+          @endif
           <div class="sm:w-1/2 form-input flex items-center p-0">
             <input type="text" placeholder="Enter Company name" class="form-input rounded-r-none" />
             <button type="button" class="btn btn-primary w-1/4 rounded-l-none">Search</button>
@@ -66,6 +67,7 @@
               <td>{{$advert->position}}</td>
               <td>₦{{number_format($advert->amount)}}</td>
               <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+                @if((auth('admin')->user()->admin_role == "superadmin") || (auth('admin')->user()->admin_role == "manager") )
                 <form action="{{ route('deleteAdverts') }}?Advert_id={{$advert->id}}" id="DeleteForm" method="POST">
                   @csrf
                   @method('DELETE')
@@ -77,7 +79,7 @@
                       [Edit]
                     </button></a>
                 </form>
-
+                @endif
               </td>
             </tr>
             @endforeach

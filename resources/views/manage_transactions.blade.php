@@ -69,6 +69,7 @@
 
 
             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+              @if((auth('admin')->user()->admin_role == "superadmin") )
               <form action="{{ route('deleteTransaction') }}?user_id={{$transactions->id}}" id="DeleteForm" method="POST">
                 @csrf
                 @method('DELETE')
@@ -80,7 +81,7 @@
                   [Delete]
                 </button>
               </form>
-
+              @endif
             </td>
           </tr>
           @endforeach

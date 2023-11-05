@@ -27,7 +27,7 @@
     <div class="table-responsive ml-6">
 
       <!-- column sizing -->
-      @foreach ($adverts as $advert)
+      @foreach($adverts as $advert)
       <form method="POST" action="{{route('edit_advert')}}" enctype="multipart/form-data" role="form">
         {{csrf_field()}}
         <div class="grid grid-cols-1 mb-1 md:grid-cols-3 lg:grid-cols-4 gap-0">

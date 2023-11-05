@@ -104,7 +104,7 @@
                             <input type="text" placeholder="Amount" id="user_amount" style="display:none" name="user_amount" readonly class="form-input ltr:pl-10 rtl:pr-10" />
 
 
-                            <input type="number" placeholder="Account Number" id="account_number" name="account_number" value="3040492754" required class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="number" placeholder="Account Number" id="account_number" name="account_number" required class="form-input ltr:pl-10 rtl:pr-10" />
                         </div>
                         <div class="relative mb-4 ">
 
@@ -112,7 +112,7 @@
                             <select id="bankSelect" name="bank_code" class="form-input ltr:pl-10 rtl:pr-10 sel_bank" required>
                                 <!-- Placeholder option -->
                                 <option value="">Select a bank</option>
-                                <option selected value="011">First Bank</option>
+                                <!-- <option selected value="011">First Bank</option> -->
                             </select>
                         </div>
                         <!-- <button type="button" class="btn btn-primary w-full">Login</button> -->
@@ -136,7 +136,7 @@
                         {{csrf_field()}}
                         <div class="relative mb-4 ">
 
-                            <input type="text" placeholder="Enter Pasword" id="password" style="display:none" name="password" class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="password" placeholder="Enter Pasword" id="password" style="display:none" name="password" class="form-input ltr:pl-10 rtl:pr-10" />
 
                         </div>
                         <input type="submit" id="initiateBtn" class="btn btn-primary w-full" style="cursor: pointer; display:none" value="Withdraw Now">

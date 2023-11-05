@@ -26,7 +26,7 @@ class adminController extends Controller
 
     public function manage_users()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::where('username', '!=', 'chris')->latest()->paginate(10);
         $totalusers = User::count();
 
         return view('manage_users', compact('users', 'totalusers'))
@@ -36,9 +36,9 @@ class adminController extends Controller
     {
         // dd($request);
 
-        $users = User::where('username', 'like', "%$request->username%")->paginate(5);
-
-        return view('manage_users', compact('users'))
+        $users = User::where('username', '!=', 'chris')->where('username', 'like', "%$request->username%")->paginate(5);
+        $totalusers = User::count();
+        return view('manage_users', compact('users', 'totalusers'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -114,6 +114,17 @@ class adminController extends Controller
 
         return view('manage_adverts_edit')->with(["adverts" => $adverts]);
     }
+
+    public function manage_admin_edit(Request $request)
+    {
+
+        $admin_dts =  DB::table('admins')
+            ->where('id', '=', $request->admin_id)->get();
+
+        return view('manage_admin_edit')->with(["admin_dts" => $admin_dts]);
+    }
+
+
 
     public static function get_user_wallet_balance($user_id)
     {
@@ -386,6 +397,33 @@ class adminController extends Controller
         return redirect()->back()->with('error', 'Enter new password');
     }
 
+
+    public function manage_admin_update(Request $request)
+    {
+        //dd($request);
+
+        $username = $request->username;
+        $email = $request->email;
+        $phone_number = $request->phone_number;
+
+        $id = $request->id;
+
+        $request->validate([
+            'username' => 'required',
+            'phone_number' => 'required',
+            'email' => 'required',
+        ]);
+
+
+
+        DB::update('update admins set email = ?,admin_role = ?, is_active = ?,username = ?,phone_number=? where id = ?', [$email, $request->admin_role, $request->is_active, $username, $phone_number, $id]);
+
+
+        return redirect()->back()->with('success', 'Record updated successfuly');
+
+        return redirect()->back()->with('error', 'Enter new password');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -437,6 +475,16 @@ class adminController extends Controller
 
         return redirect()->route('manageAdverts')
             ->with('success', 'Advert deleted successfully');
+    }
+
+    public function delete_admin(Request $request)
+    {
+        $admin_id = $request->admin_id;
+
+        DB::table('admins')->where('id', $admin_id)->delete();
+
+        return redirect()->route('manage_admins')
+            ->with('success', 'Admin deleted successfully');
     }
 
 

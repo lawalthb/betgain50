@@ -83,7 +83,7 @@
                 }
             });
         </script>
-
+        @if((auth('admin')->user()->admin_role == "superadmin") || (auth('admin')->user()->admin_role == "manager") )
         <div class="pt-5">
             <div class="mb-6 grid grid-cols-1 gap-6 text-white sm:grid-cols-2 xl:grid-cols-4">
                 <!-- Users Visit -->
@@ -210,7 +210,7 @@
                     </div> -->
                 </div>
             </div>
-
+            @endif
             <div class="pt-5">
                 <div class="grid xl:grid-cols-3 gap-6 mb-6">
                     <div class="panel h-full xl:col-span-2">
@@ -412,13 +412,109 @@
                 // revenue
                 get revenueChartOptions() {
                     return {
-                       series: [{
+                        series: [{
                                 name: 'Wins',
-                                data: [{{$jan_winbet}}, {{$feb_winbet}}, {{$mar_winbet}}, {{$apr_winbet}}, {{$may_winbet}}, {{$jun_winbet}},{{$jul_winbet}}, {{$aug_winbet}}, {{$sep_winbet}}, {{$oct_winbet}}, {{$nov_winbet}}, {{$dec_winbet}}]
+                                data: [{
+                                    {
+                                        $jan_winbet
+                                    }
+                                }, {
+                                    {
+                                        $feb_winbet
+                                    }
+                                }, {
+                                    {
+                                        $mar_winbet
+                                    }
+                                }, {
+                                    {
+                                        $apr_winbet
+                                    }
+                                }, {
+                                    {
+                                        $may_winbet
+                                    }
+                                }, {
+                                    {
+                                        $jun_winbet
+                                    }
+                                }, {
+                                    {
+                                        $jul_winbet
+                                    }
+                                }, {
+                                    {
+                                        $aug_winbet
+                                    }
+                                }, {
+                                    {
+                                        $sep_winbet
+                                    }
+                                }, {
+                                    {
+                                        $oct_winbet
+                                    }
+                                }, {
+                                    {
+                                        $nov_winbet
+                                    }
+                                }, {
+                                    {
+                                        $dec_winbet
+                                    }
+                                }]
                             },
                             {
                                 name: 'Loses',
-                                data: [{{$jan_losebet}}, {{$feb_losebet}}, {{$mar_losebet}}, {{$apr_losebet}}, {{$may_losebet}}, {{$jun_losebet}},{{$jul_losebet}}, {{$aug_losebet}}, {{$sep_losebet}}, {{$oct_losebet}}, {{$nov_losebet}}, {{$dec_losebet}}]
+                                data: [{
+                                    {
+                                        $jan_losebet
+                                    }
+                                }, {
+                                    {
+                                        $feb_losebet
+                                    }
+                                }, {
+                                    {
+                                        $mar_losebet
+                                    }
+                                }, {
+                                    {
+                                        $apr_losebet
+                                    }
+                                }, {
+                                    {
+                                        $may_losebet
+                                    }
+                                }, {
+                                    {
+                                        $jun_losebet
+                                    }
+                                }, {
+                                    {
+                                        $jul_losebet
+                                    }
+                                }, {
+                                    {
+                                        $aug_losebet
+                                    }
+                                }, {
+                                    {
+                                        $sep_losebet
+                                    }
+                                }, {
+                                    {
+                                        $oct_losebet
+                                    }
+                                }, {
+                                    {
+                                        $nov_losebet
+                                    }
+                                }, {
+                                    {
+                                        $dec_losebet
+                                    }
+                                }]
                             }
                         ],
                         chart: {
@@ -561,7 +657,19 @@
                 // sales by category
                 get salesByCategoryOptions() {
                     return {
-                       series: [{{$totalGamesWin}},{{$totalGamesLose}},{{$totalGamesOngame}}],
+                        series: [{
+                            {
+                                $totalGamesWin
+                            }
+                        }, {
+                            {
+                                $totalGamesLose
+                            }
+                        }, {
+                            {
+                                $totalGamesOngame
+                            }
+                        }],
                         chart: {
                             type: 'donut',
                             height: 460,

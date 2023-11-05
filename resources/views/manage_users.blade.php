@@ -69,10 +69,11 @@
                                 <a href="{{ route('banUser') }}?user_id={{$user->id}}&ban={{$user->user_role}}"><button type="button" x-tooltip="Ban">
                                         [Ban]
                                     </button></a>
+                                @if((auth('admin')->user()->admin_role == "superadmin") || (auth('admin')->user()->admin_role == "manager") )
                                 <button type="button" @click="DeleteUser()" x-tooltip="Delete">
                                     [Delete]
                                 </button>
-
+@endif
                             </form>
 
                         </td>

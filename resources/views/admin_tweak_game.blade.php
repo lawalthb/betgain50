@@ -10,12 +10,11 @@
         <!-- form row -->
 
         @if ($message = Session::get('success'))
-            <!-- secondary -->
-            <div class="flex items-center p-3.5 rounded text-secondary bg-secondary-light dark:bg-secondary-dark-light">
-                <span class="ltr:pr-2 rtl:pl-2"><strong
-                        class="ltr:mr-1 rtl:ml-1">Message!</strong>{{ $message }}.</span>
+        <!-- secondary -->
+        <div class="flex items-center p-3.5 rounded text-secondary bg-secondary-light dark:bg-secondary-dark-light">
+            <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Message!</strong>{{ $message }}.</span>
 
-            </div>
+        </div>
         @endif
 
         <div class="table-responsive">
@@ -31,32 +30,31 @@
                 </thead>
                 <tbody>
                     @foreach ($settings as $setting)
-                        <tr>
-                            <td>{{ $setting->id }}</td>
-                            <td class="whitespace-nowrap">{{ $setting->name }}</td>
-                            <form action="{{ route('update_settings') }}" id="UpdateForm" method="POST">
-                                @csrf
-                                <td>
+                    <tr>
+                        <td>{{ $setting->id }}</td>
+                        <td class="whitespace-nowrap">{{ $setting->name }}</td>
+                        <form action="{{ route('update_settings') }}" id="UpdateForm" method="POST">
+                            @csrf
+                            <td>
+                                <div>
                                     <div>
-                                        <div>
-                                            <input type="hidden" name="id" placeholder="Enter Value"
-                                                value="{{ $setting->id }}" class="form-input lg:col-span-4" />
+                                        <input type="hidden" name="id" placeholder="Enter Value" value="{{ $setting->id }}" class="form-input lg:col-span-4" />
 
-                                            <input type="text" name="value" placeholder="Enter Value"
-                                                value="{{ $setting->value }}" class="form-input lg:col-span-4" />
-                                        </div>
+                                        <input type="text" name="value" placeholder="Enter Value" value="{{ $setting->value }}" class="form-input lg:col-span-4" />
                                     </div>
-                                </td>
-
-                                <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                                    <button type="submit" x-tooltip="Update">
-                                        [Update]
-                                    </button>
-
-                            </form>
-
+                                </div>
                             </td>
-                        </tr>
+
+                            <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+                                @if((auth('admin')->user()->admin_role == "superadmin") || (auth('admin')->user()->admin_role == "manager") )
+                                <button type="submit" x-tooltip="Update">
+                                    [Update]
+                                </button>
+                                @endif
+                        </form>
+
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

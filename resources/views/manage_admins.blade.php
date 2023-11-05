@@ -55,14 +55,14 @@
               <td>{{$admin->date_join}}</td>
 
               <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
-                <form action="{{ route('deleteAdverts') }}?Advert_id={{$admin->id}}" id="DeleteForm" method="POST">
+                <form action="{{ route('deleteAdmin') }}?admin_id={{$admin->id}}" id="DeleteForm" method="POST">
                   @csrf
                   @method('DELETE')
                   <button type="button" @click="DeleteChat()" x-tooltip="Delete">
                     [Delete]
                   </button>
 
-                  <a href="{{ route('Advert_edit',  ['advert_id'=>$admin->id]) }}"><button type="button" x-tooltip="Edit">
+                  <a href="{{ route('Admin_edit',  ['admin_id'=>$admin->id]) }}"><button type="button" x-tooltip="Edit">
                       [Edit]
                     </button></a>
                 </form>
@@ -111,9 +111,9 @@
         .then((result) => {
           if (result.value) {
             document.getElementById("DeleteForm").submit();
-            swalWithBootstrapButtons.fire('Deleted!', 'Advert has been deleted.', 'success');
+            swalWithBootstrapButtons.fire('Deleted!', 'Admin has been deleted.', 'success');
           } else if (result.dismiss === window.Swal.DismissReason.cancel) {
-            swalWithBootstrapButtons.fire('Cancelled', 'Advert is safe :)', 'error');
+            swalWithBootstrapButtons.fire('Cancelled', 'Admin is safe :)', 'error');
           }
         });
     }

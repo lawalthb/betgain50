@@ -20,7 +20,7 @@
     </form>
     @if ($message = Session::get('success'))
     <!-- secondary -->
-     <div class="flex items-center p-3.5 rounded text-secondary bg-secondary-light dark:bg-secondary-dark-light">
+    <div class="flex items-center p-3.5 rounded text-secondary bg-secondary-light dark:bg-secondary-dark-light">
       <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Message!</strong>{{ $message }}.</span>
 
     </div>
@@ -75,6 +75,8 @@
 
 
             <td class="p-3 border-b border-[#ebedf2] dark:border-[#191e3a] text-center">
+
+              @if((auth('admin')->user()->admin_role == "superadmin") || (auth('admin')->user()->admin_role == "manager") )
               <form action="{{ route('deleteChat') }}?chat_id={{$chat->id}}" id="DeleteForm" method="POST">
                 @csrf
                 @method('DELETE')
@@ -86,7 +88,7 @@
                   [Delete]
                 </button>
               </form>
-
+              @endif
             </td>
           </tr>
           @endforeach

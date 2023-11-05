@@ -43,6 +43,8 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::DELETE('/admin/chats', [adminController::class, 'delete_chat'])->name('deleteChat');
     Route::DELETE('/admin/adverts', [adminController::class, 'delete_advert'])->name('deleteAdverts');
 
+    Route::DELETE('/admin/admins', [adminController::class, 'delete_admin'])->name('deleteAdmin');
+
     Route::get('/admin/users', [adminController::class, 'manage_users'])->name('manageUsers');
     Route::get('/admin/transactions', [adminController::class, 'manage_transactions'])->name('manageTransactions');
     Route::get('/admin/games', [adminController::class, 'manage_games'])->name('manageGames');
@@ -50,7 +52,10 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/admin/wallets', [adminController::class, 'manage_wallets'])->name('manageWallets');
     Route::get('/admin/adverts', [adminController::class, 'manage_adverts'])->name('manageAdverts');
     Route::get('/admin/adverts/add', [adminController::class, 'manage_adverts_add'])->name('manageAdvertsAdd');
+
     Route::get('/admin/adverts/edit/{advert_id}', [adminController::class, 'manage_adverts_edit'])->name('Advert_edit');
+
+    Route::get('/admin/admins/edit/{admin_id}', [adminController::class, 'manage_admin_edit'])->name('Admin_edit');
 
     Route::post('/admin/settings/update', [SettingController::class, 'update'])->name('update_settings');
 
@@ -68,17 +73,20 @@ Route::group(['middleware' => 'adminauth'], function () {
 
     Route::get('/admin/visitors', [VisitorController::class, 'index'])->name('visitors_log');
 
-
-
     Route::get('/admin/logout', [AdminAuthController::class, 'adminLogout'])->name('adminLogout');
 
     Route::get('/admin/admin_edit_profile/{id}', [adminController::class, 'edit_profile'])->name('admin_edit_profile');
 
     Route::post('/admin/update_admin_profile', [adminController::class, 'update_admin_profile'])->name('update_admin_profile');
 
+
+    Route::post('/admin/manage_admin_update', [adminController::class, 'manage_admin_update'])->name('manage_admin_update');
+
+
+
     Route::get('/admin/admins', [adminController::class, 'manage_admins'])->name('manage_admins');
 
     Route::get('/admin/add_admin', [adminController::class, 'manage_admin_add'])->name('manage_admin_add');
-    
+
     Route::post('/admin/add_admin', [adminController::class, 'manage_admin_store'])->name('manage_admin_store');
 });
