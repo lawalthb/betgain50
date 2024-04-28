@@ -39,13 +39,13 @@ class UserSignup extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Welcome to HerosBet')
+            ->subject('Welcome to BetGain')
             ->greeting('Hello ' . $this->first_name . ',')
-            ->line('We are thrilled to welcome you to HerosBet')
-            ->line('HerosBet is your ultimate destination for unforgettable betting experiences!')
-            ->line('We are delighted to have you on board and can\'t wait to introduce you to the thrill and excitement that awaits you in the world of flash games betting.')
+            ->line('We are happy to welcome you to BetGain')
+            ->line('BetGain is your ultimate destination for unforgettable betting experiences!')
+            ->line('We are delighted to have you on board and can\'t wait to introduce you to the thrill and excitement that awaits you in the world of crash game betting.')
             ->line('Kindly use the button below to verify your email address.')
-            ->action('Click here to login', url('/?token=' . $this->token))
+            ->action('Click here to login', url('/token' . '/' . $this->token))
             ->line('Thank you for using our application!');
     }
 

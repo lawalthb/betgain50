@@ -22,6 +22,9 @@ Route::post('/setbet', [HistoryController::class, 'setbet'])->name('setbet')->mi
 Route::post('/play', [HistoryController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/callback', [TransactionsController::class, 'callback']);
 Route::post('/edit_profile', [AuthController::class, 'edit_profile'])->name('edit_profile');
+Route::get('/token/{token}', [AuthController::class, 'email_verify'])->name('email_verify');
+
+
 
 //admin routes
 
@@ -91,4 +94,10 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/admin/add_admin', [adminController::class, 'manage_admin_add'])->name('manage_admin_add');
 
     Route::post('/admin/add_admin', [adminController::class, 'manage_admin_store'])->name('manage_admin_store');
+
+
+
+
+
+
 });

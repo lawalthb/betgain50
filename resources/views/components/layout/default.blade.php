@@ -47,7 +47,7 @@
 
     <!-- screen loader -->
     <div class="screen_loader fixed inset-0 bg-[#fafafa] dark:bg-[#060818] z-[60] grid place-content-center animate__animated">
-        <img src="{{url('assets/images/loader.png')}}" height="300px" width="200px">
+        <img src="{{url('assets/images/betg.png')}}" height="300px" width="200px">
     </div>
 
     <div class="fixed bottom-6 ltr:right-6 rtl:left-6 z-50" x-data="scrollToTop">

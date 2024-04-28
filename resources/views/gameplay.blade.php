@@ -47,13 +47,36 @@
             height: 100px;
         }
     }
+
+    #videoContainer {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    #videoBg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+        /* Additional styling for your content */
+    }
 </style>
 
 
-<div class="panel h-[260px] xl:h-[500px] xl:col-span-2  " id="gp-bg" style="background-image: url({{url('assets/images/loader.png')}}); background-position: center; background-repeat: no-repeat; background-size: contain; ">
+<div class="panel h-[260px] xl:h-[500px] xl:col-span-2  " id="gp-bg" style="background-image: url({{url('assets/images/betgain.gif')}}); background-position: center; background-repeat: no-repeat; background-size: contain; ">
     <div class=" child "><span id="point">0.0</span></div>
     <div class="flex items-center dark:text-white-light mb-2 xl:mb-5" id="congrat">
-        <h5 class="font-semibold text-sm xl:text-lg">Game Play</h5>
+
         <div x-data="dropdown" @click.outside="open = false" class="dropdown ltr:ml-auto rtl:mr-auto">
 
             <a href="javascript:" @click="toggle">
@@ -64,25 +87,33 @@
                 </svg>
             </a>
 
-            <ul x-cloak x-show="open" x-transition x-transition.duration.300ms class="ltr:right-0 rtl:left-0">
+            <!-- <ul x-cloak x-show="open" x-transition x-transition.duration.300ms class="ltr:right-0 rtl:left-0">
                 <li><a href="javascript:" @click="toggle" onclick="bg_heros1();">background 1</a></li>
                 <li><a href="javascript:" @click="toggle" onclick="bg_heros2();">background 2</a></li>
                 <li><a href="javascript:" @click="toggle" onclick="bg_heros3();">background 3</a></li>
                 <li><a href="javascript:" @click="toggle" onclick="bg_heros4();">background 4</a></li>
-            </ul>
+            </ul> -->
         </div>
     </div>
-    <p class="text-sm xl:text-lg dark:text-white-light/90">Maximum bet<span class="text-primary ml-2">₦10,840</span></p>
+
     <div id="busted" class='text-center'></div>
     <h3 id="count-down" class='text-center'></h3>
 
 
-    <div class="relative parent take-out-graph" style="display: block; opacity: 0.8; height: 200px;">
+    <div class="relative parent take-out-graph" style="display: block; opacity: 0.8; height: 493px; margin-top:-55px">
 
-        <div class=" bg-white dark:bg-black rounded-lg h-0 chart-wrap ">
+        <div id="videoContainer">
+            <video autoplay muted loop id="videoBg">
+                <source src="{{asset('videos/vbg2.mp4')}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <!-- Your content here -->
+            <div class="content">
+                <div id="rocket2" style="background-position-x: 2%; background-position-y: 100%;">
+                    <!-- <img id="moving-image" src="{{'assets/rocket2.png'}}" alt="Moving Image"> -->
 
-            <div id="rocket" style="background-position-x: 2%; background-position-y: 100%;">
-                <img id="moving-image" src="{{'assets/rocket2.png'}}" alt="Moving Image">
+                </div>
+
             </div>
         </div>
     </div>

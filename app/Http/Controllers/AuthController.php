@@ -25,6 +25,19 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+
+        //check if user has verify his email
+        $verif = User::where('email', $request->email)
+            ->whereNotNull('email_verified_at')->first();
+        if (!$verif) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You need to verify your email',
+            ], 422)->withHeaders([
+                'Content-Type' => 'application/json',
+            ]);
+        }
+
         $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (!Auth::attempt(array($fieldType => $request->email, 'password' => $request->password))) {
             return response()->json([
@@ -62,32 +75,8 @@ class AuthController extends Controller
             'phone_number' => 'required|unique:users',
         ]);
 
-
+        $referralCode = $this->generateReferralCode();
         //create account
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_number,
-        ]);
-        $lastInsertId = $user->id;
-        $bonus = 'real';
-        if ($user) {
-            Transaction::create([
-                'user_id' => $lastInsertId,
-                'email' => $request->email,
-                'phone' => $request->phone_number,
-                'amount' => 300,
-                'reference' => 'real' . $lastInsertId,
-                'authorization_url' => "",
-                'callback_url' => "",
-                'money_type' => $bonus,
-                'gateway_response' => "Successful",
-                'status' => "success"
-
-            ]);
-        }
-
         //Check for pending verification
         $verify =  DB::table('password_resets')->where('email', $request->email);
 
@@ -103,6 +92,22 @@ class AuthController extends Controller
                     'token' => $token
                 ]
             );
+
+
+
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone_number' => $request->phone_number,
+            'referral_code' =>  $referralCode,
+            'wallet_balance' => 300,
+            'remember_token' => $token,
+        ]);
+
+        $lastInsertId = $user->id;
+
+
 
         // Send email notification to user
         $user->notify(new UserSignup($token, $request->username));
@@ -122,6 +127,14 @@ class AuthController extends Controller
                 'Content-Type' => 'application/json',
             ]);
         }
+    }
+
+
+
+    private function generateReferralCode()
+    {
+        // Generate a unique referral code
+        return strtoupper(Str::random(8));
     }
 
     public function get_user_info(string $id)
@@ -332,5 +345,28 @@ class AuthController extends Controller
 
         $user->save();
         return redirect()->to('/?logout=1');
+    }
+
+    public function email_verify(Request $request)
+    {
+        // dd($request->token);
+        $verify_token  = $request->token;
+        $qr = User::where('remember_token', $verify_token)
+
+            ->update(['email_verified_at' => now()]);
+
+        if ($qr) {
+            echo   "
+<script>
+alert('Email Verified');
+window.location.href = '/';
+</script>
+          ";
+        } else {
+            echo "  <script>
+alert('Invalid token' );
+window.location.href = '/';
+</script>";
+        }
     }
 }
