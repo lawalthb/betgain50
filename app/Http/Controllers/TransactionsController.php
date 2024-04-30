@@ -75,14 +75,32 @@ class TransactionsController extends Controller
 
         if ($response->ok()) {
             $response = $response->json();
-
-            DB::table('transactions')
+            //dd($response);
+            $email = $response['data']['customer']['email'];
+            $upd =  DB::table('transactions')
                 ->where('reference', $reference)
+                ->where('status', 'Pending')
                 ->update([
                     'gateway_response' => $response['data']['gateway_response'],
                     'status' => $response['data']['status'],
                 ]);
 
+            $user_id = $_COOKIE['user_id'];
+
+
+            if ($upd) {
+                $get_deposit_amt  =  Transaction::where('user_id', $user_id)->where('reference', $reference)->value('amount');
+
+                $user_balance  =  User::where('id', $user_id)->where('email', $email)->value('wallet_balance');
+
+
+                DB::table('users')
+                    ->where('id', $user_id)
+
+                    ->update([
+                        'wallet_balance' => $user_balance  + ($response['data']['amount'] / 100),
+                    ]);
+            }
             $gateway_response = [
                 'status' => true,
                 "message" => "Verification successful",
@@ -149,6 +167,7 @@ class TransactionsController extends Controller
     public function callback()
     {
         $reference = $_GET['reference'];
+        //dd($reference);
         $verify_payment = $this->verify_tranx($reference);
         if ($verify_payment) {
             return redirect(url('/'))->with('payment_msg', 'Deposited Successfully');
@@ -160,11 +179,12 @@ class TransactionsController extends Controller
 
     public function user_balance($id)
     {
-        $balance =  DB::table('transactions')
-            ->where('user_id', '=', $id)
-            ->where('status', '=', 'success')
-            ->where('money_type', '=', 'real')
-            ->sum('amount');
+        // $balance =  DB::table('transactions')
+        //     ->where('user_id', '=', $id)
+        //     ->where('status', '=', 'success')
+        //     ->where('money_type', '=', 'real')
+        //     ->sum('amount');
+        $balance =  User::where('id', $id)->value('wallet_balance');
 
         if ($balance) {
 

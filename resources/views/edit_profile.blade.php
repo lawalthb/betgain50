@@ -53,6 +53,17 @@
     $('#email').val(user_email);
     $('#reference').val(ref);
 
+    //let userEmail = localStorage.getItem('user_email');
+
+    $('#upadate_email').val(localStorage.getItem('user_email'));
+    $('#upadate_phone_number').val(localStorage.getItem('user_phone'));
+    $('#upadate_username').val(localStorage.getItem('username'));
+
+    $('#upadate_user_id').val(localStorage.getItem('user_id'));
+
+
+
+
     function reff2(len, arr) {
       let ans = '';
       for (let i = len; i > 0; i--) {

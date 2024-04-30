@@ -1,4 +1,4 @@
-APP_NAME=Herosbet
+APP_NAME=BetGain
 APP_ENV=local
 APP_KEY=base64:C2MoP7qSBHfsUMGQ1MpqpQfcqZiRcy9kVWViph2Qvt4=
 APP_DEBUG=true

@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8' />
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <title>{{ $title ?? 'Herosbet' }}</title>
+    <title>{{ $title ?? 'BetGain' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 

@@ -70,6 +70,7 @@
                     var username = "";
                     var user_phone = "";
                     var user_email = "";
+                    var user_id = "";
                     $('#play').hide();
                     $("#userImage").hide();
                     $('#login').show();
@@ -93,6 +94,8 @@
                     document.cookie = "username=" + username + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     document.cookie = "user_phone=" + user_phone + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     document.cookie = "user_email=" + user_email + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "user_id=" + user_id + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "user_role=" + user_role + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     var pageURL = window.location.href;
                     var serverURL = `{{url('/admin')}}`;
                     if (pageURL == serverURL) {

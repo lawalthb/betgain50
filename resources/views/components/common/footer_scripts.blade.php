@@ -1,5 +1,3 @@
-
-
 <script>
     $(document).ready(function() {
         let userID = localStorage.getItem('user_id');
@@ -293,5 +291,5 @@
             });
     };
 
-
+ 
 </script>

@@ -105,6 +105,8 @@
                     document.cookie = "loginToken=" + token + "; cookies_date";
                     document.cookie = "username=" + responseData.user.username + "; cookies_date";
                     document.cookie = "user_role =" + responseData.user.user_role + "; cookies_date";
+                    document.cookie = "user_id =" + responseData.user.id + "; cookies_date";
+
 
                     document.cookie = "user_email=" + responseData.user.email + "; cookies_date";
                     document.cookie = "user_phone =" + responseData.user.phone_number + "; cookies_date";

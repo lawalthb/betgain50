@@ -128,10 +128,11 @@ class adminController extends Controller
 
     public static function get_user_wallet_balance($user_id)
     {
-        $balance =  DB::table('transactions')
+        dd(auth()->user()->username);
+        $balance =  DB::table('users')
             ->where('user_id', '=', $user_id)
-            ->where('status', '=', 'success')
-            ->sum('amount');
+            ->where('wallet_balance', '=', 'success');
+
         return number_format($balance);
     }
 

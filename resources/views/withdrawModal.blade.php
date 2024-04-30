@@ -11,7 +11,7 @@
                 <div class="p-2">
                     <div class="dark:text-white-dark/70 text-base font-medium text-[#1f2937] text-justify">
                         <div class="px-4 sm:px-10"> <b>Withholding Tax Notice:</b> <BR />
-                            As provided for by the Income Tax Act, Cap 472, all gaming companies are required to withhold winnings at a rate of 20%. This is the Withholding Tax. In compliance with the law, Herosbet will deduct and remit to Naira 20% of all winnings.
+                            As provided for by the Income Tax Act, Cap 472, all gaming companies are required to withhold winnings at a rate of 20%. This is the Withholding Tax. In compliance with the law, BetGain will deduct and remit to Naira 20% of all winnings.
                         </div>
 
                         <div class="relative mb-3 px-4 sm:px-10">

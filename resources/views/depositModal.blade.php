@@ -104,7 +104,7 @@
                 dataType: "json",
                 data: {
                     'user_id': user_id,
-                    'email': user_email,
+                    'email': localStorage.getItem('user_email'),
                     'reference': reference,
                     '_token': token,
                     'callback_url': callback_url,
