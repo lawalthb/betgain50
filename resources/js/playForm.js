@@ -52,6 +52,9 @@ function get_settings4round() {
 let topPosition = 400;
 let leftPosition = 0;
 
+//count from backend
+
+
 // const betAmountNumb = Number(betAmount.value);
 // const userWalletBalance = localStorage.getItem('user_wallet_bal');
 // const userWalletBalanceNumb = Number(userWalletBalance);
@@ -142,119 +145,119 @@ function countDown() {
     }, 1000);
 }
 
-function loadContent(randomValueForInitial) {
+// function loadContent(randomValueForInitial) {
 
-    get_settings();
-    get_settings2();
-    const min_crash2 = Number(localStorage.getItem('min_crash'));
-    const max_crash2 = Number(localStorage.getItem('max_crash'));
+//     get_settings();
+//     get_settings2();
+//     const min_crash2 = Number(localStorage.getItem('min_crash'));
+//     const max_crash2 = Number(localStorage.getItem('max_crash'));
 
-    const min = min_crash2;
-    const max = max_crash2;
-    var count = min_crash2;
-    let seconds = 0;
+//     const min = min_crash2;
+//     const max = max_crash2;
+//     var count = min_crash2;
+//     let seconds = 0;
 
-    play.removeAttribute('disabled');
-    //get busted value to use on this round
-    let user_bet_id4next_round = localStorage.getItem('user_bet_id4next_round');
-    if (user_bet_id4next_round == null) {
-        play.innerText = 'Play';
-        //play.style.display = 'block';
-        myround.value = 0;
-    } else {
-        //get change user game id for db
-        localStorage.setItem('user_bet_id', user_bet_id4next_round);
-        play.style.display = 'none';
-        cashOutBtn.style.display = 'block';
-        myround.value = 1;
-
-
-        localStorage.removeItem('user_bet_id4next_round');
-    }
-
-    bustedValue = randomBustedValue(min, max);
-    //console.log(bustedValue);
-    const busted_value = bustedValue;
-    localStorage.setItem('busted_value', busted_value);
-    $.post("api/save_busted_value", { busted_value: bustedValue, user_id: localStorage.getItem('user_id') });
-    let initialDataValue = [];
-    const x = 0;
-    const y = 0;
-
-    const interval = setInterval(() => {
-        seconds += 1;
-        point.innerText = `${count.toFixed(2)}x`;
-        count += 0.01;
-        let counter = Number(count.toFixed(2));
-        //check_if_win when it counting;
-
-        leftPosition += 1.5;
-        topPosition -= 1;
-        // Apply the updated positions to the image
-        image.style.left = `${leftPosition}px`;
-        image.style.top = `${topPosition}px`;
+//     play.removeAttribute('disabled');
+//     //get busted value to use on this round
+//     let user_bet_id4next_round = localStorage.getItem('user_bet_id4next_round');
+//     if (user_bet_id4next_round == null) {
+//         play.innerText = 'Play';
+//         //play.style.display = 'block';
+//         myround.value = 0;
+//     } else {
+//         //get change user game id for db
+//         localStorage.setItem('user_bet_id', user_bet_id4next_round);
+//         play.style.display = 'none';
+//         cashOutBtn.style.display = 'block';
+//         myround.value = 1;
 
 
-        cashout_amount.innerHTML = counter;
-        var user_current_bet_value = previous_bet_point.innerHTML;
-        //multiply cash our @
-        cashout_amount.innerHTML = (counter * previous_bet_amount.innerHTML).toFixed(2);
+//         localStorage.removeItem('user_bet_id4next_round');
+//     }
 
-        var getBustedValue = localStorage.getItem('busted_value');
-        if (!typeof getBustedValue === null) {
-            var bustednumber = getBustedValue;
-        }
-        if (myround.value == 1) {
-            if (counter == user_current_bet_value) {
-                //congrat();
-                win_alert();
-                cashOutBtn.style.display = "none";
-                localStorage.removeItem('user_bet_value');
-                localStorage.removeItem('busted_value');
-            }
-        } else {
-            //  play.style.display = 'none';
-        }
-        // if (seconds <= 1) {
-        //     initialDataValue[seconds - 2] = counter;
-        //     ///alert(initialDataValue)
-        //     window.revenueChart.updateSeries([
-        //         {
-        //             data: initialDataValue
+//     bustedValue = randomBustedValue(min, max);
+//     //console.log(bustedValue);
+//     const busted_value = bustedValue;
+//     localStorage.setItem('busted_value', busted_value);
+//     $.post("api/save_busted_value", { busted_value: bustedValue, user_id: localStorage.getItem('user_id') });
+//     let initialDataValue = [];
+//     const x = 0;
+//     const y = 0;
 
-        //         },
-        //     ]);
-        // }
+//     const interval = setInterval(() => {
+//         seconds += 1;
+//         point.innerText = `${count.toFixed(2)}x`;
+//         count += 0.01;
+//         let counter = Number(count.toFixed(2));
+//         //check_if_win when it counting;
 
-        if (counter >= bustedValue) {
-            // Note: Changed to greater than or equal to make sure condition will met
+//         leftPosition += 1.5;
+//         topPosition -= 1;
+//         // Apply the updated positions to the image
+//         image.style.left = `${leftPosition}px`;
+//         image.style.top = `${topPosition}px`;
 
 
-            check_if_win();
-            clearInterval(interval);
-            point.innerHTML = '';
-            clearChart.style.display = 'none';
-            busted.append(bustedResponseWrap);
-            messageStart.innerText = 'Busted';
-            load_new_balance();
-           // load_new_bonus();
-            messageMain.innerText = `@ ${count.toFixed(2)}x`;
-            messageStart.classList.add('busted-text');
-            messageMain.classList.add('busted-text');
-            busted.append(bustedResponseWrap);
-            busted.classList.add('busted-wrap');
-            bustedResponseWrap.append(messageStart);
-            bustedResponseWrap.append(messageMain);
-            // play.setAttribute('disabled', '');
-            // play.innerText = 'Betting...';
+//         cashout_amount.innerHTML = counter;
+//         var user_current_bet_value = previous_bet_point.innerHTML;
+//         //multiply cash our @
+//         cashout_amount.innerHTML = (counter * previous_bet_amount.innerHTML).toFixed(2);
 
-            setTimeout(countDown, 3000);
+//         var getBustedValue = localStorage.getItem('busted_value');
+//         if (!typeof getBustedValue === null) {
+//             var bustednumber = getBustedValue;
+//         }
+//         if (myround.value == 1) {
+//             if (counter == user_current_bet_value) {
+//                 //congrat();
+//                 win_alert();
+//                 cashOutBtn.style.display = "none";
+//                 localStorage.removeItem('user_bet_value');
+//                 localStorage.removeItem('busted_value');
+//             }
+//         } else {
+//             //  play.style.display = 'none';
+//         }
+//         // if (seconds <= 1) {
+//         //     initialDataValue[seconds - 2] = counter;
+//         //     ///alert(initialDataValue)
+//         //     window.revenueChart.updateSeries([
+//         //         {
+//         //             data: initialDataValue
 
-        }
-    }, 100);
-    topPosition = 400;
-    leftPosition = 0;
-}
+//         //         },
+//         //     ]);
+//         // }
+
+//         if (counter >= bustedValue) {
+//             // Note: Changed to greater than or equal to make sure condition will met
+
+
+//             check_if_win();
+//             clearInterval(interval);
+//             point.innerHTML = '';
+//             clearChart.style.display = 'none';
+//             busted.append(bustedResponseWrap);
+//             messageStart.innerText = 'Busted';
+//             load_new_balance();
+//            // load_new_bonus();
+//             messageMain.innerText = `@ ${count.toFixed(2)}x`;
+//             messageStart.classList.add('busted-text');
+//             messageMain.classList.add('busted-text');
+//             busted.append(bustedResponseWrap);
+//             busted.classList.add('busted-wrap');
+//             bustedResponseWrap.append(messageStart);
+//             bustedResponseWrap.append(messageMain);
+//             // play.setAttribute('disabled', '');
+//             // play.innerText = 'Betting...';
+
+//             setTimeout(countDown, 3000);
+
+//         }
+//     }, 100);
+//     topPosition = 400;
+//     leftPosition = 0;
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
     let randomValueForInitial = 2;

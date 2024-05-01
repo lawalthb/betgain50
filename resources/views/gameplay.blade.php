@@ -74,7 +74,8 @@
 
 
 <div class="panel h-[260px] xl:h-[500px] xl:col-span-2  " id="gp-bg" style="background-image: url({{url('assets/images/betgain.gif')}}); background-position: center; background-repeat: no-repeat; background-size: contain; ">
-    <div class=" child "><span id="point">0.0</span></div>
+    <div class=" child "><span id="point">0.0x</span><span id="timer" style="display: none; color:yellow ; font-size:20px">Next Round</span></div>
+
     <div class="flex items-center dark:text-white-light mb-2 xl:mb-5" id="congrat">
 
         <div x-data="dropdown" @click.outside="open = false" class="dropdown ltr:ml-auto rtl:mr-auto">
@@ -151,3 +152,5 @@
         localStorage.setItem("user_bg_hero", bg_heros);
     }
 </script>
+
+
