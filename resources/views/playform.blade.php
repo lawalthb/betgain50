@@ -224,6 +224,7 @@
                 }
             }
         }, 1000);
+        getUserBalance();
     }
 
     // Function to execute when countdown reaches 0
@@ -315,6 +316,7 @@
                     user_place_point.value = '';
 
                     user_place_bet.value = 0;
+                    cashout_msg(data.message);
                     getUserBalance();
                 }
                 // Optionally, reset the form
@@ -378,4 +380,25 @@
 
     // Call the function to display last 7 crashed games
     displayLast7CrashedGames();
+</script>
+
+
+
+<script>
+    async function cashout_msg(msg) {
+        const toast = window.Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em',
+            customClass: 'sweet-alerts',
+        });
+        toast.fire({
+            icon: 'success',
+            title: msg,
+            padding: '2em',
+            customClass: 'sweet-alerts',
+        });
+    }
 </script>

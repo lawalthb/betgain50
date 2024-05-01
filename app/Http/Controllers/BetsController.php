@@ -72,7 +72,7 @@ class BetsController extends Controller
 	function store(BetsAddRequest $request)
 	{
 		$modeldata = $this->normalizeFormData($request->validated());
-		$modeldata['user_id'] =$user_id;
+		$modeldata['user_id'] = $user_id;
 
 		//save Bets record
 		$record = Bets::create($modeldata);
@@ -149,7 +149,7 @@ class BetsController extends Controller
 				'current_game_id' =>  $validatedData['current_game_id'],
 			];
 			$hash = hash_hmac('sha256', serialize($gameParameters), $secretKey);
-			$modeldata['user_id'] =$user_id;
+			$modeldata['user_id'] = $user_id;
 			$modeldata['stake_amount'] = $validatedData['bet_amount'];
 			$modeldata['bet'] = $validatedData['crash_point'];
 			$modeldata['game_id'] = $validatedData['current_game_id'];
@@ -172,10 +172,11 @@ class BetsController extends Controller
 
 		$cashAmt =  trim($_GET['cashAmt']);
 
-		//check wallet balance
-		$userBalance = auth()->user()->wallet_balance;
+		//check wallet balance.
+		$user_id = $_COOKIE['user_id'];
+		$userBalance =		User::where('id', $user_id)->value('wallet_balance');;
 		$userBalance += $cashAmt;
-		$user = User::find(auth()->user()->id);
+		$user = User::find($user_id);
 		$user->wallet_balance = $userBalance;
 		$user->save();
 
