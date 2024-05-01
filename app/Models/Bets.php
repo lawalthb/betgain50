@@ -39,8 +39,11 @@ class Bets extends Model
 
 	public function user()
 	{
-		return $this->belongsTo(User::class);
+		return $this->belongsTo(User::class, 'user_id');
 	}
+
+
+
 	/**
 	 * Set search query for the model
 	 * @param \Illuminate\Database\Eloquent\Builder $query

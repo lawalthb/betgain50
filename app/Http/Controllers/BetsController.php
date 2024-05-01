@@ -190,6 +190,7 @@ class BetsController extends Controller
 	public function recent_history()
 	{
 		$recent_bets = Bets::with('user')->orderBy('id', 'desc')->take(10)->get();
-		return $recent_bets;
+		//dd($recent_bets);
+	return $recent_bets;
 	}
 }
