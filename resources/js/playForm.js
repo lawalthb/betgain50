@@ -60,64 +60,64 @@ let leftPosition = 0;
 // const userWalletBalanceNumb = Number(userWalletBalance);
 // console.log('wb = ', typeof userWalletBalanceNumb);
 
-function startBet() {
-    image.style.left = '300px';
-    image.style.top = '0px';
-    play.addEventListener('click', async () => {
-        if (!betAmount.value) {
-            alert('Please add amount');
-        } else if (!betCrash.value) {
-            alert('please add crash point');
-        } else {
-            const betAmountNumb = Number(betAmount.value);
-            const userWalletBalance = $("#gt").val();
-            const userWalletBalanceNumb = Number(userWalletBalance);
+// function startBet() {
+//     image.style.left = '300px';
+//     image.style.top = '0px';
+//     play.addEventListener('click', async () => {
+//         if (!betAmount.value) {
+//             alert('Please add amount');
+//         } else if (!betCrash.value) {
+//             alert('please add crash point');
+//         } else {
+//             const betAmountNumb = Number(betAmount.value);
+//             const userWalletBalance = $("#gt").val();
+//             const userWalletBalanceNumb = Number(userWalletBalance);
 
-            if ((betAmountNumb + 50) > userWalletBalanceNumb) {
-                alert('no enough money');
-            } else {
-                play.setAttribute('disabled', '');
-                play.innerText = 'Bet Placed';
-                let userId = localStorage.getItem('user_id');
-                let userName = localStorage.getItem('username');
-                let token = $('input[name=_token]').val();
+//             if ((betAmountNumb + 50) > userWalletBalanceNumb) {
+//                 alert('no enough money');
+//             } else {
+//                 play.setAttribute('disabled', '');
+//                 play.innerText = 'Bet Placed';
+//                 let userId = localStorage.getItem('user_id');
+//                 let userName = localStorage.getItem('username');
+//                 let token = $('input[name=_token]').val();
 
-                const betDetails = {
-                    user_id: userId,
-                    username: userName,
-                    bet_amount: betAmount.value,
-                    bet_crash: betCrash.value,
-                    token: token,
-                    busted_value: bustedValue,
-                };
+//                 const betDetails = {
+//                     user_id: userId,
+//                     username: userName,
+//                     bet_amount: betAmount.value,
+//                     bet_crash: betCrash.value,
+//                     token: token,
+//                     busted_value: bustedValue,
+//                 };
 
-                $.ajax({
-                    url: '/api/setbet',
-                    type: 'POST',
-                    headers: {
-                        Authorization: 'Bearer ' + localStorage.getItem('user_token'),
-                    },
-                    data: betDetails,
-                    success: function (data) {
-                        if (data.status == true) {
-                            //alert(data.message);
-                            //run ajax to minus money;
-                            var user_bet_id = data.lastID;
-                            localStorage.setItem('user_bet_id4next_round', user_bet_id);
-                            localStorage.setItem('user_bet_value', betCrash.value);
-                            load_new_balance();
-                           // load_new_bonus()
-                            load_user_previous();
-                            play.innerText = 'Wait for next round';
-                            play.setAttribute('disabled', '');
+//                 $.ajax({
+//                     url: '/api/setbet',
+//                     type: 'POST',
+//                     headers: {
+//                         Authorization: 'Bearer ' + localStorage.getItem('user_token'),
+//                     },
+//                     data: betDetails,
+//                     success: function (data) {
+//                         if (data.status == true) {
+//                             //alert(data.message);
+//                             //run ajax to minus money;
+//                             var user_bet_id = data.lastID;
+//                             localStorage.setItem('user_bet_id4next_round', user_bet_id);
+//                             localStorage.setItem('user_bet_value', betCrash.value);
+//                             load_new_balance();
+//                            // load_new_bonus()
+//                             load_user_previous();
+//                             play.innerText = 'Wait for next round';
+//                             play.setAttribute('disabled', '');
 
-                        }
-                    },
-                });
-            }
-        }
-    });
-}
+//                         }
+//                     },
+//                 });
+//             }
+//         }
+//     });
+// }
 
 function countDown() {
     let countDownValue = localStorage.getItem('next_round_count') ;

@@ -32,7 +32,7 @@
                     <path d="M19 15L12 9L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </span>
-            <form method="post">
+            <form method="post" id="betForm">
                 {{csrf_field()}}
 
                 <input type="number" id="bet_amount" name="bet_amount" required step="1" min="50" class="btn w-full  py-1 text-base shadow-none border-0 bg-[#ebedf2] dark:bg-black text-[#515365] dark:text-[#bfc9d4]" value="100" />
@@ -43,20 +43,20 @@
                     <path d="M19 9L12 15L5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </span>
-            <input type="number" id="bet_crash" name="bet_crash" required step="0.1" min="0.1" class="btn w-full  py-1 text-base shadow-none border-0 bg-[#ebedf2] dark:bg-black text-[#515365] dark:text-[#bfc9d4]" value="2.5" />
+            <input type="number" id="bet_crash" name="crash_point" required step="0.1" min="0.1" class="btn w-full  py-1 text-base shadow-none border-0 bg-[#ebedf2] dark:bg-black text-[#515365] dark:text-[#bfc9d4]" value="2.5" />
 
-            <input type="text" id="current_game_id" name="current_game_id" value="curre" max="4">
-            <input type="text" id="my_game_id" name="my_game_id" value="" max="4">
-            <input type="text" id="user_bet_amt" name="user_bet_amt" value="" max="4">
-            <input type="text" id="user_place_bet" value="0" max="4">
-            <input type="text" id="user_place_point" max="4">
+            <input type="hidden" id="current_game_id" name="current_game_id" value="curre" max="4">
+            <input type="hidden" id="my_game_id" name="my_game_id" value="" max="4">
+            <input type="hidden" id="user_bet_amt" name="user_bet_amt" value="" max="4">
+            <input type="hidden" id="user_place_bet" value="0" max="4">
+            <input type="hidden" id="user_place_point" max="4">
 
 
         </div>
     </div>
     <div class="text-center px-2 mt-3 flex justify-around">
 
-        <button type="button" class="btn btn-primary" id="play">Play</button>
+        <button type="submit" class="btn btn-primary" id="play">Play</button>
         <button type="button" class="btn btn-primary hidden	" id="cashOutBtn">Cash Out @<span id="cashout_amount">0.00</span></button>
         </form>
         <button type="button" class="btn btn-default" style="background-color:#3656ff ; color:white; width:250px; display:none" id="cash_btn" onclick="cashOut()">Cash out</button>
@@ -122,11 +122,16 @@
     const ruser_place_bet = document.getElementById('user_place_bet');
     const ruser_place_point = document.getElementById('user_place_point');
     const user_cash_amount = document.getElementById('user_cash_amount');
-    
+    const money = document.getElementById('money');
+    const div = document.getElementById('gp-bg');
+
     channel.bind("CrashPoint", function(e) {
         // alert(e);
+
         pointElement.style.display = "block";
         timerElement.style.display = "none";
+        div.classList.remove('animatedBackground');
+        div.style.backgroundImage = "url('assets/images/betgain.gif')";
         const user_bet_amt = document.getElementById('user_bet_amt');
         pointElement.innerText = e.point + 'x';
         var point = e.point;
@@ -145,10 +150,14 @@
             cash_btn.style.display = "block";
             cash_btn.disabled = false;
             cash_btn.innerHTML = 'Cash Out @ ₦' + parseInt(cash_out_value);
+            money.style.display = "block";
+            money.innerHTML = '₦' + parseInt(cash_out_value);
+
             user_cash_amount.value = cash_out_value;
             ruser_place_bet.value = 0;
             if (point >= ruser_place_point.value) {
                 cash_btn.innerHTML = 'You have won';
+                money.style.display = "none";
                 cash_btn.disabled = true;
                 user_cash_amount.value = '';
                 getUserBalance();
@@ -160,11 +169,13 @@
                 rbet_btn.innerHTML = 'Bet Placed for next round!';
                 cash_btn.style.display = "none";
                 user_cash_amount.value = '';
+                money.style.display = "none";
             } else {
                 rbet_btn.disabled = false
                 rbet_btn.style.display = "block";
                 rbet_btn.innerHTML = 'Place Bet!';
                 cash_btn.style.display = "none";
+                money.style.display = "none";
             }
 
         }
@@ -176,5 +187,195 @@
         // // Update the chart
         // myChart.update();
 
-    })
+    });
+    channel.bind("RemainTimeChanged", function(e) {
+
+        getUserBalance();
+
+
+        div.style.backgroundImage = "url('assets/images/c.png')";
+        pointElement.style.display = "none";
+        timerElement.style.display = "block";
+        timerElement.innerText = 'Crashed!!!';
+
+        countdownFromFiveToZero(myCallbackFunction);
+        // Call the function to display last 7 crashed games
+        displayLast7CrashedGames();
+
+        // div.classList.add('animatedBackground');
+    });
+</script>
+<script>
+    //  const timerElement2 = document.getElementById('timer');
+
+    function countdownFromFiveToZero(callbackFunction) {
+
+
+        let count = 5;
+        const countdownInterval = setInterval(() => {
+            console.log(count);
+            timerElement.innerText = "Next  Round: " + count;
+            count--;
+
+            if (count < 0) {
+                clearInterval(countdownInterval);
+                if (typeof callbackFunction === 'function') {
+                    callbackFunction();
+                }
+            }
+        }, 1000);
+    }
+
+    // Function to execute when countdown reaches 0
+    function myCallbackFunction() {
+        console.log("Countdown reached 0! Executing callback function...");
+        console.log('display');
+    }
+</script>
+
+<script>
+    const current_balance = document.getElementById('user_wallet_bal');
+    const bet_btn = document.getElementById('play');
+    const current_g_id = document.getElementById('current_game_id');
+    const my_game_id = document.getElementById('my_game_id');
+    const form_bet_amt = document.getElementById('user_bet_amt');
+    const user_place_bet = document.getElementById('user_place_bet');
+    const user_place_point = document.getElementById('user_place_point');
+    const bet_cash_amount = document.getElementById('user_cash_amount');
+    const crash_point = document.getElementById("bet_crash");
+
+
+    document.getElementById('betForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        console.log(formData);
+        fetch('/bets/placebet', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle response from the API
+                console.log(data);
+                if (data.success == false) {
+                    alert(data.message);
+                }
+                if (data.success == true) {
+
+                    var g_id = current_g_id.value;
+
+                    current_balance.innerHTML = data.user_balance;
+                    bet_btn.disabled = true;
+                    bet_btn.innerHTML = 'Bet Placed for next round';
+                    my_game_id.value = g_id;
+                    var betamount = bet_amount.value;
+                    form_bet_amt.value = betamount;
+                    var crash_point2 = crash_point.value;
+                    user_place_point.value = crash_point2;
+
+                    user_place_bet.value = 1;
+                }
+                // Optionally, reset the form
+                // document.getElementById('betForm').reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error);
+                alert('Failed to place bet. Please try again.');
+            });
+    });
+</script>
+<script>
+    function cashOut() {
+        var cashAmt = parseInt(bet_cash_amount.value);
+        //alert(cashAmt);
+        fetch('/bets/cashout?cashAmt=' + cashAmt, {
+                method: 'get',
+
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle response from the API
+                console.log(data);
+                if (data.success == false) {
+                    alert(data.message);
+                }
+                if (data.success == true) {
+
+                    var g_id = current_g_id.value;
+
+                    current_balance.innerHTML = data.user_balance;
+
+                    cash_btn.innerHTML = 'Cashed Out';
+                    my_game_id.value = '';
+
+                    form_bet_amt.value = '';
+
+                    user_place_point.value = '';
+
+                    user_place_bet.value = 0;
+                    getUserBalance();
+                }
+                // Optionally, reset the form
+                // document.getElementById('betForm').reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to cash out. Please try again.');
+            });
+    }
+</script>
+
+
+<script>
+    //get user current balance
+    function getUserBalance() {
+
+        fetch('/user/balance', {
+                method: 'GET',
+                headers: {
+
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response
+                console.log('User balance:', data.balance);
+                // Update the UI with the user balance
+                current_balance.innerText = data.balance;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+
+<script>
+    function displayLast7CrashedGames() {
+        fetch('/games/lastgames')
+            .then(response => response.json())
+            .then(data => {
+                const lastCrashedContainer = document.getElementById('last_crashed');
+                lastCrashedContainer.innerHTML = ''; // Clear previous content
+
+                // Loop through the data and create HTML elements
+                data.forEach(game => {
+                    const badge = document.createElement('span');
+                    badge.classList.add('badge');
+                    badge.classList.add('bg-' + game.color); // Assuming each game has a color attribute
+                    badge.innerText = game.multiplier + 'x'; // Assuming each game has a multiplier attribute
+
+                    lastCrashedContainer.appendChild(badge);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Call the function to display last 7 crashed games
+    displayLast7CrashedGames();
 </script>

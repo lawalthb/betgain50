@@ -70,11 +70,66 @@
         z-index: 1;
         /* Additional styling for your content */
     }
+
+    /* Define the keyframes for the animation */
+    @keyframes shake {
+        0% {
+            transform: translateX(0);
+        }
+
+        25% {
+            transform: translateX(-1px) rotate(-5deg);
+        }
+
+        50% {
+            transform: translateX(1px) rotate(5deg);
+        }
+
+        75% {
+            transform: translateX(-1px) rotate(-5deg);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+
+    /* Apply the animation to the div */
+    .animatedBackground {
+
+        animation: shake 0.5s ease-in-out infinite;
+        /* Change '3s' to adjust the duration of the animation */
+    }
+
+    .crashed {
+        font-size: 50px;
+
+        @media only screen and (max-width: 768px) {
+
+            font-size: 30px;
+        }
+    }
+
+    .money {
+        margin-left: 250px;
+        margin-top: 25px;
+        font-size: 20px;
+        color: orangered;
+        font-weight: bolder;
+
+        @media only screen and (max-width: 768px) {
+
+            margin-left: 100px;
+        }
+    }
 </style>
 
 
-<div class="panel h-[260px] xl:h-[500px] xl:col-span-2  " id="gp-bg" style="background-image: url({{url('assets/images/betgain.gif')}}); background-position: center; background-repeat: no-repeat; background-size: contain; ">
-    <div class=" child "><span id="point">0.0x</span><span id="timer" style="display: none; color:yellow ; font-size:20px">Next Round</span></div>
+<div class="panel h-[260px] xl:h-[500px] xl:col-span-2 " id="gp-bg" style="background-image: url({{url('assets/images/betgain.gif')}}); background-position: center; background-repeat: no-repeat; background-size: contain; ">
+    <div class=" child "><span id="point">0.0x</span><br /><span class="money ;" id="money" style="display: none;">#0</span>
+        <span id="timer" style="display: none; color:yellow ; " class="crashed">Crashed!</span>
+    </div>
 
     <div class="flex items-center dark:text-white-light mb-2 xl:mb-5" id="congrat">
 
@@ -152,5 +207,3 @@
         localStorage.setItem("user_bg_hero", bg_heros);
     }
 </script>
-
-

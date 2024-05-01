@@ -11,6 +11,15 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PaystackWebhookController;
 use App\Http\Controllers\VisitorController;
 
+
+
+use App\Http\Controllers\BetsController;
+use App\Http\Controllers\GamesController;
+use App\Http\Controllers\WalletsController;
+
+use App\Http\Controllers\RecentUsersController;
+use App\Models\User;
+
 Route::view('/', 'index');
 Route::view('/sender', 'sender');
 
@@ -18,13 +27,33 @@ Route::post('/paystack/webhook', [PaystackWebhookController::class, 'handleWebho
 Route::get('/transfer_approval/{ref}', [TransactionsController::class, 'transfer_approval']);
 
 Route::post('/sender', [ChatController::class, 'index']);
-Route::post('/setbet', [HistoryController::class, 'setbet'])->name('setbet')->middleware('auth:sanctum');
+// Route::post('/setbet', [HistoryController::class, 'setbet'])->name('setbet')->middleware('auth:sanctum');
 Route::post('/play', [HistoryController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/callback', [TransactionsController::class, 'callback']);
 Route::post('/edit_profile', [AuthController::class, 'edit_profile'])->name('edit_profile');
 Route::get('/token/{token}', [AuthController::class, 'email_verify'])->name('email_verify');
 
 
+
+Route::view('dashboard', 'pages.panel.dashboard')->name('dashboard');
+Route::post('wallets/deposit', [WalletsController::class, 'deposit'])->name('wallets.deposit');
+Route::get('wallets/callback', [WalletsController::class, 'callback'])->name('wallets.callback');
+Route::post('bets/placebet', [BetsController::class, 'placebet'])->name('bets.placebet');
+Route::get('/bets/cashout', [BetsController::class, 'cashout'])->name('bets.cashout');
+Route::get('/games/lastgames', [GamesController::class, 'lastgames'])->name('bets.lastgames');
+Route::get('/recent_users/recents', [RecentUsersController::class, 'recent_users'])->name('users.recents');
+Route::get('/recent_history/recents', [BetsController::class, 'recent_history'])->name('history.recents');
+
+Route::get('/messages', [ChatController::class, 'getMessages']);
+Route::post('/messages',  [ChatController::class, 'storeMessage']);
+
+//quick get user balance
+Route::get('/user/balance', function () {
+    $user_id = $_COOKIE['user_id'];
+    $userBalance =  User::where('id', $user_id)->value('wallet_balance');
+ 
+    return response()->json(['balance' => $userBalance]);
+});
 
 //admin routes
 
@@ -94,10 +123,4 @@ Route::group(['middleware' => 'adminauth'], function () {
     Route::get('/admin/add_admin', [adminController::class, 'manage_admin_add'])->name('manage_admin_add');
 
     Route::post('/admin/add_admin', [adminController::class, 'manage_admin_store'])->name('manage_admin_store');
-
-
-
-
-
-
 });

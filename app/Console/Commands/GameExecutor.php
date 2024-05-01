@@ -70,7 +70,7 @@ class GameExecutor extends Command
 
                 broadcast(new RemainTimeChanged($this->time));
 
-                sleep(5);
+                sleep(7);
                 $this->point = 1;
                 $this->crashgame =  mt_rand(100, 1000) / 100;
                 $this->chartData =  [0.01];
