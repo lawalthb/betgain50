@@ -30,9 +30,4 @@
             <div class="dropdown" x-data="dropdown" @click.outside="open = false">
                 <!-- basic -->
 
-                <script>
-                    const getUserWallet = document.getElementById('user-wallet');
-                    getUserWallet.textContent = userWalletBalanceNumb;
-                    const userWalletBalance = $("#gt").val();
-                    const userWalletBalanceNumb = Number(userWalletBalance);
-                </script>
+             

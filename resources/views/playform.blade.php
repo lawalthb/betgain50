@@ -16,13 +16,13 @@
             </h5>
 
         </div>
-        <div class="text-green justify-between items-center flex mb-3 xl:mb-0" style="display: none;">
+        <!-- <div class="text-green justify-between items-center flex mb-3 xl:mb-0" style="display: none;">
             <p class="text-xl">Bonus Balance</p>
             <h5 class="ltr:ml-auto rtl:mr-auto text-2xl">
                 <span class="text-green-light  text-xl">₦</span><span id="user_wallet_bonus">xxx</span>
             </h5>
 
-        </div>
+        </div> -->
     </div>
     <br />
     <div class="-mt-12 px-8 grid grid-cols-2 gap-5">
@@ -45,18 +45,18 @@
             </span>
             <input type="number" id="bet_crash" name="crash_point" required step="0.1" min="0.1" class="btn w-full  py-1 text-base shadow-none border-0 bg-[#ebedf2] dark:bg-black text-[#515365] dark:text-[#bfc9d4]" value="2.5" />
 
-            <input type="hidden" id="current_game_id" name="current_game_id" value="curre" max="4">
-            <input type="hidden" id="my_game_id" name="my_game_id" value="" max="4">
-            <input type="hidden" id="user_bet_amt" name="user_bet_amt" value="" max="4">
-            <input type="hidden" id="user_place_bet" value="0" max="4">
-            <input type="hidden" id="user_place_point" max="4">
+            <input type="text" id="current_game_id" name="current_game_id" value="curre" max="4">
+            <input type="text" id="my_game_id" name="my_game_id" value="" max="4">
+            <input type="text" id="user_bet_amt" name="user_bet_amt" value="" max="4">
+            <input type="text" id="user_place_bet" value="0" max="4">
+            <input type="text" id="user_place_point" max="4">
 
 
         </div>
     </div>
     <div class="text-center px-2 mt-3 flex justify-around">
 
-        <button type="submit" class="btn btn-primary" id="play">Play</button>
+        <button type="submit" class="btn btn-primary btnPlay" id="play">Play</button>
         <button type="button" class="btn btn-primary hidden	" id="cashOutBtn">Cash Out @<span id="cashout_amount">0.00</span></button>
         </form>
         <button type="button" class="btn btn-default" style="background-color:#3656ff ; color:white; width:250px; display:none" id="cash_btn" onclick="cashOut()">Cash out</button>
@@ -161,6 +161,7 @@
                 cash_btn.disabled = true;
                 user_cash_amount.value = '';
                 getUserBalance();
+
             }
         } else {
             if (ruser_place_bet.value == 1) {
@@ -170,7 +171,7 @@
                 cash_btn.style.display = "none";
                 user_cash_amount.value = '';
                 money.style.display = "none";
-            } else {
+            } else if (ruser_place_bet.value != 1) {
                 rbet_btn.disabled = false
                 rbet_btn.style.display = "block";
                 rbet_btn.innerHTML = 'Place Bet!';
@@ -200,7 +201,7 @@
 
         countdownFromFiveToZero(myCallbackFunction);
         // Call the function to display last 7 crashed games
-        displayLast7CrashedGames();
+        //displayLast7CrashedGames();
 
         // div.classList.add('animatedBackground');
     });
@@ -339,7 +340,8 @@
                 headers: {
 
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('user_token')
                 }
             })
             .then(response => response.json())
@@ -347,7 +349,12 @@
                 // Handle the response
                 console.log('User balance:', data.balance);
                 // Update the UI with the user balance
-                current_balance.innerText = data.balance;
+
+                if (data.balance === undefined) {
+                    current_balance.innerText = 'xx';
+                } else {
+                    current_balance.innerText = data.balance;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -379,7 +386,7 @@
     }
 
     // Call the function to display last 7 crashed games
-    displayLast7CrashedGames();
+    //displayLast7CrashedGames();
 </script>
 
 

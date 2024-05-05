@@ -8,15 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <script>
-        $.ajaxSetup({
-
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('user_token')
-            },
-
-        });
-    </script>
+ 
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <link rel="icon" type="image/svg" href="/assets/images/favicon.png" />
 

@@ -102,6 +102,8 @@
                     localStorage.setItem("user_email", responseData.user.email);
                     localStorage.setItem("user_phone", responseData.user.phone_number);
                     localStorage.setItem("user_role", responseData.user.user_role);
+
+                    $("#user_wallet_bal").val(responseData.user.wallet_balance);
                     document.cookie = "loginToken=" + token + "; cookies_date";
                     document.cookie = "username=" + responseData.user.username + "; cookies_date";
                     document.cookie = "user_role =" + responseData.user.user_role + "; cookies_date";
@@ -127,6 +129,7 @@
                     $("#faq").show();
                     $("#referral").show();
                     $("#wallet").show();
+                    $("#user_place_bet").val(0);
                     $('#depositBtn').prop('disabled', false);
                     $('#withdrawBtn').prop('disabled', false);
                     var pageURL = window.location.href;

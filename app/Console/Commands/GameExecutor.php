@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class GameExecutor extends Command
 {
@@ -32,8 +33,8 @@ class GameExecutor extends Command
     private $time = 5;
     private $point = 1;
     private $crashgame;
-    private $chartData =  [0.01];
-    private $label = [1, 1];
+
+
     private $user_id;
     private $current_game_id;
     private $new_game_id;
@@ -53,29 +54,25 @@ class GameExecutor extends Command
     public function handle()
     {
 
-
+        // the game loop
         while (true) {
 
             broadcast(new CrashPoint(number_format($this->point, 2),  $this->current_game_id));
             $this->point += 0.09;
             sleep(0.5);
-            // Fetch data from your database or any other source
 
-            $this->chartData[] = $this->point;
-            // Generate labels (e.g., sequential numbers)
-            $this->label = range(1, count($this->chartData));
 
             if ($this->point >= $this->crashgame) {
-                //save Games record
+
 
                 broadcast(new RemainTimeChanged($this->time));
 
                 sleep(7);
                 $this->point = 1;
-                $this->crashgame =  mt_rand(100, 1000) / 100;
-                $this->chartData =  [0.01];
-                $this->label = [1, 1];
-                // save new game to db
+                //new crash point
+                $this->crashgame =  mt_rand(100, 300) / 100;
+
+                // save new game to db -  setting new crash point
                 $this->record = Games::create([
                     'status' => 'active',
                     'multiplier' => $this->crashgame,
@@ -87,7 +84,10 @@ class GameExecutor extends Command
 
                 $randomColorIndex = array_rand($arrayColours);
                 $randomColor = $arrayColours[$randomColorIndex];
-                $record = Games::orderBy('id', 'desc')->skip(1)->take(1)->first();
+                // the the second to the last record in game table
+                $record = Games::orderBy('id', 'desc')->skip(1)->first();
+
+
                 if ($record) {
                     $record->status = 'crashed';
                     $record->color = $randomColor;
@@ -96,16 +96,18 @@ class GameExecutor extends Command
                 } else {
                     return 'No second-to-last record found.';
                 }
-                // check and update status if user wins
-                Log::info($record->id);
+                // check and update status if user wins the last game
+                $lastgameID = DB::table('games')->max('id');
+                $lastgameID2 = $lastgameID;
+                Log::info('last game is here ' .  $lastgameID2);
 
                 $usersThatBet =  Bets::where('game_id', $record->id)->get();
 
                 // Log::info($usersThatBet);
                 if ($usersThatBet) {
-                    Log::info('current id: ' . $this->record->id);
+                    Log::info('current id: ' . $record->id);
                     Log::info('crash game id: ' . $this->crashgame);
-                    $game_id2Check = $this->record->multiplier;
+                    $game_id2Check = $record->multiplier;
                     foreach ($usersThatBet as $bet) {
                         if ($bet->bet <= $game_id2Check) {
                             $win_amount = $bet->bet * $bet->stake_amount;

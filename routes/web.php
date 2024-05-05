@@ -10,17 +10,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PaystackWebhookController;
 use App\Http\Controllers\VisitorController;
-
-
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\BetsController;
 use App\Http\Controllers\GamesController;
+use App\Http\Controllers\PlayerAuthController;
 use App\Http\Controllers\WalletsController;
 
 use App\Http\Controllers\RecentUsersController;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
-Route::view('/', 'index');
+Route::view('/', 'index')->name('player.home');
 Route::view('/sender', 'sender');
 
 Route::post('/paystack/webhook', [PaystackWebhookController::class, 'handleWebhook']);
@@ -48,17 +48,22 @@ Route::get('/messages', [ChatController::class, 'getMessages']);
 Route::post('/messages',  [ChatController::class, 'storeMessage']);
 
 //quick get user balance
-Route::get('/user/balance', function () {
-    $user_id = $_COOKIE['user_id'];
+Route::get('/user/balance', function (Request $request) {
+
+
+    $user_id  = Auth::user()->id;
     $userBalance =  User::where('id', $user_id)->value('wallet_balance');
- 
-    return response()->json(['balance' => $userBalance]);
-});
+
+    if ($userBalance) {
+        return response()->json(['balance' => $userBalance]);
+    } {
+        return response()->json(['balance' => 0]);
+    }
+})->middleware('auth:sanctum');;
+
+
 
 //admin routes
-
-
-
 Route::post('/admin/login', [AdminAuthController::class, 'postLogin'])->name('adminLoginPost');
 Route::get('/admin/login', function () {
     return view('auth/login');

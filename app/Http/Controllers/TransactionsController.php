@@ -177,30 +177,30 @@ class TransactionsController extends Controller
     }
 
 
-    public function user_balance($id)
-    {
-        // $balance =  DB::table('transactions')
-        //     ->where('user_id', '=', $id)
-        //     ->where('status', '=', 'success')
-        //     ->where('money_type', '=', 'real')
-        //     ->sum('amount');
-        $balance =  User::where('id', $id)->value('wallet_balance');
+    // public function user_balance($id)
+    // {
+    //     // $balance =  DB::table('transactions')
+    //     //     ->where('user_id', '=', $id)
+    //     //     ->where('status', '=', 'success')
+    //     //     ->where('money_type', '=', 'real')
+    //     //     ->sum('amount');
+    //     $balance =  User::where('id', $id)->value('wallet_balance');
 
-        if ($balance) {
+    //     if ($balance) {
 
-            return response()->json([
-                'status' => true,
-                'message' => 'User Transactions Retrieved',
-                'balance' => $balance,
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'User Transaction Not found',
-                'balance' => $balance,
-            ], 500);
-        }
-    }
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'User Transactions Retrieved',
+    //             'balance' => $balance,
+    //         ], 200);
+    //     } else {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'User Transaction Not found',
+    //             'balance' => $balance,
+    //         ], 500);
+    //     }
+    // }
 
 
     public function user_bonus($id)

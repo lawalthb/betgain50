@@ -75,11 +75,10 @@
             $.get('/messages', function(messages) {
                 $('#messages').empty();
                 messages.forEach(function(message) {
-                    $('#messages').append('<div><strong>' + message.user.name + ':</strong> ' + message.message + '</div>');
+                    $('#messages').append('<div><strong>' + message.user.username + ':</strong> ' + message.message + '</div>');
                 });
             });
         }
-
         $('#sendButton').click(function() {
             var message = $('#messageInput').val();
             var csrftoken = $('#csrfTokenTextbox').val();
@@ -114,9 +113,7 @@
             });
         }
         fetchRecentHistory();
-
-
-        setInterval(fetchRecentHistory, 5000);
+        setInterval(fetchRecentHistory, 3000);
     });
 </script>
 

@@ -320,7 +320,7 @@ class AuthController extends Controller
 
     public function edit_profile(Request $request)
     {
-         //dd($request);
+        //dd($request);
         $this->validate($request, [
             'image' => 'mimes:jpg,png,jpeg,gif,svg|max:2048',
             'phone_number' => 'required',

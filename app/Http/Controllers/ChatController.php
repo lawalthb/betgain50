@@ -9,7 +9,7 @@ class ChatController extends Controller
 {
     public function getMessages()
     {
-        $messages = ChatMessage::with('user')->orderBy('created_at', 'asc')->take(10)->get();
+        $messages = ChatMessage::with('user')->orderBy('created_at', 'asc')->take(15)->latest()->get();
         return $messages;
     }
 
@@ -18,11 +18,12 @@ class ChatController extends Controller
         $request->validate([
             'message' => 'required|string|max:255',
         ]);
+        $user_id = $_COOKIE['user_id'];
 
-        $user = auth()->user();
+        $user = $user_id;
 
         $message = new ChatMessage();
-        $message->user_id = $user->id;
+        $message->user_id = $user_id;
         $message->message = $request->message;
         $message->save();
 

@@ -63,6 +63,8 @@
             },
             success: function(data) {
                 if (data.status == true) {
+
+                    $('.btnPlay').hide();
                     //alert(data.message);
                     signoutAlert();
                     var token = "";
@@ -71,7 +73,7 @@
                     var user_phone = "";
                     var user_email = "";
                     var user_id = "";
-                    $('#play').hide();
+
                     $("#userImage").hide();
                     $('#login').show();
                     $('#login_modal').show();
@@ -88,7 +90,7 @@
                     localStorage.removeItem('username');
                     localStorage.removeItem('user_phone');
                     localStorage.removeItem('user_email');
-                    $("#gt").val(0);
+                    $("#user_place_bet").val(2);
                     localStorage.removeItem('user_wallet_bal');
                     document.cookie = "loginToken=" + token + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     document.cookie = "username=" + username + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

@@ -22,7 +22,7 @@ use App\Http\Controllers\TransferController;
 |
 */
 
-Route::get('/transactions/mybalance/{user_id}', [TransactionsController::class, 'user_balance']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/transactions/user/{id}', [TransactionsController::class, 'user_tranx']);
     Route::get('/transactions/list', [TransactionsController::class, 'tranx_list']);
-    Route::get('/transactions/user_balance/{user_id}', [TransactionsController::class, 'user_balance']);
+ 
     Route::get('/transactions/user_bonus/{user_id}', [TransactionsController::class, 'user_bonus']);
     Route::post('/transactions/initialize', [TransactionsController::class, 'initialize_tranx'])->name('api_deposit');
 
