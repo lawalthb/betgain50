@@ -77,7 +77,7 @@ class Bets extends Model
 			"win_amount",
 			"multiplier_at_bet",
 			"bet",
-			"status",
+			"statusa",
 			"stake_amount"
 		];
 	}

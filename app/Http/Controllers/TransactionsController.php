@@ -79,10 +79,10 @@ class TransactionsController extends Controller
             $email = $response['data']['customer']['email'];
             $upd =  DB::table('transactions')
                 ->where('reference', $reference)
-                ->where('status', 'Pending')
+                ->where('statusa', 'Pending')
                 ->update([
                     'gateway_response' => $response['data']['gateway_response'],
-                    'status' => $response['data']['status'],
+                    'statusa' => $response['data']['status'],
                 ]);
 
             $user_id = $_COOKIE['user_id'];

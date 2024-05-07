@@ -98,22 +98,22 @@
 
         function fetchRecentHistory() {
             //alert('history is coming');
-            var status;
+            var statusa;
             $.get('/recent_history/recents', function(recent_historys) {
                 // console.log(recent_historys);
                 $('#recent_history').empty(); // Clear previous recent_Historys
                 recent_historys.forEach(function(recent_history) {
-                    if (recent_history.status == 'none') {
-                        status = 'New';
+                    if (recent_history.statusa == 'none') {
+                        statusa = 'New';
                     } else {
-                        status = recent_history.status;
+                        statusa = recent_history.statusa;
                     }
-                    $('#recent_history').append('<tr><td>' + recent_history.user.username + '</td><td>' + recent_history.bet + 'x</td><td>' + recent_history.stake_amount + '</td><td>' + status + '</td><td>' + recent_history.game_id + '</td><td>' + recent_history.hash + '</td></tr>')
+                    $('#recent_history').append('<tr><td>' + recent_history.user.username + '</td><td>' + recent_history.bet + 'x</td><td>' + recent_history.stake_amount + '</td><td>' + statusa + '</td><td>' + recent_history.game_id + '</td><td>' + recent_history.hash + '</td></tr>')
                 });
             });
         }
         fetchRecentHistory();
-        setInterval(fetchRecentHistory, 3000);
+        //setInterval(fetchRecentHistory, 5000);
     });
 </script>
 

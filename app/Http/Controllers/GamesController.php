@@ -129,7 +129,7 @@ class GamesController extends Controller
 	//get list of last 7 games
 	public function lastgames()
 	{
-		$lastgames = Games::where('status', 'crashed')->orderBy('created_at', 'desc')->skip(1)->limit(7)->get();
+		$lastgames = Games::where('statusa', 'crashed')->orderBy('created_at', 'desc')->skip(1)->limit(7)->get();
 		return response()->json($lastgames);
 	}
 }

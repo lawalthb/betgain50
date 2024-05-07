@@ -104,6 +104,7 @@
 
     .crashed {
         font-size: 50px;
+        margin-top: 50px;
 
         @media only screen and (max-width: 768px) {
 
@@ -125,10 +126,51 @@
     }
 </style>
 
+<style>
+    .container {
+        position: relative;
+        width: 800px;
+        height: 450px;
+        /* border: 1px solid #ccc; */
+        overflow: hidden;
 
+        top: -200px;
+        /* Adjust this value to move the container from the top */
+        left: -270px;
+        /* Adjust this value to move the container from the left */
+        /* or */
+        /* Ensures rocket doesn't fly out of bounds */
+    }
+
+    .rocket {
+        position: absolute;
+        width: 150px;
+        height: 200px;
+        /* background-color: #f00; */
+        bottom: -150px;
+        left: -80px;
+        display: none;
+
+        /* Initially hidden */
+        @media only screen and (max-width: 768px) {}
+    }
+
+    @keyframes fly {
+        to {
+            transform: translate(750px, -350px);
+        }
+
+
+    }
+</style>
 <div class="panel h-[260px] xl:h-[500px] xl:col-span-2 " id="gp-bg" style="background-image: url({{url('assets/images/betgain.gif')}}); background-position: center; background-repeat: no-repeat; background-size: contain; ">
     <div class=" child "><span id="point">0.0x</span><br /><span class="money ;" id="money" style="display: none;">#0</span>
-        <span id="timer" style="display: none; color:yellow ; " class="crashed">Crashed!</span>
+        <div class="container">
+            <div class="rocket"><img src="{{'assets/rocket5.png'}}" alt="Moving Image"></div>
+
+            <span id="timer" style="display: none; color:yellow ; " class="crashed">Crashed!</span>
+        </div>
+
     </div>
 
     <div class="flex items-center dark:text-white-light mb-2 xl:mb-5" id="congrat">

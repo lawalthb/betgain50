@@ -75,7 +75,7 @@
             </td>
             <td>
               <div>
-                <div>{{ $game->status }}</div>
+                <div>{{ $game->statusa }}</div>
               </div>
             </td>
             <td>

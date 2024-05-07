@@ -75,7 +75,7 @@ class HistoryController extends Controller
             'reference' => 'bet' . $lastID,
             'email' => "bet@herosbet.com",
             'amount' => '-' . $request->bet_amount,
-            'status' => 'success',
+            'statusa' => 'success',
             'user_id' => $request->user_id,
 
         ]);

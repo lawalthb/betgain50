@@ -70,11 +70,11 @@ class GameExecutor extends Command
                 sleep(7);
                 $this->point = 1;
                 //new crash point
-                $this->crashgame =  mt_rand(100, 300) / 100;
+                $this->crashgame =  mt_rand(100, 1000) / 100;
 
                 // save new game to db -  setting new crash point
                 $this->record = Games::create([
-                    'status' => 'active',
+                    'statusa' => 'active',
                     'multiplier' => $this->crashgame,
                     'start_at' => Carbon::now(),
 
@@ -89,14 +89,14 @@ class GameExecutor extends Command
 
 
                 if ($record) {
-                    $record->status = 'crashed';
+                    $record->statusa = 'crashed';
                     $record->color = $randomColor;
                     $record->crashed_at = Carbon::now();
                     $record->save();
                 } else {
                     return 'No second-to-last record found.';
                 }
-                // check and update status if user wins the last game
+                // check and update statusa if user wins the last game
                 $lastgameID = DB::table('games')->max('id');
                 $lastgameID2 = $lastgameID;
                 Log::info('last game is here ' .  $lastgameID2);
@@ -112,7 +112,7 @@ class GameExecutor extends Command
                         if ($bet->bet <= $game_id2Check) {
                             $win_amount = $bet->bet * $bet->stake_amount;
                             $tru = Bets::where('game_id', $record->id)->where('user_id', $bet->user_id)->update([
-                                'status' => "win",
+                                'statusa' => "win",
                                 'win_amount' => $win_amount,
                             ]);
                             User::where('id', $bet->user_id)->update([
@@ -121,12 +121,12 @@ class GameExecutor extends Command
                             Log::info('true ' . $tru);
                         } elseif ($bet->bet > $game_id2Check) {
                             $tru =  Bets::where('game_id', $record->id)->where('user_id', $bet->user_id)->update([
-                                'status' => "lose"
+                                'statusa' => "lose"
                             ]);
                             Log::info('false ' . $tru . " user id:");
                         } else {
                             $tru = Bets::where('game_id', $record->id)->where('user_id', $bet->user_id)->update([
-                                'status' => "none"
+                                'statusa' => "none"
                             ]);
                             Log::info('Unknown ' . $tru);
                         }

@@ -45,11 +45,11 @@
             </span>
             <input type="number" id="bet_crash" name="crash_point" required step="0.1" min="0.1" class="btn w-full  py-1 text-base shadow-none border-0 bg-[#ebedf2] dark:bg-black text-[#515365] dark:text-[#bfc9d4]" value="2.5" />
 
-            <input type="text" id="current_game_id" name="current_game_id" value="curre" max="4">
-            <input type="text" id="my_game_id" name="my_game_id" value="" max="4">
-            <input type="text" id="user_bet_amt" name="user_bet_amt" value="" max="4">
-            <input type="text" id="user_place_bet" value="0" max="4">
-            <input type="text" id="user_place_point" max="4">
+            <input type="hidden" id="current_game_id" name="current_game_id" value="curre" max="4">
+            <input type="hidden" id="my_game_id" name="my_game_id" value="" max="4">
+            <input type="hidden" id="user_bet_amt" name="user_bet_amt" value="" max="4">
+            <input type="hidden" id="user_place_bet" value="0" max="4">
+            <input type="hidden" id="user_place_point" max="4">
 
 
         </div>
@@ -194,16 +194,17 @@
         getUserBalance();
 
 
-        div.style.backgroundImage = "url('assets/images/c.png')";
+        //div.style.backgroundImage = "url('assets/images/c.png')";
         pointElement.style.display = "none";
         timerElement.style.display = "block";
-        timerElement.innerText = 'Crashed!!!';
+        timerElement.innerText = 'Crashed!';
 
         countdownFromFiveToZero(myCallbackFunction);
         // Call the function to display last 7 crashed games
         //displayLast7CrashedGames();
 
         // div.classList.add('animatedBackground');
+
     });
 </script>
 <script>
@@ -214,6 +215,8 @@
 
         let count = 5;
         const countdownInterval = setInterval(() => {
+
+            stopRocket()
             console.log(count);
             timerElement.innerText = "Next  Round: " + count;
             count--;
@@ -222,11 +225,23 @@
                 clearInterval(countdownInterval);
                 if (typeof callbackFunction === 'function') {
                     callbackFunction();
+                    stopRocket()
+
+
+                    launchRocket();
+
                 }
+
             }
         }, 1000);
         getUserBalance();
     }
+
+
+
+
+
+
 
     // Function to execute when countdown reaches 0
     function myCallbackFunction() {
@@ -407,5 +422,24 @@
             padding: '2em',
             customClass: 'sweet-alerts',
         });
+    }
+</script>
+
+<script>
+    let rocketFlying = false;
+
+    function launchRocket() {
+        const rocket = document.querySelector(".rocket");
+        if (!rocketFlying) {
+            rocket.style.display = "block"; // Show rocket
+            rocket.style.animation = "fly 8s linear forwards"; // Start animation
+            rocketFlying = true;
+        }
+    }
+
+    function stopRocket() {
+        const rocket = document.querySelector(".rocket");
+        rocket.style.animation = "none"; // Stop animation
+        rocketFlying = false;
     }
 </script>

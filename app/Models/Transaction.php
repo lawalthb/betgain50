@@ -20,7 +20,7 @@ class Transaction extends Model
             'paid_at',
             'authorization_url',
             'authorization_code',
-            'status',
+            'statusa',
             'user_id',
     'money_type'
     ];
