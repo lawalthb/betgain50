@@ -136,7 +136,7 @@
                         {{csrf_field()}}
                         <div class="relative mb-4 ">
 
-                            <input type="password" placeholder="Enter PIN" id="password" style="display:none" name="password" class="form-input ltr:pl-10 rtl:pr-10" />
+
 
                         </div>
                         <input type="submit" id="initiateBtn" class="btn btn-primary w-full" style="cursor: pointer; display:none" value="Withdraw Now">
@@ -150,7 +150,8 @@
     </div>
 </div>
 
-
+</div>
+</div>
 
 
 
@@ -162,7 +163,7 @@
         <div class="flex items-start justify-center min-h-screen px-4" @click.self="open = false">
             <div x-show="open" x-transition x-transition.duration.300 class="panel border-0 py-1 px-4 rounded-lg overflow-hidden w-full max-w-sm my-8">
                 <div class="flex items-center justify-between p-5 font-semibold text-lg dark:text-white">Enter Your Pin
-                    <span class="flex-right cursor-pointer" id="close_bank_login">X</span>
+                    <span class="flex-right cursor-pointer" id="closeWithdrawPin">X</span>
                 </div>
                 <div class="p-5">
                     <form method="POST" id="withdraw_pin" role="form">
@@ -170,7 +171,9 @@
 
 
                         <div class="relative mb-4">
-                            <input type="text" placeholder="PIN" id="wpin" style="display:block" name="pin" readonly class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="text" placeholder="PIN" id="wpin" style="display:block" name="pin" class="form-input ltr:pl-10 rtl:pr-10" />
+
+
                         </div>
 
                         <!-- <button type="button" class="btn btn-primary w-full">Login</button> -->
@@ -185,6 +188,8 @@
     </div>
 </div>
 </div>
+</div>
+
 
 
 
@@ -206,6 +211,12 @@
 
     })
 
+    $("#closeWithdrawPin").click(function(event) {
+
+        $("#pinModal").css("display", "none")
+
+    })
+
 
     //display withdraw modal
     $("#withdrawNow").click(function(event) {
@@ -215,7 +226,7 @@
             alert("Amount is more than balance ");
         } else {
             pinModal();
-            // select_bank_modal();
+
         }
 
 
@@ -283,11 +294,8 @@
 
     }
     $(document).ready(function() {
-
-
         $("#close_bank_login").click(function(event) {
             $("#select_bank_modal").css("display", "none");
-
         })
 
     });
@@ -356,12 +364,8 @@
                     $("#amountSpan").css("display", "block");
                     $("#amount_value").css("display", "block");
                     $("#TransferBtn").css("display", "block");
-
-
-
                 } else {
                     login_failed_alert();
-
                 }
                 console.log(data);
             }
@@ -425,9 +429,7 @@
         console.log(formData);
 
         $.ajax({
-
             url: "{{ route('resolve_account') }}",
-
             type: "GET",
             dataType: "json",
             headers: {
@@ -445,9 +447,6 @@
                     $("#amountSpan").css("display", "block");
                     $("#amount_value").css("display", "block");
                     $("#TransferBtn").css("display", "block");
-
-
-
                 } else {
                     login_failed_alert();
 
@@ -468,7 +467,7 @@
         // alert(366)
         var formData = $(this).serialize();
         console.log(formData);
-        var amount = $("#wpin").val()
+        var wpin = $("#wpin").val()
 
 
         $.ajax({
@@ -481,23 +480,19 @@
                 'Authorization': 'Bearer ' + localStorage.getItem('user_token')
             },
             data: {
-                "amount": amount,
-                "recipient_code": recipient_code,
-                "reference": reference
+                "wpin": wpin,
+                "user_id": localStorage.getItem('user_id'),
+
             },
             success: function(data) {
+
                 if (data.status == true) {
-                    // alert(data.gateway_response);
-                    $("#verifyBtn").css("display", "none");
+                    $("#pinModal").css("display", "none");
 
-                    $("#amountSpan").css("display", "block");
-                    $("#amount_value").css("display", "block");
-                    $("#TransferBtn").css("display", "block");
-
-
-
-                } else {
-                    login_failed_alert();
+                    select_bank_modal();
+                } else if (data.status == false) {
+                    alert('Invalid Pin');
+                    pin_msg('Invalid Pin')
 
                 }
                 console.log(data);
@@ -563,3 +558,22 @@
         }
     });
 </script>
+
+
+<script>
+    async function pin_msg(msg) {
+        const toast = window.Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            padding: '2em',
+            customClass: 'sweet-alerts',
+        });
+        toast.fire({
+            icon: 'success',
+            title: msg,
+            padding: '2em',
+            customClass: 'sweet-alerts',
+        });
+    }

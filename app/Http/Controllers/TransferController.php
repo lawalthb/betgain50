@@ -317,33 +317,26 @@ class TransferController extends Controller
   }
 
 
-  public function check_wpin(Request $request, $user_id)
+  public function check_wpin(Request $request)
   {
     $request->validate([
-      'wpin' => ['required', 'numeric'],
-
+      'wpin' => ['required', 'numeric']
     ]);
-
     $user_password =  DB::table('users')
-      ->where('id', '=', $user_id)->value('pin');
+      ->where('id', '=',  $request->user_id)->value('pin');
 
     if ($request->wpin == $user_password) {
-
-
-
       return response()->json([
         'status' => true,
-        'message' => 'correct pin!',
+        'message' => 'Pin is valid',
 
-        'error' => null,
       ], 200);
     } else {
       return response()->json([
-        'status' => true,
+        'status' => false,
         'message' => 'Invalid pin',
 
-        'error' => null,
-      ], 422);
+      ], 200);
     }
   }
 }
