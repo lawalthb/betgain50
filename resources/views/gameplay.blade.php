@@ -2,23 +2,16 @@
 <style>
     .parent {
         position: relative;
-
     }
 
     .child {
-        /* ... */
         position: absolute;
-
-        top: 200px;
-        left: 300px;
+        top: 0px;
+        left: 0px;
         z-index: 1;
-        font-size: 10rem
+
     }
 
-    .apexcharts-svg,
-    .chart-wrap {
-        height: 325px;
-    }
 
     #moving-image {
         position: absolute;
@@ -35,16 +28,7 @@
             left: 100px;
             top: 150px;
             height: 200px;
-            z-index: 1;
-        }
-
-        .apexcharts-svg,
-        .chart-wrap {
-            height: 200px;
-        }
-
-        .take-out-graph {
-            height: 100px;
+            z-index: 0;
         }
     }
 
@@ -65,52 +49,8 @@
         z-index: -1;
     }
 
-    .content {
-        position: relative;
-        z-index: 1;
-        /* Additional styling for your content */
-    }
-
-    /* Define the keyframes for the animation */
-    @keyframes shake {
-        0% {
-            transform: translateX(0);
-        }
-
-        25% {
-            transform: translateX(-1px) rotate(-5deg);
-        }
-
-        50% {
-            transform: translateX(1px) rotate(5deg);
-        }
-
-        75% {
-            transform: translateX(-1px) rotate(-5deg);
-        }
-
-        100% {
-            transform: translateX(0);
-        }
-    }
 
 
-    /* Apply the animation to the div */
-    .animatedBackground {
-
-        animation: shake 0.5s ease-in-out infinite;
-        /* Change '3s' to adjust the duration of the animation */
-    }
-
-    .crashed {
-        font-size: 50px;
-        margin-top: 50px;
-
-        @media only screen and (max-width: 768px) {
-
-            font-size: 30px;
-        }
-    }
 
     .money {
         margin-left: 250px;
@@ -124,22 +64,33 @@
             margin-left: 100px;
         }
     }
+
+
+    .crash-text {
+        font-size: 36px;
+        color: red;
+        font-weight: bold;
+        text-shadow: 0 0 10px red;
+        /* Initial shadow */
+        animation: explode 0.5s ease-in-out forwards;
+        /* Apply explosion animation */
+    }
 </style>
 
 <style>
     .container {
         position: relative;
-        width: 800px;
-        height: 450px;
-        /* border: 1px solid #ccc; */
-        overflow: hidden;
+        top: 500px;
 
-        top: -200px;
-        /* Adjust this value to move the container from the top */
-        left: -270px;
-        /* Adjust this value to move the container from the left */
-        /* or */
-        /* Ensures rocket doesn't fly out of bounds */
+        left: -200px;
+
+        @media only screen and (max-width: 768px) {
+            top: 100px;
+
+            left: -50px;
+
+        }
+
     }
 
     .rocket {
@@ -152,24 +103,67 @@
         display: none;
 
         /* Initially hidden */
-        @media only screen and (max-width: 768px) {}
+        @media only screen and (max-width: 768px) {
+            width: 70px;
+            height: 100px;
+            bottom: -80px;
+            left: -80px;
+        }
     }
 
     @keyframes fly {
         to {
-            transform: translate(750px, -350px);
+            transform: translate(900px, -350px);
         }
 
+    }
 
+    .text_content {
+        margin-left: 300px;
+        margin-top: 200px;
+
+        @media only screen and (max-width: 768px) {
+            margin-left: 100px;
+            margin-top: 50px;
+
+        }
+    }
+
+    #point {
+        margin-left: 250px;
+        margin-top: 200px;
+        font-size: 120px;
+        font-weight: bold;
+        color: violet;
+
+        @media only screen and (max-width: 768px) {
+            margin-left: 100px;
+            margin-top: 100px;
+            font-size: 50px;
+            font-weight: bold;
+
+        }
+    }
+
+    #timer {
+        margin-left: 300px;
+        margin-top: 200px;
+
+        @media only screen and (max-width: 768px) {
+            font-size: 30px;
+            margin-left: 80px;
+            margin-top: 100px;
+
+        }
     }
 </style>
 <div class="panel h-[260px] xl:h-[500px] xl:col-span-2 " id="gp-bg" style="background-image: url({{url('assets/images/betgain.gif')}}); background-position: center; background-repeat: no-repeat; background-size: contain; ">
-    <div class=" child "><span id="point">0.0x</span><br /><span class="money ;" id="money" style="display: none;">#0</span>
-        <div class="container">
-            <div class="rocket"><img src="{{'assets/rocket5.png'}}" alt="Moving Image"></div>
+    <div class=" child  " class="text_content">
 
-            <span id="timer" style="display: none; color:yellow ; " class="crashed">Crashed!</span>
+        <div class="container">
+            <div class="rocket"><img src="{{'assets/rocket5.png'}}" alt=""></div>
         </div>
+
 
     </div>
 
@@ -209,8 +203,13 @@
             <div class="content">
                 <div id="rocket2" style="background-position-x: 2%; background-position-y: 100%;">
                     <!-- <img id="moving-image" src="{{'assets/rocket2.png'}}" alt="Moving Image"> -->
+                    <span id="timer" style="display: none; color:yellow ; " class=" crash-text">Crashed!</span>
+                    <span id="point">0.0x</span><br /><span class="money ;" id="money" style="display: none;">#0</span>
+
+
 
                 </div>
+
 
             </div>
         </div>

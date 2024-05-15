@@ -200,10 +200,10 @@ class TransferController extends Controller
   {
     //verify user password first;
     $user_password =  DB::table('users')
-      ->where('id', '=', $user_id)->value('password');
+      ->where('id', '=', $user_id)->value('pin');
 
-    if (Hash::check($password, $user_password)) {
-      //when password is correct
+    if ($password == $user_password) {
+
       $url = env("PAYSTACK_TRANSFER_VERIFY", "https://api.paystack.co/transfer/verify/");
       $url = $url . $reference;
       $token = env('PAYSTACK_KEY');
@@ -248,7 +248,7 @@ class TransferController extends Controller
     } else {
       return response()->json([
         'status' => false,
-        'message' => 'Password not correct',
+        'message' => 'PIN is not correct',
 
       ], 500);
     }
@@ -313,6 +313,37 @@ class TransferController extends Controller
         'message' => 'An error occured',
         'gateway_response' => $recipientResponse->json()
       ], 400);
+    }
+  }
+
+
+  public function check_wpin(Request $request, $user_id)
+  {
+    $request->validate([
+      'wpin' => ['required', 'numeric'],
+
+    ]);
+
+    $user_password =  DB::table('users')
+      ->where('id', '=', $user_id)->value('pin');
+
+    if ($request->wpin == $user_password) {
+
+
+
+      return response()->json([
+        'status' => true,
+        'message' => 'correct pin!',
+
+        'error' => null,
+      ], 200);
+    } else {
+      return response()->json([
+        'status' => true,
+        'message' => 'Invalid pin',
+
+        'error' => null,
+      ], 422);
     }
   }
 }

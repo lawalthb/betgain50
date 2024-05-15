@@ -1,5 +1,5 @@
 <!-- Register -->
-<div x-data="modal" id=remove-register-modal>
+<div x-data="modal" id="remove-register-modal">
     <!-- <button type="button" class="btn btn-danger" @click="toggle">register</button> -->
     <p @click="toggle" class="cursor-pointer">Click here to register</p>
     <div class="fixed inset-0 bg-[black]/60 z-[999] hidden overflow-y-auto" :class="open && '!block'">
@@ -73,7 +73,7 @@
 
 
                             </span>
-                            <input type="text" placeholder="Referral Code (Optional)" name="referral_code" class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="text" placeholder="Referral Code (Optional)" name="referral_code" id="referral_code" class="form-input ltr:pl-10 rtl:pr-10" />
                         </div>
 
 
@@ -135,7 +135,7 @@
         submit_register.innerText = 'Please Waiting...';
 
         const formData = new FormData(event.target);
-     
+
         try {
             const response = await fetch('/api/auth/register', {
                 method: 'POST',

@@ -113,7 +113,7 @@
             });
         }
         fetchRecentHistory();
-        //setInterval(fetchRecentHistory, 5000);
+     
     });
 </script>
 

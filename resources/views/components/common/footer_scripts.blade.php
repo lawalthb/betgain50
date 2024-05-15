@@ -292,6 +292,22 @@
     };
 
 
+    // Function to check if referral parameter is present in the URL
+    function hasReferralParam() {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.has('referral');
+    }
 
+    // Function to display the registration modal
+    function displayModal() {
 
+        var modal = document.getElementById('referral_modal');
+        modal.style.display = 'block';
+    }
+
+    // Check if referral parameter is present and display the modal
+    if (hasReferralParam()) {
+
+        displayModal();
+    }
 </script>

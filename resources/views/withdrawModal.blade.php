@@ -136,12 +136,47 @@
                         {{csrf_field()}}
                         <div class="relative mb-4 ">
 
-                            <input type="password" placeholder="Enter Pasword" id="password" style="display:none" name="password" class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="password" placeholder="Enter PIN" id="password" style="display:none" name="password" class="form-input ltr:pl-10 rtl:pr-10" />
 
                         </div>
                         <input type="submit" id="initiateBtn" class="btn btn-primary w-full" style="cursor: pointer; display:none" value="Withdraw Now">
 
                     </form>
+
+                </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div id="pinModal" class="modal">
+    <!-- button -->
+
+    <!-- modal -->
+    <div class="fixed inset-0 bg-[black]/60 z-[999] hidden overflow-y-auto" :class="open && '!block'" id="loginModal">
+        <div class="flex items-start justify-center min-h-screen px-4" @click.self="open = false">
+            <div x-show="open" x-transition x-transition.duration.300 class="panel border-0 py-1 px-4 rounded-lg overflow-hidden w-full max-w-sm my-8">
+                <div class="flex items-center justify-between p-5 font-semibold text-lg dark:text-white">Enter Your Pin
+                    <span class="flex-right cursor-pointer" id="close_bank_login">X</span>
+                </div>
+                <div class="p-5">
+                    <form method="POST" id="withdraw_pin" role="form">
+                        {{csrf_field()}}
+
+
+                        <div class="relative mb-4">
+                            <input type="text" placeholder="PIN" id="wpin" style="display:block" name="pin" readonly class="form-input ltr:pl-10 rtl:pr-10" />
+                        </div>
+
+                        <!-- <button type="button" class="btn btn-primary w-full">Login</button> -->
+                        <input type="submit" id="SubmitPin" class="btn btn-primary w-full" style="cursor: pointer" value="Submit Pin">
+                    </form>
+
 
                 </div>
                 </footer>
@@ -159,7 +194,7 @@
     $("#withdrawBtn").click(function(event) {
 
         $("#withdrawModal").css("display", "block");
-        var user_wallet_bal = $("#gt").val();
+        var user_wallet_bal = $("#user_wallet_bal").val();
         $("#available_wallet_balance").text(user_wallet_bal);
 
     })
@@ -175,11 +210,12 @@
     //display withdraw modal
     $("#withdrawNow").click(function(event) {
         var amount_pro = $("#withdrawing_amount").val();
-        var amount_bal = $("#gt").val();
+        var amount_bal = $("#user_wallet_bal").val();
         if (Number.parseInt(amount_pro) > Number.parseInt(amount_bal)) {
             alert("Amount is more than balance ");
         } else {
-            select_bank_modal();
+            pinModal();
+            // select_bank_modal();
         }
 
 
@@ -223,6 +259,26 @@
 
         $("#amount_value").val(amount_value + '.00');
         $("#user_amount").val(withdrawing_amount + '.00');
+        loadbanks();
+
+    }
+    $(document).ready(function() {
+
+
+        $("#close_bank_login").click(function(event) {
+            $("#select_bank_modal").css("display", "none");
+
+        })
+
+    });
+
+    async function pinModal() {
+
+        $("#pinModal").css("display", "block");
+        var wpin = $("#wpin").text();
+
+
+
         loadbanks();
 
     }
@@ -343,7 +399,7 @@
             success: function(data) {
                 //     alert(data);
                 if (data.status == true) {
-                    alert(data.message);
+                    alert('1' + data.message);
 
 
 
@@ -351,10 +407,8 @@
                     //    $("#amount_value").css("display", "block");
                     //    $("#TransferBtn").css("display", "block");
 
-
-
                 } else {
-                    alert(data.message);
+                    alert('2' + data.message);
 
                 }
                 //  console.log(data);
@@ -364,23 +418,62 @@
     })
 </script>
 
+<script>
+    $("#bank_details_form").submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        console.log(formData);
 
+        $.ajax({
+
+            url: "{{ route('resolve_account') }}",
+
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+            },
+            data: formData,
+            success: function(data) {
+                if (data.status == true) {
+                    // alert(data.message);
+                    $("#verifyBtn").css("display", "none");
+                    $("#account_name").css("display", "block");
+                    $("#account_name").val(data.gateway_response.account_name);
+                    $("#recipient_code").val(data.recipient_code);
+                    $("#reference2").val(data.reference);
+                    $("#amountSpan").css("display", "block");
+                    $("#amount_value").css("display", "block");
+                    $("#TransferBtn").css("display", "block");
+
+
+
+                } else {
+                    login_failed_alert();
+
+                }
+                console.log(data);
+            }
+        });
+
+    })
+</script>
 
 
 
 <script>
-    $("#initiate_form").submit(function(event) {
+    // check if pin correct
+    $("#withdraw_pin").submit(function(event) {
         event.preventDefault();
         // alert(366)
         var formData = $(this).serialize();
         console.log(formData);
-        var amount = $("#amount_value").val()
-        var recipient_code = $("#recipient_code").val()
-        var reference = $("#reference").val()
+        var amount = $("#wpin").val()
+
 
         $.ajax({
 
-            url: "{{ route('create_recipient') }}",
+            url: "{{ route('check_wpin') }}",
 
             type: "POST",
             dataType: "json",
@@ -453,14 +546,14 @@
                 const responseData = await response.json();
                 console.log(4);
                 console.log(responseData.message);
-                alert(responseData.message);
-                alert('reload1');
+                alert '3' + (responseData.message);
+                // alert('reload1');
 
 
             } else if (response.status === 500) {
                 const errors = await response.json();
-                alert(responseData.message);
-                alert('reload2');
+                alert('4' + responseData.message);
+                //alert('reload2');
                 console.log("Validation errors:", errors.message);
             }
         } catch (error) {

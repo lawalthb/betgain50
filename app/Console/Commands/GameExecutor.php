@@ -70,7 +70,10 @@ class GameExecutor extends Command
                 sleep(7);
                 $this->point = 1;
                 //new crash point
-                $this->crashgame =  mt_rand(100, 1000) / 100;
+                $max_crash = DB::table('settings')
+                    ->where('id', 1)->value('max_crash');
+                $max_crash = ($max_crash * 100);
+                $this->crashgame =  mt_rand(100, $max_crash) / 100;
 
                 // save new game to db -  setting new crash point
                 $this->record = Games::create([

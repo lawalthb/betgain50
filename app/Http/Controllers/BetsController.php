@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BetHistory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BetsAddRequest;
 use App\Http\Requests\BetsEditRequest;
@@ -161,6 +162,8 @@ class BetsController extends Controller
 				$user = User::find($user_id);
 				$user->wallet_balance = $userBalance;
 				$user->save();
+
+				event(new BetHistory($this->recent_history()));
 			}
 		}
 		// Return a response
@@ -189,8 +192,10 @@ class BetsController extends Controller
 
 	public function recent_history()
 	{
-		$recent_bets = Bets::with('user')->orderBy('id', 'desc')->take(10)->get();
-		//dd($recent_bets);
-	return $recent_bets;
+		$recent_bets = Bets::withEager('user')->orderBy('id', 'desc')->take(10)->get();
+
+
+
+		return $recent_bets;
 	}
 }

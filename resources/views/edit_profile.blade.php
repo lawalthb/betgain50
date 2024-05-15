@@ -17,13 +17,17 @@
                 <input type="email" name="email" class="form-input ltr:pl-10 rtl:pr-10" required id="upadate_email" disabled />
                 <div>User name<br /></div>
                 <input type="text" placeholder="Username" class="form-input ltr:pl-10 rtl:pr-10" required name="username" id="upadate_username" />
-                <div>phone Number<br /></div>
+                <div>Phone Number<br /></div>
                 <input type="text" placeholder="phone" class="form-input ltr:pl-10 rtl:pr-10" required name="phone_number" id="upadate_phone_number" />
                 <div>Photo<br /></div>
                 <input type="file" id="photo" class="form-input ltr:pl-10 rtl:pr-10" name="image" />
                 <input type="hidden" id="upadate_user_id" name="user_id" />
                 <div>Password (leave it blank if you dont want to change it)<br /></div>
                 <input type="text" id="password" class="form-input ltr:pl-10 rtl:pr-10" placeholder="Leave it blank to use same" name="password" />
+
+                <br />
+                <div>Withdraw Pin (Default pin is 1234)<br /></div>
+                <input type="password" placeholder="pin" class="form-input ltr:pl-10 rtl:pr-10" required name="pin" id="upadate_pin" /> <em>4 digits only</em>
 
 
               </div>
@@ -58,6 +62,7 @@
     $('#upadate_email').val(localStorage.getItem('user_email'));
     $('#upadate_phone_number').val(localStorage.getItem('user_phone'));
     $('#upadate_username').val(localStorage.getItem('username'));
+    $('#upadate_pin').val(localStorage.getItem('pin'));
 
     $('#upadate_user_id').val(localStorage.getItem('user_id'));
 

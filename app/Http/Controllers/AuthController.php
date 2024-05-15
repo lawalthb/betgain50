@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Notifications\UserSignup;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Referral;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\ForgotPassword;
@@ -71,6 +72,7 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email|unique:users',
             'password' => 'required|string',
+            'referral_code' => 'nullable|string',
             'username' => 'string|required|unique:users',
             'phone_number' => 'required|unique:users',
         ]);
@@ -108,6 +110,20 @@ class AuthController extends Controller
         $lastInsertId = $user->id;
 
 
+        if ($request->has('referral_code')) {
+
+            $referrer = User::where('referral_code', $request->referral_code)->first();
+            if ($referrer) {
+                $referral = Referral::create([
+                    'referral_code' => $request->referral_code,
+                    'referrer_id' => $referrer->id,
+                    'new_user_id' => $lastInsertId,
+                    'amount' => 200,
+                ]);
+                //dd($referral);
+                $this->PayUserCommission($referrer->id, $referrer->wallet_balance);
+            }
+        }
 
         // Send email notification to user
         $user->notify(new UserSignup($token, $request->username));
@@ -136,6 +152,16 @@ class AuthController extends Controller
         // Generate a unique referral code
         return strtoupper(Str::random(8));
     }
+
+    private function PayUserCommission($referrer, $user_balance)
+    {
+        DB::table('users')
+            ->where('id', $referrer)
+            ->update([
+                'wallet_balance' => $user_balance + 200,
+            ]);
+    }
+
 
     public function get_user_info(string $id)
     {
@@ -325,6 +351,7 @@ class AuthController extends Controller
             'image' => 'mimes:jpg,png,jpeg,gif,svg|max:2048',
             'phone_number' => 'required',
             'username' => 'required',
+            'pin' => 'required|integer',
 
 
         ]);
@@ -335,6 +362,7 @@ class AuthController extends Controller
         $user = User::find($request->user_id);
         $user->username = $request->username;
         $user->phone_number = $request->phone_number;
+        $user->pin = $request->pin;
         if ($request->image) {
             $user->image = $image_path;
         }

@@ -73,11 +73,11 @@
         <div class="mb-5 space-y-1">
             <div class="flex items-center justify-between">
                 <p class="text-[#515365] font-semibold">Previous Bet Amount</p>
-                <p class="text-base"><span>₦</span> <span class="font-semibold" id="previous_bet_amount">xxx</span></p>
+                <p class="text-base"><span>₦</span> <span class="font-semibold" id="previous_bet_amount">100</span></p>
             </div>
             <div class="flex items-center justify-between">
                 <p class="text-[#515365] font-semibold">Previous Crash Point</p>
-                <p class="text-base"><span class="font-semibold " id="previous_bet_point">x.xx</span></p>
+                <p class="text-base"><span class="font-semibold " id="previous_bet_point">2.50</span></p>
                 <input type="hidden" id="round" value="">
             </div>
         </div>
@@ -206,12 +206,16 @@
         // div.classList.add('animatedBackground');
 
     });
+    channel.bind("betHistory", function(e) {
+        // alert('new bet placed');
+        updateHistory(e.betHistory);
+    });
 </script>
 <script>
     //  const timerElement2 = document.getElementById('timer');
 
     function countdownFromFiveToZero(callbackFunction) {
-
+        stopRocket()
 
         let count = 5;
         const countdownInterval = setInterval(() => {
@@ -225,7 +229,6 @@
                 clearInterval(countdownInterval);
                 if (typeof callbackFunction === 'function') {
                     callbackFunction();
-                    stopRocket()
 
 
                     launchRocket();
@@ -290,7 +293,6 @@
                     form_bet_amt.value = betamount;
                     var crash_point2 = crash_point.value;
                     user_place_point.value = crash_point2;
-
                     user_place_bet.value = 1;
                 }
                 // Optionally, reset the form
@@ -441,5 +443,25 @@
         const rocket = document.querySelector(".rocket");
         rocket.style.animation = "none"; // Stop animation
         rocketFlying = false;
+    }
+</script>
+
+
+<script>
+    function updateHistory(betHistory) {
+        //alert('history is coming');
+        var statusa;
+        recent_historys = betHistory;
+        // console.log(recent_historys);
+        $('#recent_history').empty(); // Clear previous recent_Historys
+        recent_historys.forEach(function(recent_history) {
+            if (recent_history.statusa == 'none') {
+                statusa = 'New';
+            } else {
+                statusa = recent_history.statusa;
+            }
+            $('#recent_history').append('<tr><td>' + recent_history.user.username + '</td><td>' + recent_history.bet + 'x</td><td>' + recent_history.stake_amount + '</td><td>' + statusa + '</td><td>' + recent_history.game_id + '</td><td>' + recent_history.hash + '</td></tr>')
+
+        });
     }
 </script>

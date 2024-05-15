@@ -59,6 +59,14 @@
 <script>
     async function login_modal() {
         $("#login_modal").css("display", "block");
+        // Get the referral code from the URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var referralCode = urlParams.get('referral');
+
+        // Set the referral code to the input box value
+        var referralInput = document.getElementById('referral_code');
+        referralInput.value = referralCode;
+
     }
     $(document).ready(function() {
 
@@ -102,6 +110,7 @@
                     localStorage.setItem("user_email", responseData.user.email);
                     localStorage.setItem("user_phone", responseData.user.phone_number);
                     localStorage.setItem("user_role", responseData.user.user_role);
+                    localStorage.setItem("pin", responseData.user.pin);
 
                     $("#user_wallet_bal").val(responseData.user.wallet_balance);
                     document.cookie = "loginToken=" + token + "; cookies_date";
@@ -125,6 +134,7 @@
                     $("#upadate_email").val(responseData.user.email);
                     $("#upadate_username").val(responseData.user.username);
                     $("#upadate_phone_number").val(responseData.user.phone_number);
+                    $("#upadate_pin").val(responseData.user.pin);
                     $("#upadate_user_id").val(responseData.user.id);
                     $("#faq").show();
                     $("#referral").show();

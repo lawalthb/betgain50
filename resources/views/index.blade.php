@@ -37,6 +37,8 @@
 
 
 
+            @include('referral_reg')
+
 
 </x-layout.default>
 <!-- modal to edit user profile -->

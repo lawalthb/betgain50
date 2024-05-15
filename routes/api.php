@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/transactions/user/{id}', [TransactionsController::class, 'user_tranx']);
     Route::get('/transactions/list', [TransactionsController::class, 'tranx_list']);
- 
+
     Route::get('/transactions/user_bonus/{user_id}', [TransactionsController::class, 'user_bonus']);
     Route::post('/transactions/initialize', [TransactionsController::class, 'initialize_tranx'])->name('api_deposit');
 
@@ -55,6 +55,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('transfers/initiate', [TransferController::class, 'initiate_transfer'])->name('initiate_transfer');;
     Route::post('transfers/recipient', [TransferController::class, 'create_recipient'])->name('create_recipient');
+
+    Route::post('transfers/check_wpin', [TransferController::class, 'check_wpin'])->name('check_wpin');
 });
 
 //Auth
