@@ -134,6 +134,7 @@ class BetsController extends Controller
 		]);
 		//check wallet balance
 		$user_id = $_COOKIE['user_id'];
+		$username = $_COOKIE['username'];
 
 
 		$userBalance =  User::where('id', $user_id)->value('wallet_balance');
@@ -151,6 +152,7 @@ class BetsController extends Controller
 			];
 			$hash = hash_hmac('sha256', serialize($gameParameters), $secretKey);
 			$modeldata['user_id'] = $user_id;
+			$modeldata['username'] = $username;
 			$modeldata['stake_amount'] = $validatedData['bet_amount'];
 			$modeldata['bet'] = $validatedData['crash_point'];
 			$modeldata['game_id'] = $validatedData['current_game_id'];
@@ -192,10 +194,7 @@ class BetsController extends Controller
 
 	public function recent_history()
 	{
-		$recent_bets = Bets::withEager('user')->orderBy('id', 'desc')->take(10)->get();
-
-
-
+		$recent_bets = Bets::with('user')->orderBy('id', 'desc')->take(10)->get();
 		return $recent_bets;
 	}
 }

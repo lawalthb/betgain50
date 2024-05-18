@@ -88,6 +88,7 @@
             top: 100px;
 
             left: -50px;
+            display: none;
 
         }
 
@@ -104,6 +105,7 @@
 
         /* Initially hidden */
         @media only screen and (max-width: 768px) {
+            display: none;
             width: 70px;
             height: 100px;
             bottom: -80px;
@@ -204,7 +206,7 @@
                 <div id="rocket2" style="background-position-x: 2%; background-position-y: 100%;">
                     <!-- <img id="moving-image" src="{{'assets/rocket2.png'}}" alt="Moving Image"> -->
                     <span id="timer" style="display: none; color:yellow ; " class=" crash-text">Crashed!</span>
-                    <span id="point">0.0x</span><br /><span class="money ;" id="money" style="display: none;">#0</span>
+                    <span id="point"></span><br /><span class="money ;" id="money" style="display: none;">#0</span>
 
 
 

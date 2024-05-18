@@ -31,7 +31,7 @@ class Bets extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'user_id', 'game_id', 'stake_amount', 'bet', 'hash'
+		'user_id', 'game_id', 'stake_amount', 'bet', 'hash', 'username'
 	];
 	public $timestamps = false;
 
@@ -78,7 +78,8 @@ class Bets extends Model
 			"multiplier_at_bet",
 			"bet",
 			"statusa",
-			"stake_amount"
+			"stake_amount",
+			"username"
 		];
 	}
 

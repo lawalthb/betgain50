@@ -75,7 +75,7 @@
             $.get('/messages', function(messages) {
                 $('#messages').empty();
                 messages.forEach(function(message) {
-                    $('#messages').append('<div><strong>' + message.user.username + ':</strong> ' + message.message + '</div>');
+                    $('#messages').append('<div><strong>' + message.username + ':</strong> ' + message.message + '</div>');
                 });
             });
         }
@@ -113,7 +113,7 @@
             });
         }
         fetchRecentHistory();
-     
+
     });
 </script>
 

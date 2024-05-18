@@ -139,7 +139,7 @@
 
 
                         </div>
-                        <input type="submit" id="initiateBtn" class="btn btn-primary w-full" style="cursor: pointer; display:none" value="Withdraw Now">
+                        <input type="submit" id="initiateBtn" class="btn btn-primary w-full" style="cursor: pointer; display:none" value="Please waiting..." disabled>
 
                     </form>
 
@@ -379,6 +379,7 @@
         //alert(312)
         $("#password").css("display", "block");
         $("#initiateBtn").css("display", "block");
+
         $("#TransferBtn").css("display", "none");
         var formData = $(this).serialize();
         console.log(formData);
@@ -403,7 +404,7 @@
             success: function(data) {
                 //     alert(data);
                 if (data.status == true) {
-                    alert('1' + data.message);
+                    alert(data.message);
 
 
 

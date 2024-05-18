@@ -210,6 +210,10 @@
         // alert('new bet placed');
         updateHistory(e.betHistory);
     });
+    channel.bind("chatHistory", function(e) {
+
+        updateChatHistory(e.chatHistory);
+    });
 </script>
 <script>
     //  const timerElement2 = document.getElementById('timer');
@@ -460,7 +464,21 @@
             } else {
                 statusa = recent_history.statusa;
             }
-            $('#recent_history').append('<tr><td>' + recent_history.user.username + '</td><td>' + recent_history.bet + 'x</td><td>' + recent_history.stake_amount + '</td><td>' + statusa + '</td><td>' + recent_history.game_id + '</td><td>' + recent_history.hash + '</td></tr>')
+            $('#recent_history').append('<tr><td>' + recent_history.username + '</td><td>' + recent_history.bet + 'x</td><td>' + recent_history.stake_amount + '</td><td>' + statusa + '</td><td>' + recent_history.game_id + '</td><td>' + recent_history.hash + '</td></tr>')
+
+        });
+    }
+
+
+    function updateChatHistory(chatHistory) {
+
+        var statusa;
+        recent_historys = chatHistory;
+
+
+        recent_historys.forEach(function(recent_history) {
+
+            $('#recent_history').append('< div > < strong > ' + recent_history.username + ': < /strong> ' + recent_history.message + '</div > ')
 
         });
     }
