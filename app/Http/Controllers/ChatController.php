@@ -10,7 +10,8 @@ class ChatController extends Controller
 {
     public function getMessages()
     {
-        $messages = ChatMessage::with('user')->orderBy('created_at', 'asc')->take(15)->latest()->get();
+
+        $messages = ChatMessage::orderBy('created_at', 'desc')->take(15)->get();
         return $messages;
     }
 
@@ -37,7 +38,7 @@ class ChatController extends Controller
 
     public function recent_chathistory()
     {
-        $recent_chats = ChatMessage::with('user')->orderBy('id', 'desc')->take(10)->get();
+        $recent_chats = ChatMessage::with('user')->orderBy('id', 'desc')->latest()->first();
         return $recent_chats;
     }
 }

@@ -74,8 +74,9 @@
         function fetchMessages() {
             $.get('/messages', function(messages) {
                 $('#messages').empty();
+                console.log(messages);
                 messages.forEach(function(message) {
-                    $('#messages').append('<div><strong>' + message.username + ':</strong> ' + message.message + '</div>');
+                    $('#messages').append('<div><strong>' + message.id + message.username + ':</strong> ' + message.message + '</div>');
                 });
             });
         }

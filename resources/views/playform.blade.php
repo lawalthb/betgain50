@@ -475,7 +475,7 @@
         var statusa;
         recent_historys = chatHistory;
 
-
+        console.log(chatHistory);
         recent_historys.forEach(function(recent_history) {
 
             $('#recent_history').append('< div > < strong > ' + recent_history.username + ': < /strong> ' + recent_history.message + '</div > ')
