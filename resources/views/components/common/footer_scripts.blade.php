@@ -176,7 +176,8 @@
     // to show current user balance from DB
     async function load_user_balance() {
         let userID2 = localStorage.getItem('user_id');
-        var user_balance = "/api/transactions/user_balance/" + userID2;
+
+        var user_balance = "/user/balance";
         $.ajaxSetup({
 
             headers: {
@@ -187,11 +188,9 @@
         $.getJSON(user_balance, {}).done(function(data) {
 
                 const myJSON2 = JSON.stringify(data);
-                // alert(myJSON2)
-                var balance = data.balance;
-                //alert(balance);
 
-                $("#gt").val(balance);
+                var balance = data.balance;
+
 
                 function formatNumber(num) {
                     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
@@ -270,9 +269,9 @@
 
                 const myJSON2 = JSON.stringify(data);
                 //   alert(myJSON2);
-                var previous_point = data.bet_crash;
+                var previous_point = data.bet;
 
-                var previous_amount = data.bet_amount;
+                var previous_amount = data.stake_amount;
 
 
                 $("#previous_bet_point").text(previous_point);

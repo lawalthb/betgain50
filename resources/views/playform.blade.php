@@ -73,11 +73,11 @@
         <div class="mb-5 space-y-1">
             <div class="flex items-center justify-between">
                 <p class="text-[#515365] font-semibold">Previous Bet Amount</p>
-                <p class="text-base"><span>₦</span> <span class="font-semibold" id="previous_bet_amount">100</span></p>
+                <p class="text-base"><span>₦</span><span class="font-semibold" id="previous_bet_amount">xxx</span></p>
             </div>
             <div class="flex items-center justify-between">
                 <p class="text-[#515365] font-semibold">Previous Crash Point</p>
-                <p class="text-base"><span class="font-semibold " id="previous_bet_point">2.50</span></p>
+                <p class="text-base"><span class="font-semibold " id="previous_bet_point">x.xx</span></p>
                 <input type="hidden" id="round" value="">
             </div>
         </div>

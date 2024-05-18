@@ -7,6 +7,7 @@ use App\Events\herosboard;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -148,7 +149,7 @@ class HistoryController extends Controller
     public function previous_game(Request $request)
     {
 
-        return BetEntry::where('user_id', $request->user_id)->get()->last();
+        return Bets::where('user_id', $request->user_id)->get()->last();
     }
 
 

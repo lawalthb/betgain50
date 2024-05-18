@@ -18,7 +18,7 @@
 
         <div class="relative flex-1 mt-2 mb-12">
             {{ csrf_field() }}
-            <input id="messageInput" class="form-input rounded-full border-0 bg-[#f4f4f4] px-12 focus:outline-none py-2" placeholder="Type a message" x-model="textMessage">
+            <input id="messageInput" class="form-input rounded-full border-0 bg-[#f4f4f4] px-12 focus:outline-none py-2" placeholder="Type a message">
 
             <button type="button" class="absolute ltr:left-4 rtl:right-4 top-1/2 -translate-y-1/2 hover:text-primary">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">

@@ -42,30 +42,7 @@
     </div>
 </div>
 
-<script>
-    // const getBetHistory = async () => {
-    //     try {
-    //         const response = await fetch('/api/history/list');
-    //         const history = await response.json();
-    //         const tableBody = document.querySelector('#data-table tbody');
-    //         tableBody.innerHTML = '';
 
-    //         history.forEach(item => {
-    //             const row = document.createElement('tr');
-    //             row.innerHTML = `
-    //         <td>${item.user.username}</td>
-    //         <td>${item.bet_crash}</td>
-    //         <td>${item.bet_amount}</td>
-    //         <td>52a99c4f92360bb238d02e1cfdccb62aaf875d988b1f6f85a0fe34d8124bcf593</td>
-    //         `;
-    //             tableBody.appendChild(row);
-    //         });
-    //     } catch (error) {
-    //         throw Error
-    //     }
-    // }
-    // getBetHistory();
-</script>
 
 
 <script>
@@ -82,6 +59,7 @@
                 $('.perfect-scrollbar').scrollTop($('.perfect-scrollbar')[0].scrollHeight);
             });
         }
+
         $('#sendButton').click(function() {
             var message = $('#messageInput').val();
             var csrftoken = $('#csrfTokenTextbox').val();
@@ -89,22 +67,19 @@
                 message: message,
                 _token: csrftoken
             }, function() {
-                $('#messageInput').val(''); // Clear input field after sending
-                fetchMessages(); // Refresh messages after sending
+                $('#messageInput').val('');
+                fetchMessages();
             });
         });
 
-        // Fetch messages periodically (every 5 seconds)
         fetchMessages();
-        // setInterval(fetchMessages, 5000);
-
 
         function fetchRecentHistory() {
-            //alert('history is coming');
+
             var statusa;
             $.get('/recent_history/recents', function(recent_historys) {
-                // console.log(recent_historys);
-                $('#recent_history').empty(); // Clear previous recent_Historys
+
+                $('#recent_history').empty();
                 recent_historys.forEach(function(recent_history) {
                     if (recent_history.statusa == 'none') {
                         statusa = 'New';
