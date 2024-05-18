@@ -2,7 +2,7 @@
     <h5 class="font-semibold text-lg dark:text-white-light mb-5">Chats</h5>
 
     <div class="perfect-scrollbar relative mb-4 h-[290px] pr-3 -mr-3" style=" overflow: auto;">
-        <div class="text-sm cursor-pointer">
+        <div class="text-sm cursor-pointer" id="chatdiv">
 
 
 

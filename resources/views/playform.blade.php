@@ -213,6 +213,7 @@
     channel.bind("chatHistory", function(e) {
 
         updateChatHistory(e.chatHistory);
+        scrollDownChat();
     });
 </script>
 <script>
@@ -470,16 +471,19 @@
     }
 
 
-    function updateChatHistory(chatHistory) {
+    function updateChatHistory(chatHistorys) {
 
-        var statusa;
-        recent_historys = chatHistory;
+        $.get('/messages', function(chatHistorys) {
+            messages = chatHistorys.toReversed();
+            $('#messages').empty();
+            console.log(messages);
+            messages.forEach(function(message) {
+                $('#messages').append('<div><strong>' + message.username + ':</strong> ' + message.message + '</div>');
+            });
+        });
 
         console.log(chatHistory);
-        recent_historys.forEach(function(recent_history) {
 
-            $('#recent_history').append('< div > < strong > ' + recent_history.username + ': < /strong> ' + recent_history.message + '</div > ')
-
-        });
+        // $('#messages').append('<div><strong>' + chatHistory.username + ':</strong> ' + chatHistory.message + '</div>');
     }
 </script>

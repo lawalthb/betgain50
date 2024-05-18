@@ -70,13 +70,14 @@
 
 <script>
     $(document).ready(function() {
-        //get last 20 messages
+
         function fetchMessages() {
             $.get('/messages', function(messages) {
+                messages = messages.toReversed();
                 $('#messages').empty();
                 console.log(messages);
                 messages.forEach(function(message) {
-                    $('#messages').append('<div><strong>' + message.id + message.username + ':</strong> ' + message.message + '</div>');
+                    $('#messages').append('<div><strong>' + message.username + ':</strong> ' + message.message + '</div>');
                 });
             });
         }

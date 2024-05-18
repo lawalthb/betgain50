@@ -38,7 +38,7 @@ class ChatController extends Controller
 
     public function recent_chathistory()
     {
-        $recent_chats = ChatMessage::with('user')->orderBy('id', 'desc')->latest()->first();
+        $recent_chats = ChatMessage::orderBy('id', 'desc')->latest()->first();
         return $recent_chats;
     }
 }
