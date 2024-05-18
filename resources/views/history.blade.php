@@ -79,6 +79,7 @@
                 messages.forEach(function(message) {
                     $('#messages').append('<div><strong>' + message.username + ':</strong> ' + message.message + '</div>');
                 });
+                $('.perfect-scrollbar').scrollTop($('.perfect-scrollbar')[0].scrollHeight);
             });
         }
         $('#sendButton').click(function() {
@@ -112,6 +113,7 @@
                     }
                     $('#recent_history').append('<tr><td>' + recent_history.user.username + '</td><td>' + recent_history.bet + 'x</td><td>' + recent_history.stake_amount + '</td><td>' + statusa + '</td><td>' + recent_history.game_id + '</td><td>' + recent_history.hash + '</td></tr>')
                 });
+
             });
         }
         fetchRecentHistory();

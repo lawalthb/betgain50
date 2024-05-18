@@ -480,6 +480,7 @@
             messages.forEach(function(message) {
                 $('#messages').append('<div><strong>' + message.username + ':</strong> ' + message.message + '</div>');
             });
+            $('.perfect-scrollbar').scrollTop($('.perfect-scrollbar')[0].scrollHeight);
         });
 
         console.log(chatHistory);
