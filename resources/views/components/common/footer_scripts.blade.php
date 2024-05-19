@@ -5,6 +5,7 @@
         let username = localStorage.getItem('username');
         let user_email = localStorage.getItem('user_email');
         let user_role = localStorage.getItem('user_role');
+        let ref_code = localStorage.getItem('referral_code');
 
         if (userID == null) {
             //if user have not login
@@ -25,7 +26,8 @@
             $('#depositBtn').prop('disabled', false);
             $('#withdrawBtn').prop('disabled', false);
             load_user_balance();
-            load_user_bonus();
+            // load_user_bonus();
+            $("#referral_link").text('https://betgain.com/?referral=' + ref_code);
             load_user_previous();
             var pageURL = window.location.href;
             var serverURL = `{{url('/admin')}}`;
@@ -332,7 +334,7 @@
 
 
         function recentWithdraw(userIDv) {
-            alert(userIDv);
+            // alert(userIDv);
             $.get('/recent_withdraw/recents/' + userIDv, function(recent_withdraw) {
                 console.log(recent_withdraw);
                 $('#recent_withdraw').empty();

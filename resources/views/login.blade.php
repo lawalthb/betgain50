@@ -111,6 +111,7 @@
                     localStorage.setItem("user_phone", responseData.user.phone_number);
                     localStorage.setItem("user_role", responseData.user.user_role);
                     localStorage.setItem("pin", responseData.user.pin);
+                    localStorage.setItem("referral_code", responseData.user.referral_code);
 
                     $("#user_wallet_bal").val(responseData.user.wallet_balance);
                     document.cookie = "loginToken=" + token + "; cookies_date";
@@ -138,9 +139,12 @@
                     $("#upadate_phone_number").val(responseData.user.phone_number);
                     $("#upadate_pin").val(responseData.user.pin);
                     $("#upadate_user_id").val(responseData.user.id);
+
                     $("#faq").show();
                     $("#referral").show();
+
                     $("#wallet").show();
+                    $("#referral_link").text('https://betgain.com/?referral=' + responseData.user.referral_code);
                     $("#user_place_bet").val(0);
                     $('#depositBtn').prop('disabled', false);
                     $('#withdrawBtn').prop('disabled', false);
