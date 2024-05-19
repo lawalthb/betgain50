@@ -358,4 +358,44 @@
 
 
     });
+
+
+    // sound functions
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleSoundButton = document.getElementById('toggle-sound');
+        const soundEffect = document.getElementById('sound-effect');
+        const speakerOnIcon = document.getElementById('s_on');
+        const speakerOffIcon = document.getElementById('s_off');
+        let isSoundOn = false;
+
+        toggleSoundButton.addEventListener('click', function() {
+            isSoundOn = !isSoundOn;
+            if (isSoundOn) {
+                // toggleSoundButton.textContent = 'Turn Sound Off';
+                speakerOnIcon.style.display = 'none';
+                speakerOffIcon.style.display = 'block';
+            } else {
+                speakerOnIcon.style.display = 'block';
+                speakerOffIcon.style.display = 'none';
+                // toggleSoundButton.textContent = 'Turn Sound On';
+                soundEffect.pause(); // Stop the sound if it is playing
+                soundEffect.currentTime = 0; // Reset the sound to the start
+            }
+        });
+
+        // Function to play sound if sound is on
+        function playSound() {
+            if (isSoundOn) {
+                soundEffect.currentTime = 0; // Reset the sound to the start
+                soundEffect.play().catch(function(err) {
+                    console.error('Playback failed:', err);
+                });
+            }
+        }
+
+        // Example of playing sound on some event
+        document.body.addEventListener('click', function() {
+            playSound();
+        });
+    });
 </script>
