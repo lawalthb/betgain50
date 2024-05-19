@@ -19,19 +19,58 @@
             <div class="flex items-start justify-center min-h-screen px-5 mt-5" @click.self="open = false">
                 <div x-show="open" x-transition x-transition.duration.300 class="panel border-0 p-0 rounded-lg overflow-hidden my-2 w-full max-w-lg">
                     <div class="flex bg-[#fbfbfb] dark:bg-[#121c2c] items-center justify-between px-5 py-3">
-                        <div class="font-bold text-lg"> My Wallet</div>
+                        <div class="font-bold text-lg"> Transaction records</div>
 
 
 
                     </div>
                     <div class="p-2">
                         <div class="dark:text-white-dark/70 text-base font-medium text-[#1f2937]">
-                            Wallet balance $xxx
-                            <br />
-                            <br />
-                            <br />
-                            Wallet History
-                            <br />
+                            <div class="table-responsive " style="height: 400px; overflow: auto;">
+                                Deposits
+                                <table id='data-table'>
+                                    <thead>
+                                        <tr>
+                                            <!-- <th class="ltr:rounded-l-md rtl:rounded-r-md">Users</th> -->
+
+
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Reference</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color:whitesmoke" id="recent_trans" style="overflow: auto">
+
+                                    </tbody>
+                                </table>
+
+
+                                <br />
+                                Withdraw
+                                <table id='data-table'>
+                                    <thead>
+                                        <tr>
+                                            <!-- <th class="ltr:rounded-l-md rtl:rounded-r-md">Users</th> -->
+
+
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Bank name</th>
+
+                                            <th>Status</th>
+                                            <th>Reference</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color:whitesmoke" id="recent_withdraw" style="overflow: auto">
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="flex justify-end items-center mt-8">
                             <button type="button" class="btn btn-outline-danger" @click="toggle">Discard</button>

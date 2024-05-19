@@ -310,3 +310,50 @@
         displayModal();
     }
 </script>
+
+
+
+<script>
+    $(document).ready(function() {
+        let userIDv = localStorage.getItem('user_id');
+
+        function recentTransactions(userIDv) {
+            $.get('/recent_trans/recents/' + userIDv, function(recent_trans) {
+                console.log(recent_trans);
+                $('#recent_trans').empty();
+                recent_trans.forEach(function(recent_tran) {
+                    const [datePart] = recent_tran.updated_at.split('T');
+                    const formattedDate = datePart;
+                    $('#recent_trans').append('<tr><td>' + formattedDate + '</td><td>' + recent_tran.amount + '</td><td>' + recent_tran.statusa + '</td><td>' + recent_tran.reference + '</td></tr>');
+                });
+
+            });
+        }
+
+
+        function recentWithdraw(userIDv) {
+            alert(userIDv);
+            $.get('/recent_withdraw/recents/' + userIDv, function(recent_withdraw) {
+                console.log(recent_withdraw);
+                $('#recent_withdraw').empty();
+                recent_withdraw.forEach(function(recent_tran) {
+                    const [datePart] = recent_tran.updated_at.split('T');
+                    const formattedDate = datePart;
+
+                    const [ref] = recent_tran.reference.split('-');
+                    const formattedRef = ref;
+
+
+                    $('#recent_withdraw').append('<tr><td>' + formattedDate + '</td><td>' + recent_tran.amount + '</td><td>' + recent_tran.name + '</td><td>' + recent_tran.statusa + '</td><td>' + formattedRef + '</td></tr>');
+                });
+
+            });
+        }
+
+        recentTransactions(userIDv);
+        recentWithdraw(userIDv)
+
+
+
+    });
+</script>

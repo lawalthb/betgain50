@@ -32,7 +32,9 @@ Route::post('/play', [HistoryController::class, 'store'])->middleware('auth:sanc
 Route::get('/callback', [TransactionsController::class, 'callback']);
 Route::post('/edit_profile', [AuthController::class, 'edit_profile'])->name('edit_profile');
 Route::get('/token/{token}', [AuthController::class, 'email_verify'])->name('email_verify');
+Route::get('/recent_trans/recents/{id}', [TransactionsController::class, 'recent_trans'])->name('transaction.recents');
 
+Route::get('/recent_withdraw/recents/{id}', [TransactionsController::class, 'recent_withdraw']);
 
 
 Route::view('dashboard', 'pages.panel.dashboard')->name('dashboard');
@@ -43,6 +45,7 @@ Route::get('/bets/cashout', [BetsController::class, 'cashout'])->name('bets.cash
 Route::get('/games/lastgames', [GamesController::class, 'lastgames'])->name('bets.lastgames');
 Route::get('/recent_users/recents', [RecentUsersController::class, 'recent_users'])->name('users.recents');
 Route::get('/recent_history/recents', [BetsController::class, 'recent_history'])->name('history.recents');
+
 
 Route::get('/messages', [ChatController::class, 'getMessages']);
 Route::post('/messages',  [ChatController::class, 'storeMessage']);

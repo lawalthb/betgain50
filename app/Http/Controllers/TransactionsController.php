@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -253,5 +254,21 @@ class TransactionsController extends Controller
         } else {
             echo "error";
         }
+    }
+
+
+
+    public function recent_trans(Request $request)
+    {
+        $user_id = $request->id;
+        $recent_trans = Transaction::with('user')->where('user_id', $user_id)->orderBy('id', 'desc')->take(10)->get();
+        return $recent_trans;
+    }
+
+    public function recent_withdraw(Request $request)
+    {
+        $user_id = $request->id;
+        $recent_withdraw = Transfer::where('user_id', $user_id)->orderBy('id', 'desc')->take(10)->get();
+        return $recent_withdraw;
     }
 }
