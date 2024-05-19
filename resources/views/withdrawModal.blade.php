@@ -158,7 +158,7 @@
 
 <br />
 
-<button id="toggle-sound"> <svg id="s_on" style="display: none;" fill="white" height="20px" width="30px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512">
+<button id="toggle-sound"> <svg id="s_on" style="display: block;" fill="white" height="20px" width="30px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512">
         <g>
             <g>
                 <g>
@@ -169,7 +169,7 @@
             </g>
         </g>
     </svg>
-    <svg id="s_off" style="display: block;" width="20px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg id="s_off" style="display: none;" width="20px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10.6 5L13 3V8M3 3L21 21M13 18V21L7 16H5C3.89543 16 3 15.1046 3 14V10C3 9.63571 3.09739 9.29417 3.26756 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
 

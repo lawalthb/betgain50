@@ -122,14 +122,13 @@
 
                     document.cookie = "user_email=" + responseData.user.email + "; cookies_date";
                     document.cookie = "user_phone =" + responseData.user.phone_number + "; cookies_date";
-                    load_user_previous()
+                    load_user_previous();
                     load_user_balance();
-                    //load_user_bonus();
-                    recentTransactions(responseData.user.id);
-                    recentWithdraw(responseData.user.id);
+
                     $("#play").show();
                     $("#login").hide();
                     $("#login_modal").hide();
+                    $("#login_modal").css("display", "none");
                     $("#userImage").show();
                     $("#show_user_name2").text(responseData.user.username);
                     $(".show_user_name3").text(responseData.user.username);
@@ -148,6 +147,9 @@
                     $("#user_place_bet").val(0);
                     $('#depositBtn').prop('disabled', false);
                     $('#withdrawBtn').prop('disabled', false);
+
+                    recentTransactions(responseData.user.id);
+                    recentWithdraw(responseData.user.id);
                     var pageURL = window.location.href;
                     var serverURL = `{{url('/')}}`;
                     //alert(serverURL)
@@ -173,6 +175,7 @@
 
 <script>
     async function login_successful_alert(msg) {
+        $("#login_modal").css("display", "none");
         const toast = window.Swal.mixin({
             toast: true,
             position: 'top-end',
