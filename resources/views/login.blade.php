@@ -128,6 +128,7 @@
                     $("#play").show();
                     $("#login").hide();
                     $("#login_modal").hide();
+                    $("#user_out").val(1);
                     $("#login_modal").css("display", "none");
                     $("#userImage").show();
                     $("#show_user_name2").text(responseData.user.username);

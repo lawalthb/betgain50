@@ -92,6 +92,7 @@
                     localStorage.removeItem('user_email');
                     localStorage.removeItem('pin');
                     $("#user_place_bet").val(2);
+                    $("#user_out").val(0);
                     localStorage.removeItem('user_wallet_bal');
                     document.cookie = "loginToken=" + token + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     document.cookie = "username=" + username + "; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

@@ -194,7 +194,7 @@
 
 
                         <div class="relative mb-4">
-                            <input type="text" placeholder="PIN" id="wpin" style="display:block" name="pin" class="form-input ltr:pl-10 rtl:pr-10" />
+                            <input type="password" placeholder="PIN" id="wpin" style="display:block" name="pin" class="form-input ltr:pl-10 rtl:pr-10" />
 
 
                         </div>
@@ -386,7 +386,7 @@
                     $("#reference2").val(data.reference);
                     $("#amountSpan").css("display", "block");
                     $("#amount_value").css("display", "block");
-                    $("#TransferBtn").css("display", "block");
+                    // $("#TransferBtn").css("display", "block");
                 } else {
                     login_failed_alert();
                 }
@@ -428,6 +428,7 @@
                 //     alert(data);
                 if (data.status == true) {
                     alert(data.message);
+                    location.reload();
 
 
 
@@ -565,7 +566,7 @@
                 const responseData = await response.json();
                 console.log(4);
                 console.log(responseData.message);
-                alert '3' + (responseData.message);
+                alert(responseData.message);
                 // alert('reload1');
 
 

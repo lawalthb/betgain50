@@ -14,7 +14,7 @@
             $("#referral").hide();
             $("#wallet").hide();
             $("#play").hide();
-
+            $("#user_out").val(0);
 
         } else {
             //if user have  login
@@ -26,7 +26,7 @@
             $('#depositBtn').prop('disabled', false);
             $('#withdrawBtn').prop('disabled', false);
             load_user_balance();
-            // load_user_bonus();
+            $("#user_out").val(1);
             $("#referral_link").text('https://betgain.com/?referral=' + ref_code);
             load_user_previous();
             var pageURL = window.location.href;

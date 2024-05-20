@@ -49,6 +49,7 @@
             <input type="hidden" id="my_game_id" name="my_game_id" value="" max="4">
             <input type="hidden" id="user_bet_amt" name="user_bet_amt" value="" max="4">
             <input type="hidden" id="user_place_bet" value="0" max="4">
+            <input type="hidden" id="user_out" value="0">
             <input type="hidden" id="user_place_point" max="4">
 
 
@@ -123,6 +124,7 @@
     const ruser_place_bet = document.getElementById('user_place_bet');
     const ruser_place_point = document.getElementById('user_place_point');
     const user_cash_amount = document.getElementById('user_cash_amount');
+    const user_out = document.getElementById('user_out');
     const money = document.getElementById('money');
     const div = document.getElementById('gp-bg');
 
@@ -172,7 +174,7 @@
                 cash_btn.style.display = "none";
                 user_cash_amount.value = '';
                 money.style.display = "none";
-            } else if (ruser_place_bet.value != 1) {
+            } else if (ruser_place_bet.value != 1 && user_out.value != 0) {
                 rbet_btn.disabled = false
                 rbet_btn.style.display = "block";
                 rbet_btn.innerHTML = 'Place Bet!';
